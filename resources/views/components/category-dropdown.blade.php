@@ -16,16 +16,16 @@
             @php
                 $categories = [
                     ['name' => 'Furniture', 'icon' => 'fa-couch'], // Example Font Awesome icon
-                    ['name' => 'Cooking', 'icon' => 'fa-utensils'],
-                    ['name' => 'Accessories', 'icon' => 'fa-gem'],
-                    ['name' => 'Fashion', 'icon' => 'fa-tshirt'],
-                    ['name' => 'Clocks', 'icon' => 'fa-clock'],
-                    ['name' => 'Lighting', 'icon' => 'fa-lightbulb'],
-                    ['name' => 'Toys', 'icon' => 'fa-puzzle-piece'],
-                    ['name' => 'Hand Made', 'icon' => 'fa-hands'],
-                    ['name' => 'Minimalism', 'icon' => 'fa-minus-circle'],
-                    ['name' => 'Electronics', 'icon' => 'fa-tv'],
-                    ['name' => 'Cars', 'icon' => 'fa-car'],
+                    // ['name' => 'Cooking', 'icon' => 'fa-utensils'],
+                    // ['name' => 'Accessories', 'icon' => 'fa-gem'],
+                    // ['name' => 'Fashion', 'icon' => 'fa-tshirt'],
+                    // ['name' => 'Clocks', 'icon' => 'fa-clock'],
+                    // ['name' => 'Lighting', 'icon' => 'fa-lightbulb'],
+                    // ['name' => 'Toys', 'icon' => 'fa-puzzle-piece'],
+                    // ['name' => 'Hand Made', 'icon' => 'fa-hands'],
+                    // ['name' => 'Minimalism', 'icon' => 'fa-minus-circle'],
+                    // ['name' => 'Electronics', 'icon' => 'fa-tv'],
+                    // ['name' => 'Cars', 'icon' => 'fa-car'],
                 ]
             @endphp
 

@@ -4,14 +4,14 @@ $slides = [
     [
         'image' => 'https://cdn.pixabay.com/photo/2024/08/26/12/29/milky-way-8999255_1280.jpg',
         'subtitle' => 'HIGH STRENGTH AND DURABLE',
-        'title' => 'Buy The Best Tourist Equipment For An Excellent Holiday.',
+        'title' => 'Buy The Best Equipment For An Excellent Surprise.',
         'button1' => ['text' => 'VIEW MORE', 'link' => '#'],
         'button2' => ['text' => 'TO SHOP', 'link' => '#']
     ],
     [
         'image' => 'https://cdn.pixabay.com/photo/2023/10/07/14/24/smartwatch-8300238_1280.jpg',
         'subtitle' => 'QUALITY GUARANTEED',
-        'title' => 'Discover Our Premium Selection of Outdoor Gear',
+        'title' => 'Discover Our Premium Selection',
         'button1' => ['text' => 'EXPLORE', 'link' => '#'],
         'button2' => ['text' => 'SHOP NOW', 'link' => '#']
     ],
