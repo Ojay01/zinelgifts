@@ -5,4 +5,5 @@
     <x-process />
     <x-category />
     <x-specialOffer />
+    <x-featured-products />
 </x-guest-layout>
