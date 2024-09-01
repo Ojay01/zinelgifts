@@ -5,21 +5,41 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <!-- Title -->
         <title>{{ config('app.name', 'Laravel') }}</title>
+
+        <!-- Favicon -->
+        <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+
+        <!-- Meta Tags for SEO -->
+        <meta name="description" content="ZinelGifts">
+        <meta name="keywords" content="keyword1, keyword2, keyword3">
+        <meta name="author" content="Zinel Gifts">
+
+        <!-- Meta Tags for Social Media (Open Graph Protocol) -->
+        <meta property="og:title" content="{{ config('app.name', 'Laravel') }}">
+        <meta property="og:description" content="ZinelGifts">
+        <meta property="og:image" content="{{ asset('logo/logo.png') }}">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:type" content="website">
+
+        <!-- Twitter Card Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ config('app.name', 'Laravel') }}">
+        <meta name="twitter:description" content="ZinelGifts .">
+        <meta name="twitter:image" content="{{ asset('logo/logo.png') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet">
 
-        <!-- Scripts -->
-{{-- <!-- Instead of @vite(['resources/css/app.css', 'resources/js/app.js']) --> --}}
-<link rel="stylesheet" href="{{ asset('css/app.css') }}">
-<script src="{{ asset('js/app.js') }}" defer></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Include Alpine.js -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    
-        <!-- Styles -->
+        <!-- Styles and Scripts -->
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <script src="{{ asset('js/app.js') }}" defer></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+        <!-- Livewire Styles -->
         @livewireStyles
     </head>
     <body>
@@ -27,6 +47,7 @@
             {{ $slot }}
         </div>
 
+        <!-- Livewire Scripts -->
         @livewireScripts
     </body>
 </html>
