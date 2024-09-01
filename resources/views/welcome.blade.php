@@ -6,4 +6,7 @@
     <x-category />
     <x-specialOffer />
     <x-featured-products />
+    <x-partners />
+    <x-blogs />
+    <x-footer />
 </x-guest-layout>

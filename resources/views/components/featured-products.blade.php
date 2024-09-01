@@ -62,9 +62,9 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="text-white">
-                                    <span class="font-bold">${{ number_format($product['price'], 2) }}</span>
+                                    <span class="font-bold">₣{{ number_format($product['price'], 2) }}</span>
                                     @if(isset($product['oldPrice']))
-                                        <span class="line-through ml-2">${{ number_format($product['oldPrice'], 2) }}</span>
+                                        <span class="line-through ml-2">₣{{ number_format($product['oldPrice'], 2) }}</span>
                                     @endif
                                 </div>
                                 <div class="flex space-x-2">

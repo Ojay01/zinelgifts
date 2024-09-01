@@ -36,7 +36,7 @@
             <button id="mobile-menu-button" class="sm:hidden" @click="openSidebar = true">
                 <i class="fas fa-bars text-yellow-500 text-2xl"></i> <!-- Font Awesome Hamburger Icon -->
             </button>
-            <img src="{{ asset('logo\logo.png') }}" alt="Woodmart" class="h-8">
+            <img src="{{ asset('logo\logowhite.png') }}" alt="Woodmart" class="h-16">
         </div>
 
         <!-- Desktop Search and Category (Hidden on small screens) -->
