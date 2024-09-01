@@ -1,5 +1,4 @@
-<!-- resources/views/components/header.blade.php -->
-<header class="font-sans bg-black text-yellow-500" x-data="{ openSidebar: false }">
+<header class="font-sans bg-black text-yellow-500" x-data="{ openSidebar: false, showSearch: false }">
     <!-- Top bar (Visible on larger screens only) -->
     <div class="border-b border-yellow-500 border-opacity-20 hidden sm:block">
         <div class="container mx-auto px-4 py-2 flex flex-wrap justify-between items-center text-xs">
@@ -32,12 +31,11 @@
     <!-- Main header -->
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
         <!-- Logo and Mobile Menu Button -->
-                    <!-- Sidebar Toggle Button (Hamburger Icon for Mobile) -->
-                    <button id="mobile-menu-button" class="sm:hidden" @click="openSidebar = true">
-                        <i class="fas fa-bars text-yellow-500 text-2xl"></i> <!-- Font Awesome Hamburger Icon -->
-                    </button>
-                    
         <div class="flex items-center space-x-4">
+            <!-- Sidebar Toggle Button (Hamburger Icon for Mobile) -->
+            <button id="mobile-menu-button" class="sm:hidden" @click="openSidebar = true">
+                <i class="fas fa-bars text-yellow-500 text-2xl"></i> <!-- Font Awesome Hamburger Icon -->
+            </button>
             <img src="{{ asset('logo\logo.png') }}" alt="Woodmart" class="h-8">
         </div>
 
@@ -74,10 +72,15 @@
             </div>
         </div>
 
-        <!-- User Actions (Cart, Login, Register) -->
+        <!-- User Actions -->
         <div class="flex items-center space-x-4">
             <!-- Login/Register Link (Hidden on small screens) -->
             <a href="#" class="text-sm font-medium hidden sm:inline">LOGIN / REGISTER</a>
+            
+            <!-- Mobile Search Toggle Button -->
+            <button @click="showSearch = !showSearch" class="sm:hidden text-yellow-500">
+                <i class="fas fa-search text-lg"></i>
+            </button> 
             
             <!-- Wishlist Icon -->
             <a href="#" aria-label="Wishlist" class="text-yellow-500">
@@ -91,85 +94,67 @@
                 </a>
                 <span class="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
             </div>
-        
-
-        
         </div>
     </div>
 
-        <!-- Navigation -->
-        <nav class="border-t border-yellow-500 border-opacity-20">
-            <div class="container mx-auto px-4">
-                <ul id="nav-menu" class="hidden sm:flex items-center uppercase justify-between py-4">
-                    <!-- Left-aligned Category Dropdown -->
-                    <li class="font-medium mb-2 sm:mb-0">
-                        <x-category-dropdown />
-                    </li>
-    
-                    <!-- Center-aligned Links -->
-                    <div class="flex-1 flex justify-center space-x-6">
-                        <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400">Home</a></li>
-                        <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400">Shop</a></li>
-                        <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400">Blogs</a></li>
-                    </div>
-    
-                    <!-- Right-aligned Special Offer -->
-                    <li class="mb-2 sm:mb-0">
-                        <a href="#" class="text-yellow-300 hover:text-yellow-200">Special Offer</a>
-                    </li>
-                </ul>
-    
+    <!-- Mobile Search Field (conditionally rendered) -->
+    <div 
+        x-show="showSearch" 
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 transform scale-90"
+        x-transition:enter-end="opacity-100 transform scale-100"
+        x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-start="opacity-100 transform scale-100"
+        x-transition:leave-end="opacity-0 transform scale-90"
+        class="sm:hidden px-4 py-2"
+    >
+        <div class="relative">
+            <input
+                type="text"
+                placeholder="Search for products"
+                class="w-full border border-yellow-500 bg-black text-yellow-500 rounded-full py-2 px-4 pr-10 placeholder-yellow-500 placeholder-opacity-50 focus:border-green-600"
+            >
+            <i class="fas fa-search absolute right-3 top-2.5 text-yellow-500"></i>
+        </div>
+    </div>
 
-            </div>
-        </nav>
+    <!-- Navigation -->
+    <nav class="border-t border-yellow-500 border-opacity-20">
+        <div class="container mx-auto px-4">
+            <ul id="nav-menu" class="hidden sm:flex items-center uppercase justify-between py-4">
+                <!-- Left-aligned Category Dropdown -->
+                <li class="font-medium mb-2 sm:mb-0">
+                    <x-category-dropdown />
+                </li>
+
+                <!-- Center-aligned Links -->
+                <div class="flex-1 flex justify-center space-x-6">
+                    <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400">Home</a></li>
+                    <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400">Shop</a></li>
+                    <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400">Blogs</a></li>
+                </div>
+
+                <!-- Right-aligned Special Offer -->
+                <li class="mb-2 sm:mb-0">
+                    <a href="#" class="text-yellow-300 hover:text-yellow-200">Special Offer</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
     <!-- Mobile Sliding Sidebar -->
-    <!-- Background overlay to close the sidebar -->
     <div x-show="openSidebar" class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" @click="openSidebar = false"></div>
     
-<!-- Sidebar itself starts below the navbar -->
-<!-- Sidebar itself starts below the navbar -->
-<div x-show="openSidebar" class="fixed top-[65px] inset-y-0 left-0 w-64 bg-black text-yellow-500 shadow-lg z-50 transform transition-transform duration-500 ease-out -translate-x-full md:hidden" :class="{ 'translate-x-0': openSidebar }">
-    <!-- Sidebar content container -->
-    <div class="relative flex flex-col h-full">
-        <!-- Close button and top items -->
-        <div class="p-4 flex-grow overflow-y-auto">
+    <div x-show="openSidebar" class="fixed top-[65px] inset-y-0 left-0 w-64 bg-black text-yellow-500 shadow-lg z-50 transform transition-transform duration-500 ease-out -translate-x-full md:hidden flex flex-col" :class="{ 'translate-x-0': openSidebar }">
+        <!-- Sidebar content container -->
+        <div class="flex-grow overflow-y-auto p-4">
             <button @click="openSidebar = false" class="text-yellow-500 text-xl mb-4">
-                <i class="fas fa-times"></i> <!-- Font Awesome Close Icon -->
+                <i class="fas fa-times"></i>
             </button>
 
-            <div class="mb-4 flex justify-around">
+            <div class="mb-4 flex gap-4">
                 <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            </div>
-
-            <!-- Mobile Search -->
-            <div class="mb-4 relative">
-                <input
-                    type="text"
-                    placeholder="Search for products"
-                    class="border border-yellow-500 bg-black text-yellow-500 rounded-full py-2 px-4 pr-10 w-full placeholder-yellow-500 placeholder-opacity-50 focus:border-green-600"
-                >
-                <i class="fas fa-search absolute right-5 top-3 text-yellow-500"></i>
-            </div>
-
-            <!-- Mobile Category Dropdown -->
-            <div x-data="{ open: false }" class="relative mb-4">
-                <button @click="open = !open" class="border border-yellow-500 rounded-full py-2 px-4 bg-black text-yellow-500 flex items-center w-full">
-                    <span class="mr-2">SELECT CATEGORY</span>
-                    <i :class="{ 'rotate-180': open }" class="fas fa-chevron-down transform transition-transform duration-300"></i>
-                </button>
-                <div x-show="open" class="mt-2 w-full bg-black border border-yellow-300 rounded shadow-lg z-10">
-                    <ul class="py-2">
-                        <li>
-                            <a href="#" class="px-4 py-2 text-yellow-500 hover:bg-yellow-500 hover:text-black flex items-center">
-                                <i class="fas fa-couch mr-2"></i>
-                                Furniture
-                            </a>
-                        </li>
-                        <!-- Add more categories as needed -->
-                    </ul>
-                </div>
             </div>
 
             <!-- Mobile Navigation Links -->
@@ -211,21 +196,37 @@
                     </a>
                 </li>
             </ul>
+
+            <!-- Mobile Category Dropdown (moved after Special Offer) -->
+            <div x-data="{ open: false }" class="relative mt-4">
+                <button @click="open = !open" class="border border-yellow-500 rounded-full py-2 px-4 bg-black text-yellow-500 flex items-center w-full">
+                    <span class="mr-2">SELECT CATEGORY</span>
+                    <i :class="{ 'rotate-180': open }" class="fas fa-chevron-down transform transition-transform duration-300"></i>
+                </button>
+                <div x-show="open" class="mt-2 w-full bg-black border border-yellow-300 rounded shadow-lg z-10">
+                    <ul class="py-2">
+                        <li>
+                            <a href="#" class="px-4 py-2 text-yellow-500 hover:bg-yellow-500 hover:text-black flex items-center">
+                                <i class="fas fa-couch mr-2"></i>
+                                Furniture
+                            </a>
+                        </li>
+                        <!-- Add more categories as needed -->
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!-- Sign Out Option at the Very Bottom -->
-        <div class="p-4 border-t border-yellow-500">
+        <div class="p-4 border-t border-yellow-500 mt-auto">
             <ul class="uppercase text-left">
                 <li>
                     <a href="#" class="flex items-center hover:text-yellow-400">
-                        <i class="fas fa-sign-out-alt mr-2"></i> <!-- Sign Out Icon -->
+                        <i class="fas fa-sign-out-alt mr-2"></i>
                         Sign Out
                     </a>
                 </li>
             </ul>
         </div>
     </div>
-</div>
-
-
 </header>
