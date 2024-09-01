@@ -32,6 +32,11 @@
     <!-- Main header -->
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
         <!-- Logo and Mobile Menu Button -->
+                    <!-- Sidebar Toggle Button (Hamburger Icon for Mobile) -->
+                    <button id="mobile-menu-button" class="sm:hidden" @click="openSidebar = true">
+                        <i class="fas fa-bars text-yellow-500 text-2xl"></i> <!-- Font Awesome Hamburger Icon -->
+                    </button>
+                    
         <div class="flex items-center space-x-4">
             <img src="{{ asset('logo\logo.png') }}" alt="Woodmart" class="h-8">
         </div>
@@ -87,10 +92,7 @@
                 <span class="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
             </div>
         
-            <!-- Sidebar Toggle Button (Hamburger Icon for Mobile) -->
-            <button id="mobile-menu-button" class="sm:hidden" @click="openSidebar = true">
-                <i class="fas fa-bars text-yellow-500 text-2xl"></i> <!-- Font Awesome Hamburger Icon -->
-            </button>
+
         
         </div>
     </div>
@@ -125,19 +127,22 @@
     <!-- Background overlay to close the sidebar -->
     <div x-show="openSidebar" class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" @click="openSidebar = false"></div>
     
-    <!-- Sidebar itself starts below the navbar -->
-    <div x-show="openSidebar" class="fixed top-[65px] inset-y-0 left-0 w-64 bg-black text-yellow-500 shadow-lg z-50 transform transition-transform duration-500 ease-out -translate-x-full md:hidden" :class="{ 'translate-x-0': openSidebar }">
-        <div class="p-4">
-            <button @click="openSidebar = false" class="text-yellow-500 text-xl">
+<!-- Sidebar itself starts below the navbar -->
+<!-- Sidebar itself starts below the navbar -->
+<div x-show="openSidebar" class="fixed top-[65px] inset-y-0 left-0 w-64 bg-black text-yellow-500 shadow-lg z-50 transform transition-transform duration-500 ease-out -translate-x-full md:hidden" :class="{ 'translate-x-0': openSidebar }">
+    <!-- Sidebar content container -->
+    <div class="relative flex flex-col h-full">
+        <!-- Close button and top items -->
+        <div class="p-4 flex-grow overflow-y-auto">
+            <button @click="openSidebar = false" class="text-yellow-500 text-xl mb-4">
                 <i class="fas fa-times"></i> <!-- Font Awesome Close Icon -->
             </button>
-        </div>
-        <div class="p-4">
 
             <div class="mb-4 flex justify-around">
                 <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
+
             <!-- Mobile Search -->
             <div class="mb-4 relative">
                 <input
@@ -157,7 +162,7 @@
                 <div x-show="open" class="mt-2 w-full bg-black border border-yellow-300 rounded shadow-lg z-10">
                     <ul class="py-2">
                         <li>
-                            <a href="#" class="block px-4 py-2 text-yellow-500 hover:bg-yellow-500 hover:text-black flex items-center">
+                            <a href="#" class="px-4 py-2 text-yellow-500 hover:bg-yellow-500 hover:text-black flex items-center">
                                 <i class="fas fa-couch mr-2"></i>
                                 Furniture
                             </a>
@@ -168,13 +173,59 @@
             </div>
 
             <!-- Mobile Navigation Links -->
-            <ul class="space-y-2 !justify-center text-center">
-                <li><a href="#" class=" hover:text-yellow-400">Home</a></li>
-                <li><a href="#" class="block hover:text-yellow-400">Shop</a></li>
-                <li><a href="#" class="block hover:text-yellow-400">Blogs</a></li>
-                <li><a href="#" class="block text-yellow-300 hover:text-yellow-200">Special Offer</a></li>
+            <ul class="space-y-2 uppercase text-left">
+                <li>
+                    <a href="#" class="flex items-center hover:text-yellow-400">
+                        <i class="fas fa-user-plus mr-2"></i> 
+                        Register
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center hover:text-yellow-400">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Login
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center hover:text-yellow-400">
+                        <i class="fas fa-home mr-2"></i> 
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center hover:text-yellow-400">
+                        <i class="fas fa-shopping-bag mr-2"></i>
+                        Shop
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center hover:text-yellow-400">
+                        <i class="fas fa-blog mr-2"></i>
+                        Blogs
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center text-yellow-300 hover:text-yellow-200">
+                        <i class="fas fa-gift mr-2"></i> 
+                        Special Offer
+                    </a>
+                </li>
             </ul>
+        </div>
 
+        <!-- Sign Out Option at the Very Bottom -->
+        <div class="p-4 border-t border-yellow-500">
+            <ul class="uppercase text-left">
+                <li>
+                    <a href="#" class="flex items-center hover:text-yellow-400">
+                        <i class="fas fa-sign-out-alt mr-2"></i> <!-- Sign Out Icon -->
+                        Sign Out
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
+</div>
+
+
 </header>
