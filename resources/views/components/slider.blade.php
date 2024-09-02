@@ -61,7 +61,7 @@ $slides = [
                 alt="Slide {{ $index + 1 }}"
                 class="object-cover w-full h-full"
             >
-            <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+            <div class="absolute inset-0 dark:bg-black/50 "></div>
             <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
                 <p class="text-yellow-500 text-xl mb-4">{{ $slide['subtitle'] }}</p>
                 <h2 class="text-4xl md:text-5xl font-bold text-center max-w-3xl leading-tight mb-8">
