@@ -173,7 +173,7 @@
     <!-- Mobile Sliding Sidebar -->
     <div x-show="openSidebar" class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" @click="openSidebar = false"></div>
     
-    <div x-show="openSidebar" class="fixed top-[65px] inset-y-0 left-0 w-64 bg-white text-gray-800 shadow-lg z-50 transform transition-transform duration-500 ease-out -translate-x-full md:hidden flex flex-col dark:bg-black dark:text-yellow-500" :class="{ 'translate-x-0': openSidebar }">
+    <div x-show="openSidebar" class="fixed inset-y-0 left-0 w-64 bg-white text-gray-800 shadow-lg z-50 transform transition-transform duration-500 ease-out -translate-x-full md:hidden flex flex-col dark:bg-black dark:text-yellow-500" :class="{ 'translate-x-0': openSidebar }">
         <!-- Sidebar content container -->
         <div class="flex-grow overflow-y-auto p-4">
             <button @click="openSidebar = false" class="text-gray-800 text-xl mb-4 dark:text-yellow-500">

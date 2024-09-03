@@ -26,35 +26,49 @@
     ]
 ]])
 
-<section class="bg-white py-16">
+<section class="bg-white dark:bg-gray-800 py-16 transition-colors duration-300">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center text-black mb-2">OUR BLOG</h2>
+        <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-2">OUR BLOG</h2>
         <div class="w-20 h-1 bg-yellow-500 mx-auto mb-12"></div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($blogs as $blog)
-                <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                    <img src="{{ $blog['image'] }}" alt="{{ $blog['title'] }}" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-sm text-yellow-500 font-semibold">{{ $blog['category'] }}</span>
-                            <span class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($blog['date'])->format('M d, Y') }}</span>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2 hover:text-yellow-500 transition-colors duration-300">
-                            <a href="#">{{ $blog['title'] }}</a>
-                        </h3>
-                        <p class="text-gray-600 mb-4">{{ $blog['excerpt'] }}</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">By {{ $blog['author'] }}</span>
-                            <a href="#" class="text-yellow-500 hover:text-yellow-600 font-semibold">Read More</a>
+                <article class="bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                    <div class="relative">
+                        <img src="{{ $blog['image'] }}" alt="{{ $blog['title'] }}" class="w-full h-56 object-cover">
+                        <div class="absolute top-0 left-0 bg-yellow-500 text-black text-xs font-bold px-3 py-1 m-2 rounded-full">
+                            {{ $blog['category'] }}
                         </div>
                     </div>
-                </div>
+                    <div class="p-6">
+                        <time datetime="{{ $blog['date'] }}" class="text-sm text-gray-500 dark:text-gray-400 mb-2 block">
+                            {{ \Carbon\Carbon::parse($blog['date'])->format('M d, Y') }}
+                        </time>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-white hover:text-yellow-500 dark:hover:text-yellow-400 transition-colors duration-300">
+                            <a href="#" class="hover:underline">{{ $blog['title'] }}</a>
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{{ $blog['excerpt'] }}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500 dark:text-gray-400">By {{ $blog['author'] }}</span>
+                            <a href="#" class="text-yellow-500 hover:text-yellow-600 dark:text-yellow-400 dark:hover:text-yellow-300 font-semibold inline-flex items-center group">
+                                Read More
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
             @endforeach
         </div>
         
         <div class="text-center mt-12">
-            <a href="#" class="bg-yellow-500 text-black font-bold py-3 px-8 rounded-full hover:bg-yellow-400 transition-colors duration-300">View All Posts</a>
+            <a href="#" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-8 rounded-full transition-colors duration-300 inline-flex items-center group">
+                View All Posts
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
         </div>
     </div>
 </section>

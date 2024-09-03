@@ -6,7 +6,7 @@
     'endDate' => '2024-09-31 23:59:59'
 ])
 
-<div class="relative bg-black text-yellow-500 py-16 overflow-hidden" x-data="countdown('{{ $endDate }}')" x-init="init()">
+<div class="relative dark:bg-black text-yellow-500 py-16 overflow-hidden" x-data="countdown('{{ $endDate }}')" x-init="init()">
     <div class="absolute inset-0 z-0">
         <img src="{{ $backgroundImage }}" alt="Special Offer Background" class="w-full h-full object-cover opacity-50">
         <div class="absolute inset-0 bg-black bg-opacity-75"></div>
