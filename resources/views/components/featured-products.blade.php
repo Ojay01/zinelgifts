@@ -15,7 +15,8 @@
 
 <section class="py-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800" x-data="{ activeTab: 'special', activeSlide: 0 }">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-2 dark:text-white">Featured Products</h2>
+        <h2 class="text-3xl font-bold text-center mb-2 dark:text-yellow-500">Featured Products</h2>
+        <div class="w-24 h-1 bg-yellow-500 mx-auto mb-4"></div>
         <p class="text-center text-gray-600 dark:text-gray-300 mb-8">Discover our handpicked selection of top-quality items</p>
         
         <div class="flex justify-center items-center mb-12">

@@ -7,6 +7,6 @@
     <x-specialOffer />
     <x-featured-products />
     <x-partners />
-    <x-blogs />
+    <x-feedback />
     <x-footer />
 </x-guest-layout>

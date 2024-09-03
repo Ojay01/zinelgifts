@@ -11,43 +11,9 @@
     }" 
     x-init="$watch('darkMode', value => document.documentElement.classList.toggle('dark', value))">
     
-    <!-- Top bar (Visible on larger screens only) -->
-    <div class="border-b border-yellow-500 border-opacity-20 hidden sm:block">
-        <div class="container mx-auto px-4 py-2 flex flex-wrap justify-between items-center text-xs">
-            <!-- Left Section: Language and Location -->
-            <div class="flex space-x-4 mb-2 sm:mb-0 items-center">
-                <span class="flex items-center space-x-1 dark:text-yellow-500">
-                    <i class="fas fa-globe"></i> <!-- Language Icon (Globe) -->
-                    <span>ENGLISH</span>
-                </span>
-                <span class="flex items-center space-x-1 dark:text-yellow-500">
-                    <i class="fas fa-map-marker-alt"></i> <!-- Location Icon (Map Marker) -->
-                    <span>CAMEROON</span>
-                </span>
-            </div>
 
-            <!-- Center Section: Shipping Notice -->
-            <div class="w-full sm:w-auto text-center mb-2 sm:mb-0 sm:hidden lg:block dark:text-yellow-500">
-                FREE SHIPPING FOR ALL ORDERS FROM 25,000XAF
-            </div>
-
-            <!-- Dark Mode Toggle Button -->
-            <button @click="toggleDarkMode" class="p-2 rounded-full transition-colors duration-300 bg-gray-200 dark:bg-yellow-500 dark:text-black">
-                <i :class="darkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
-            </button>
-            
-
-            <!-- Right Section: Social Icons and Links -->
-            <div class="flex flex-wrap justify-center sm:justify-end space-x-4 dark:text-yellow-500">
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="uppercase hidden sm:inline">Newsletter</a>
-                <a href="#" class="uppercase hidden sm:inline">Contact Us</a>
-                <a href="#" class="uppercase hidden sm:inline">FAQs</a>
-            </div>
-        </div>
-    </div>
-
+    <div class="sticky top-0 z-50 bg-white dark:bg-black shadow-md">
+     
     <!-- Main header -->
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
         <!-- Logo and Mobile Menu Button -->
@@ -56,11 +22,15 @@
             <button id="mobile-menu-button" class="sm:hidden" @click="openSidebar = true">
                 <i class="fas fa-bars text-2xl dark:text-yellow-500 text-gray-800"></i>
             </button>
-            <img :src="darkMode ? darkLogo : lightLogo" alt="Woodmart" class="h-16" 
-            x-data="{ 
-                darkLogo: '{{ asset('logo/logowhite.png') }}',
-                lightLogo: '{{ asset('logo/logo.png') }}'
-            }">
+
+<a href="/">
+    <img :src="darkMode ? darkLogo : lightLogo" alt="Woodmart" class="h-16" 
+        x-data="{ 
+            darkLogo: '{{ asset('logo/logowhite.png') }}',
+            lightLogo: '{{ asset('logo/logo.png') }}'
+        }">
+</a>
+
        
         </div>
 
@@ -98,13 +68,14 @@
         </div>
 
         <!-- User Actions -->
+        <button @click="toggleDarkMode" class="p-2 rounded-full transition-colors duration-300 bg-gray-200 dark:bg-yellow-500 dark:text-black">
+            <i :class="darkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
+        </button>
         <div class="flex items-center space-x-4">
             <!-- Login/Register Link (Hidden on small screens) -->
             <a href="{{ route('login') }}" class="text-sm font-medium hidden sm:inline text-gray-800 dark:text-yellow-500">LOGIN / REGISTER</a>
 
-            <button @click="toggleDarkMode" class="p-2 rounded-full transition-colors duration-300 bg-gray-200 sm:hidden dark:bg-yellow-500 dark:text-black">
-                <i :class="darkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
-            </button> 
+
             <!-- Mobile Search Toggle Button -->
             <button @click="showSearch = !showSearch" class="sm:hidden text-gray-800 dark:text-yellow-500">
                 <i class="fas fa-search text-lg"></i>
@@ -123,6 +94,7 @@
                 <span class="absolute -top-2 -right-2 bg-gray-800 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center dark:bg-yellow-500 dark:text-black">0</span>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Mobile Search Field (conditionally rendered) -->
@@ -181,8 +153,9 @@
             </button>
 
             <div class="mb-4 flex gap-4">
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.facebook.com/zinelgiftshop" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/237674199990" aria-label="WhatsApp"><i class="fab fa-whatsapp text-yellow-500 mr-3 text-xl"></i></a>
             </div>
 
             <!-- Mobile Navigation Links -->
@@ -257,6 +230,22 @@
             </ul>
         </div>
     </div>
+
+    <!-- Scroll-Up Arrow -->
+<div x-data="scrollTopArrow()" 
+x-on:scroll.window="handleScroll()"
+x-show="showArrow"
+x-transition:enter="transition ease-out duration-300"
+x-transition:enter-start="opacity-0 transform translate-y-2"
+x-transition:enter-end="opacity-100 transform translate-y-0"
+x-transition:leave="transition ease-in duration-300"
+x-transition:leave-start="opacity-100 transform translate-y-0"
+x-transition:leave-end="opacity-0 transform translate-y-2"
+@click="scrollToTop()"
+class="fixed bottom-8 right-8 bg-yellow-500 dark:bg-yellow-600 text-white dark:text-black p-2 rounded-full cursor-pointer shadow-lg z-50 hover:bg-yellow-600 dark:hover:bg-yellow-500 transition-colors duration-300">
+<i class="fas fa-arrow-up"></i>
+</div>
+
 </header>
 
 <!-- Dark Mode Script -->
@@ -272,4 +261,19 @@
     } else {
         document.documentElement.classList.remove('dark');
     }
+
+    function scrollTopArrow() {
+return {
+   showArrow: false,
+   handleScroll() {
+       this.showArrow = window.pageYOffset > 100;
+   },
+   scrollToTop() {
+       window.scrollTo({
+           top: 0,
+           behavior: 'smooth'
+       });
+   }
+}
+}
 </script>
