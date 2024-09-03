@@ -100,7 +100,7 @@
         <!-- User Actions -->
         <div class="flex items-center space-x-4">
             <!-- Login/Register Link (Hidden on small screens) -->
-            <a href="#" class="text-sm font-medium hidden sm:inline text-gray-800 dark:text-yellow-500">LOGIN / REGISTER</a>
+            <a href="{{ route('login') }}" class="text-sm font-medium hidden sm:inline text-gray-800 dark:text-yellow-500">LOGIN / REGISTER</a>
 
             <button @click="toggleDarkMode" class="p-2 rounded-full transition-colors duration-300 bg-gray-200 sm:hidden dark:bg-yellow-500 dark:text-black">
                 <i :class="darkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
@@ -157,7 +157,7 @@
 
                 <!-- Center-aligned Links -->
                 <div class="flex-1 flex justify-center space-x-6">
-                    <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Home</a></li>
+                    <li class="mb-2 sm:mb-0"><a href="{{ route('dashboard') }}" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Home</a></li>
                     <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Shop</a></li>
                     <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Blogs</a></li>
                 </div>
@@ -188,19 +188,19 @@
             <!-- Mobile Navigation Links -->
             <ul class="space-y-2 uppercase text-left">
                 <li>
-                    <a href="#" class="flex items-center hover:text-yellow-400 dark:hover:text-white">
+                    <a href="{{ route('register') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-white">
                         <i class="fas fa-user-plus mr-2"></i> 
                         Register
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center hover:text-yellow-400 dark:hover:text-white">
+                    <a href="{{ route('login') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-white">
                         <i class="fas fa-sign-in-alt mr-2"></i>
                         Login
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center hover:text-yellow-400 dark:hover:text-white">
+                    <a href="{{ route('dashboard') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-white">
                         <i class="fas fa-home mr-2"></i> 
                         Home
                     </a>
