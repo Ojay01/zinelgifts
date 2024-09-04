@@ -143,7 +143,7 @@
                 <!-- Center-aligned Links -->
                 <div class="flex-1 flex justify-center space-x-6">
                     <li class="mb-2 sm:mb-0"><a href="{{ route('dashboard') }}" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Home</a></li>
-                    <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Shop</a></li>
+                    <li class="mb-2 sm:mb-0"><a href="{{route('shop')}}" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Shop</a></li>
                     <li class="mb-2 sm:mb-0"><a href="{{route('about.us')}} " class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">About Us</a></li>
                     <li class="mb-2 sm:mb-0"><a href="{{route('contact')}}" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Contact Us</a></li>
                     <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Blogs</a></li>
@@ -194,7 +194,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center hover:text-yellow-400/90 dark:hover:text-yellow-500">
+                    <a href="{{route('shop')}}" class="flex items-center hover:text-yellow-400/90 dark:hover:text-yellow-500">
                         <i class="fas fa-shopping-bag mr-2"></i>
                         Shop
                     </a>

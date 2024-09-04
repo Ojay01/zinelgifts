@@ -23,6 +23,9 @@ Route::get('/our-privacy-policy', function () {
 Route::get('/our-terms and services', function () {
     return view('terms');
 })->name('terms');
+Route::get('/shop-today', function () {
+    return view('shop');
+})->name('shop');
 
 Route::middleware([
     'auth:sanctum',
