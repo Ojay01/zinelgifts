@@ -11,7 +11,17 @@
     }" 
     x-init="$watch('darkMode', value => document.documentElement.classList.toggle('dark', value))">
     
-
+    @php
+    $categories = [
+        ['name' => 'EVENTS GIFTS', 'icon' => 'fa-gift', 'link' => '#events-gifts'],
+        ['name' => 'SPECIAL DAYS GIFTS', 'icon' => 'fa-calendar', 'link' => '#special-days-gifts'],
+        ['name' => 'CORPORATE GIFTS', 'icon' => 'fa-briefcase', 'link' => '#corporate-gifts'],
+        ['name' => 'HOME & DECORE GIFTS', 'icon' => 'fa-home', 'link' => '#home-decore-gifts'],
+        ['name' => 'CONGRATULATION GIFTS', 'icon' => 'fa-award', 'link' => '#congratulation-gifts'],
+        ['name' => 'CONSUMABLE GIFTS', 'icon' => 'fa-utensils', 'link' => '#consumable-gifts'],
+        ['name' => 'LUXURY GIFTS', 'icon' => 'fa-gem', 'link' => '#luxury-gifts']
+    ]
+@endphp
     <div class="sticky top-0 z-50 bg-white dark:bg-black shadow-md">
      
     <!-- Main header -->
@@ -55,12 +65,15 @@
                 <!-- Dropdown Menu -->
                 <div x-show="open" @click.away="open = false" class="absolute mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-10 dark:bg-black dark:border-yellow-300">
                     <ul class="py-2">
+                        @foreach($categories as $category)
                         <li>
-                            <a href="#" class="px-4 py-2 text-gray-800 hover:bg-gray-200 hover:text-black flex items-center dark:text-yellow-500 dark:hover:bg-yellow-500 dark:hover:text-black">
-                                <i class="fas fa-couch mr-2"></i> <!-- Font Awesome icon for category -->
-                                Furniture
+                            <a href="{{ $category['link'] }}" 
+                               class="flex items-center px-4 py-3  dark:text-yellow-500 hover:bg-yellow-500 hover:!text-black transition-colors duration-200">
+                                <i class="fas {{ $category['icon'] }} mr-3 text-gray-600 dark:text-gray-400"></i>
+                                {{ $category['name'] }}
                             </a>
                         </li>
+                    @endforeach
                         <!-- Add more categories as needed -->
                     </ul>
                 </div>
@@ -131,6 +144,8 @@
                 <div class="flex-1 flex justify-center space-x-6">
                     <li class="mb-2 sm:mb-0"><a href="{{ route('dashboard') }}" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Home</a></li>
                     <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Shop</a></li>
+                    <li class="mb-2 sm:mb-0"><a href="{{route('about.us')}} " class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">About Us</a></li>
+                    <li class="mb-2 sm:mb-0"><a href="{{route('contact')}}" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Contact Us</a></li>
                     <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Blogs</a></li>
                 </div>
 
@@ -145,7 +160,7 @@
     <!-- Mobile Sliding Sidebar -->
     <div x-show="openSidebar" class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" @click="openSidebar = false"></div>
     
-    <div x-show="openSidebar" class="fixed inset-y-0 left-0 w-64 bg-white text-gray-800 shadow-lg z-50 transform transition-transform duration-500 ease-out -translate-x-full md:hidden flex flex-col dark:bg-black dark:text-yellow-500" :class="{ 'translate-x-0': openSidebar }">
+    <div x-show="openSidebar" class="fixed inset-y-0 left-0 w-64 bg-white text-gray-800 shadow-lg z-50 transform transition-transform duration-500 ease-out -translate-x-full md:hidden flex flex-col dark:bg-black dark:text-white/60" :class="{ 'translate-x-0': openSidebar }">
         <!-- Sidebar content container -->
         <div class="flex-grow overflow-y-auto p-4">
             <button @click="openSidebar = false" class="text-gray-800 text-xl mb-4 dark:text-yellow-500">
@@ -155,43 +170,62 @@
             <div class="mb-4 flex gap-4">
                 <a href="https://www.facebook.com/zinelgiftshop" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://wa.me/237674199990" aria-label="WhatsApp"><i class="fab fa-whatsapp text-yellow-500 mr-3 text-xl"></i></a>
+                <a href="https://wa.me/237674199990" aria-label="WhatsApp"><i class="fab fa-whatsapp text-xl"></i></a>
             </div>
 
             <!-- Mobile Navigation Links -->
             <ul class="space-y-2 uppercase text-left">
                 <li>
-                    <a href="{{ route('register') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-white">
+                    <a href="{{ route('register') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-user-plus mr-2"></i> 
                         Register
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('login') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-white">
+                    <a href="{{ route('login') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-sign-in-alt mr-2"></i>
                         Login
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dashboard') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-white">
+                    <a href="{{ route('dashboard') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-home mr-2"></i> 
                         Home
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center hover:text-yellow-400 dark:hover:text-white">
+                    <a href="#" class="flex items-center hover:text-yellow-400/90 dark:hover:text-yellow-500">
                         <i class="fas fa-shopping-bag mr-2"></i>
                         Shop
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center hover:text-yellow-400 dark:hover:text-white">
+                    <a href="#" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-blog mr-2"></i>
                         Blogs
                     </a>
                 </li>
+
                 <li>
-                    <a href="#" class="flex items-center text-yellow-300 hover:text-yellow-200 dark:text-yellow-200 dark:hover:text-yellow-100">
+                    <a href="{{ route('contact') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
+                        <i class="fas fa-envelope mr-2"></i>
+                        Contact Us
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('about.us') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        About Us
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('team') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
+                        <i class="fas fa-users mr-2"></i>
+                        Our Team
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center text-yellow-600 hover:text-yellow-200 dark:text-yellow-200 dark:hover:text-yellow-100">
                         <i class="fas fa-gift mr-2"></i> 
                         Special Offer
                     </a>
@@ -204,14 +238,17 @@
                     <span class="mr-2">SELECT CATEGORY</span>
                     <i :class="{ 'rotate-180': open }" class="fas fa-chevron-down transform transition-transform duration-300"></i>
                 </button>
-                <div x-show="open" class="mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-10 dark:bg-black dark:border-yellow-300">
+                <div x-show="open" class="mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-10 dark:bg-gray-900 dark:border-yellow-300">
                     <ul class="py-2">
+                        @foreach($categories as $category)
                         <li>
-                            <a href="#" class="px-4 py-2 text-gray-800 hover:bg-gray-200 hover:text-black flex items-center dark:text-yellow-500 dark:hover:bg-yellow-500 dark:hover:text-black">
-                                <i class="fas fa-couch mr-2"></i>
-                                Furniture
+                            <a href="{{ $category['link'] }}" 
+                               class="flex items-center px-4 py-3  dark:text-yellow-500 hover:bg-yellow-500 hover:!text-black transition-colors duration-200">
+                                <i class="fas {{ $category['icon'] }} mr-3 text-gray-600 dark:text-gray-400"></i>
+                                {{ $category['name'] }}
                             </a>
                         </li>
+                    @endforeach
                         <!-- Add more categories as needed -->
                     </ul>
                 </div>
@@ -222,7 +259,7 @@
         <div class="p-4 border-t border-gray-300 mt-auto dark:border-yellow-500">
             <ul class="uppercase text-left">
                 <li>
-                    <a href="#" class="flex items-center hover:text-yellow-400 dark:hover:text-white">
+                    <a href="#" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-sign-out-alt mr-2"></i>
                         Sign Out
                     </a>

@@ -17,6 +17,12 @@ Route::get('/contact-us', function () {
 Route::get('/our-services', function () {
     return view('services');
 })->name('services');
+Route::get('/our-privacy-policy', function () {
+    return view('policy');
+})->name('policy');
+Route::get('/our-terms and services', function () {
+    return view('terms');
+})->name('terms');
 
 Route::middleware([
     'auth:sanctum',
