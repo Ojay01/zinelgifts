@@ -86,27 +86,32 @@
         </button>
         <div class="flex items-center space-x-4">
             <!-- Login/Register Link (Hidden on small screens) -->
-            <a href="{{ route('login') }}" class="text-sm font-medium hidden sm:inline text-gray-800 dark:text-yellow-500">LOGIN / REGISTER</a>
-
-
+            <a href="{{ route('login') }}" 
+               class="text-sm font-medium hidden sm:inline {{ request()->routeIs('login') ? 'text-yellow-500 dark:!text-white' : 'text-gray-800' }} dark:text-yellow-500">
+               LOGIN / REGISTER
+            </a>
+        
             <!-- Mobile Search Toggle Button -->
             <button @click="showSearch = !showSearch" class="sm:hidden text-gray-800 dark:text-yellow-500">
                 <i class="fas fa-search text-lg"></i>
             </button> 
             
             <!-- Wishlist Icon -->
-            <a href="{{route('wishlist')}}" aria-label="Wishlist" class="text-gray-800 dark:text-yellow-500">
+            <a href="{{ route('wishlist') }}" aria-label="Wishlist" 
+               class="{{ request()->routeIs('wishlist') ? 'text-yellow-500 dark:!text-white' : 'text-gray-800' }} dark:text-yellow-500">
                 <i class="fas fa-heart text-lg"></i>
             </a>
             
             <!-- Cart Icon and Item Count -->
             <div class="relative">
-                <a href="{{route('cart')}}" aria-label="Cart" class="text-gray-800 dark:text-yellow-500">
+                <a href="{{ route('cart') }}" aria-label="Cart" 
+                   class="{{ request()->routeIs('cart') ? 'text-yellow-500 dark:!text-white' : 'text-gray-800' }} dark:text-yellow-500">
                     <i class="fas fa-shopping-cart text-lg"></i>
                 </a>
                 <span class="absolute -top-2 -right-2 bg-gray-800 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center dark:bg-yellow-500 dark:text-black">0</span>
             </div>
         </div>
+        
     </div>
     </div>
 
@@ -142,12 +147,38 @@
 
                 <!-- Center-aligned Links -->
                 <div class="flex-1 flex justify-center space-x-6">
-                    <li class="mb-2 sm:mb-0"><a href="{{ route('dashboard') }}" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Home</a></li>
-                    <li class="mb-2 sm:mb-0"><a href="{{route('shop')}}" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Shop</a></li>
-                    <li class="mb-2 sm:mb-0"><a href="{{route('about.us')}} " class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">About Us</a></li>
-                    <li class="mb-2 sm:mb-0"><a href="{{route('contact')}}" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Contact Us</a></li>
-                    <li class="mb-2 sm:mb-0"><a href="{{route('blogs')}}" class="hidden lg:flex hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Blogs</a></li>
+                    <li class="mb-2 sm:mb-0">
+                        <a href="{{ route('dashboard') }}" 
+                           class="{{ request()->routeIs('dashboard') ? 'text-yellow-400 dark:text-yellow-800' : '' }} hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">
+                           Home
+                        </a>
+                    </li>
+                    <li class="mb-2 sm:mb-0">
+                        <a href="{{ route('shop') }}" 
+                           class="{{ request()->routeIs('shop') ? 'text-yellow-400 dark:text-yellow-800' : '' }} hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">
+                           Shop
+                        </a>
+                    </li>
+                    <li class="mb-2 sm:mb-0">
+                        <a href="{{ route('about.us') }}" 
+                           class="{{ request()->routeIs('about.us') ? 'text-yellow-400 dark:text-yellow-800' : '' }} hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">
+                           About Us
+                        </a>
+                    </li>
+                    <li class="mb-2 sm:mb-0">
+                        <a href="{{ route('contact') }}" 
+                           class="{{ request()->routeIs('contact') ? 'text-yellow-400 dark:text-yellow-800' : '' }} hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">
+                           Contact Us
+                        </a>
+                    </li>
+                    <li class="mb-2 sm:mb-0 hidden lg:flex">
+                        <a href="{{ route('blogs') }}" 
+                           class="{{ request()->routeIs('blogs') ? 'text-yellow-400 dark:text-yellow-800' : '' }} hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">
+                           Blogs
+                        </a>
+                    </li>
                 </div>
+                
 
                 <!-- Right-aligned Special Offer -->
                 <li class="mb-2 sm:mb-0">
@@ -176,50 +207,57 @@
             <!-- Mobile Navigation Links -->
             <ul class="space-y-2 uppercase text-left">
                 <li>
-                    <a href="{{ route('register') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
+                    <a href="{{ route('register') }}" 
+                       class="flex items-center {{ request()->routeIs('register') ? 'text-yellow-400 dark:text-yellow-500' : '' }} hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-user-plus mr-2"></i> 
                         Register
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('login') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
+                    <a href="{{ route('login') }}" 
+                       class="flex items-center {{ request()->routeIs('login') ? 'text-yellow-400 dark:text-yellow-500' : '' }} hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-sign-in-alt mr-2"></i>
                         Login
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('dashboard') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
+                    <a href="{{ route('dashboard') }}" 
+                       class="flex items-center {{ request()->routeIs('dashboard') ? 'text-yellow-400 dark:text-yellow-500' : '' }} hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-home mr-2"></i> 
                         Home
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('shop')}}" class="flex items-center hover:text-yellow-400/90 dark:hover:text-yellow-500">
+                    <a href="{{ route('shop') }}" 
+                       class="flex items-center {{ request()->routeIs('shop') ? 'text-yellow-400 dark:text-yellow-500' : '' }} hover:text-yellow-400/90 dark:hover:text-yellow-500">
                         <i class="fas fa-shopping-bag mr-2"></i>
                         Shop
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('blogs')}}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
+                    <a href="{{ route('blogs') }}" 
+                       class="flex items-center {{ request()->routeIs('blogs') ? 'text-yellow-400 dark:text-yellow-500' : '' }} hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-blog mr-2"></i>
                         Blogs
                     </a>
                 </li>
-
                 <li>
-                    <a href="{{ route('contact') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
+                    <a href="{{ route('contact') }}" 
+                       class="flex items-center {{ request()->routeIs('contact') ? 'text-yellow-400 dark:text-yellow-500' : '' }} hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-envelope mr-2"></i>
                         Contact Us
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('about.us') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
+                    <a href="{{ route('about.us') }}" 
+                       class="flex items-center {{ request()->routeIs('about.us') ? 'text-yellow-400 dark:text-yellow-500' : '' }} hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-info-circle mr-2"></i>
                         About Us
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('team') }}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
+                    <a href="{{ route('team') }}" 
+                       class="flex items-center {{ request()->routeIs('team') ? 'text-yellow-400 dark:text-yellow-500' : '' }} hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-users mr-2"></i>
                         Our Team
                     </a>
@@ -231,6 +269,7 @@
                     </a>
                 </li>
             </ul>
+            
 
             <!-- Mobile Category Dropdown (moved after Special Offer) -->
             <div x-data="{ open: false }" class="relative mt-4">

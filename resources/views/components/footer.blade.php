@@ -23,13 +23,44 @@
             <div>
                 <h3 class="text-2xl font-bold mb-4 text-yellow-500 dark:text-yellow-400">Useful Links</h3>
                 <ul class="space-y-2">
-                    <li><a href="{{route('about.us')}} " class="text-gray-600 dark:text-white/70 hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">About Us</a></li>
-                    <li><a href="{{route('team')}} " class="text-gray-600 dark:text-white/70 hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">Our Team</a></li>
-                    <li><a href="{{route('services')}} " class="text-gray-600 dark:text-white/70 hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">Our Services</a></li>
-                    <li><a href="{{route('terms')}}" class="text-gray-600 dark:text-white/70 hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">Terms of Service</a></li>
-                    <li><a href="{{route('policy')}}" class="text-gray-600 dark:text-white/70 hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">Privacy Policy</a></li>
-                    <li><a href="{{route('contact')}} " class="text-gray-600 dark:text-white/70 hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">Contact Us</a></li>
+                    <li>
+                        <a href="{{ route('about.us') }}" 
+                           class="{{ request()->routeIs('about.us') ? 'text-yellow-500 dark:text-yellow-300' : 'text-gray-600 dark:text-white/70' }} hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">
+                           About Us
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('team') }}" 
+                           class="{{ request()->routeIs('team') ? 'text-yellow-500 dark:text-yellow-300' : 'text-gray-600 dark:text-white/70' }} hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">
+                           Our Team
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('services') }}" 
+                           class="{{ request()->routeIs('services') ? 'text-yellow-500 dark:text-yellow-300' : 'text-gray-600 dark:text-white/70' }} hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">
+                           Our Services
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('terms') }}" 
+                           class="{{ request()->routeIs('terms') ? 'text-yellow-500 dark:text-yellow-300' : 'text-gray-600 dark:text-white/70' }} hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">
+                           Terms of Service
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('policy') }}" 
+                           class="{{ request()->routeIs('policy') ? 'text-yellow-500 dark:text-yellow-300' : 'text-gray-600 dark:text-white/70' }} hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">
+                           Privacy Policy
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('contact') }}" 
+                           class="{{ request()->routeIs('contact') ? 'text-yellow-500 dark:text-yellow-300' : 'text-gray-600 dark:text-white/70' }} hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">
+                           Contact Us
+                        </a>
+                    </li>
                 </ul>
+                
             </div>
 
             <!-- Customer Service Column -->
