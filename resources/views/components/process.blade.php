@@ -15,7 +15,7 @@
                     <span class="text-4xl sm:text-5xl font-bold hover:text-yellow-500 dark:text-yellow-500 mr-3">{{ $step['number'] }}.</span>
                     <h3 class="text-2xl sm:text-3xl font-semibold hover:text-yellow-500 dark:text-yellow-500">{{ $step['title'] }}</h3>
                 </div>
-                <p class="text-md xl:text-lg hover:text-yellow-500 dark:text-yellow-400/70 mt-2">{{ $step['description'] }}</p>
+                <p class="text-md xl:text-lg dark:hover:text-yellow-500 hover:text-yellow-500 dark:text-white/70 mt-2">{{ $step['description'] }}</p>
             </div>
             @endforeach
         </div>

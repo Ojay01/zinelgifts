@@ -95,13 +95,13 @@
             </button> 
             
             <!-- Wishlist Icon -->
-            <a href="#" aria-label="Wishlist" class="text-gray-800 dark:text-yellow-500">
+            <a href="{{route('wishlist')}}" aria-label="Wishlist" class="text-gray-800 dark:text-yellow-500">
                 <i class="fas fa-heart text-lg"></i>
             </a>
             
             <!-- Cart Icon and Item Count -->
             <div class="relative">
-                <a href="#" aria-label="Cart" class="text-gray-800 dark:text-yellow-500">
+                <a href="{{route('cart')}}" aria-label="Cart" class="text-gray-800 dark:text-yellow-500">
                     <i class="fas fa-shopping-cart text-lg"></i>
                 </a>
                 <span class="absolute -top-2 -right-2 bg-gray-800 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center dark:bg-yellow-500 dark:text-black">0</span>
@@ -146,7 +146,7 @@
                     <li class="mb-2 sm:mb-0"><a href="{{route('shop')}}" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Shop</a></li>
                     <li class="mb-2 sm:mb-0"><a href="{{route('about.us')}} " class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">About Us</a></li>
                     <li class="mb-2 sm:mb-0"><a href="{{route('contact')}}" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Contact Us</a></li>
-                    <li class="mb-2 sm:mb-0"><a href="#" class="hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Blogs</a></li>
+                    <li class="mb-2 sm:mb-0"><a href="{{route('blogs')}}" class="hidden lg:flex hover:text-yellow-400 dark:hover:text-yellow-800 dark:text-yellow-500">Blogs</a></li>
                 </div>
 
                 <!-- Right-aligned Special Offer -->
@@ -200,7 +200,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
+                    <a href="{{route('blogs')}}" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
                         <i class="fas fa-blog mr-2"></i>
                         Blogs
                     </a>
