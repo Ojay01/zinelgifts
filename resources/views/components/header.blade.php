@@ -107,9 +107,9 @@
                 <a href="{{ route('cart') }}" aria-label="Cart" 
                    class="{{ request()->routeIs('cart') ? 'text-yellow-500 dark:!text-white' : 'text-gray-800' }} dark:text-yellow-500">
                     <i class="fas fa-shopping-cart text-lg"></i>
+                    <span class="absolute -top-2 -right-2 bg-gray-800 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center dark:bg-yellow-500 dark:text-black">0</span>
                 </a>
-                <span class="absolute -top-2 -right-2 bg-gray-800 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center dark:bg-yellow-500 dark:text-black">0</span>
-            </div>
+</div>
         </div>
         
     </div>

@@ -1,4 +1,3 @@
-<!-- resources/views/contact-us.blade.php -->
 <x-guest-layout>
     <x-header />
 
@@ -7,11 +6,17 @@
             <h1 class="text-4xl font-bold text-center text-gray-800 dark:text-yellow-500 mb-4">Contact Us</h1>
             <div class="w-24 h-1 bg-yellow-500 mx-auto mb-12"></div>
             
+            @if(session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+            @endif
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <!-- Contact Form -->
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
                     <h2 class="text-2xl font-semibold text-gray-800 dark:text-yellow-500 mb-6">Send us a message</h2>
-                    <form action="#" method="POST">
+                    <form action="{{ route('contact.send') }}" method="POST">
                         @csrf
                         <div class="mb-4">
                             <label for="name" class="block text-gray-700 dark:text-gray-300 mb-2">Name</label>
