@@ -2,8 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\SocialController;
 
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::get('/login/{provider}', [SocialController::class, 'redirect'])->name('social.login');
+Route::get('/login/{provider}/callback', [SocialController::class, 'callback']);
 
 Route::get('/', function () {
     return view('welcome');

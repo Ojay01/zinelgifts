@@ -78,9 +78,10 @@
             <div>
                 <h3 class="text-2xl font-bold mb-4 text-yellow-500 dark:text-yellow-400">Newsletter</h3>
                 <p class="text-gray-600 dark:text-white/70 mb-4">Subscribe to our newsletter for updates on new products and special offers.</p>
-                <form class="flex">
-                    <input type="email" placeholder="Your email address" class="flex-grow px-4 py-2 rounded-l-full focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white transition-colors duration-300">
-                    <button type="submit" class="bg-yellow-500 text-white  px-6 py-2 rounded-r-full hover:bg-yellow-600 transition-colors duration-300">Subscribe</button>
+                <form action="{{ route('newsletter.subscribe') }}" method="POST" class="flex">
+                    @csrf
+                    <input type="email" name="email" placeholder="Your email address" class="flex-grow px-4 py-2 rounded-l-full focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white transition-colors duration-300" required>
+                    <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded-r-full hover:bg-yellow-600 transition-colors duration-300">Subscribe</button>
                 </form>
             </div>
         </div>

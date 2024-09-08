@@ -324,6 +324,72 @@ class="fixed bottom-8 right-8 bg-yellow-500 dark:bg-yellow-600 text-white dark:t
 
 </header>
 
+<!-- Success Toaster -->
+<div id="success-toaster" class="fixed top-4 right-0 z-50 transform transition-all duration-300 ease-in-out translate-x-full">
+    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-md" role="alert">
+        <div class="flex">
+            <div class="py-1">
+                <i class="fas fa-check-circle text-green-500 mr-4 text-2xl text-center"></i>
+            </div>
+            <div>
+                <p class="font-bold">Success</p>
+                <p class="text-sm" id="success-toaster-message"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error Toaster -->
+<div id="error-toaster" class="fixed top-4 right-0 z-50 transform transition-all duration-300 ease-in-out translate-x-full">
+    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-md" role="alert">
+        <div class="flex">
+            <div class="py-1">
+                <i class="fas fa-exclamation-circle text-red-500 mr-4 text-2xl text-center"></i>
+            </div>
+            <div>
+                <p class="font-bold">Error</p>
+                <p class="text-sm" id="error-toaster-message"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showToaster(type, message) {
+        const toaster = document.getElementById(type === 'success' ? 'success-toaster' : 'error-toaster');
+        const toasterMessage = document.getElementById(type === 'success' ? 'success-toaster-message' : 'error-toaster-message');
+        
+        toasterMessage.textContent = message;
+        toaster.classList.remove('translate-x-full');
+        toaster.classList.add('translate-x-0');
+        
+        setTimeout(() => {
+            toaster.classList.remove('translate-x-0');
+            toaster.classList.add('translate-x-full');
+        }, 5000);
+    }
+
+    // Check for session success, session error, or validation errors and show appropriate toaster
+    document.addEventListener('DOMContentLoaded', function() {
+        @if(session('success'))
+            showToaster('success', "{{ session('success') }}");
+        @endif
+        @if(session('status'))
+                showToaster('success', "{{ session('status') }}");
+            @endif
+
+        @if(session('error'))
+            showToaster('error', "{{ session('error') }}");
+        @endif
+
+        @if($errors->any())
+            const errorMessages = @json($errors->all());
+            showToaster('error', errorMessages.join(' '));
+        @endif
+    });
+</script>
+
+
 <!-- Dark Mode Script -->
 <script>
     // Check for saved theme preference or default to dark mode
