@@ -3,11 +3,31 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SocialController;
+use App\Http\Controllers\BlogPostController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
 Route::get('/login/{provider}', [SocialController::class, 'redirect'])->name('social.login');
 Route::get('/login/{provider}/callback', [SocialController::class, 'callback']);
+
+//blogs
+Route::get('/blogs', [BlogPostController::class, 'index'])->name('blogs');
+Route::get('/blog/{slug}', [BlogPostController::class, 'show'])->name('blog.details');
+Route::get('/blog/create', [BlogPostController::class, 'create'])->name('blog.create');
+Route::post('/blog', [BlogPostController::class, 'store'])->name('blog.store');
+Route::get('/blog/{slug}/edit', [BlogPostController::class, 'edit'])->name('blog.edit');
+Route::put('/blog/{slug}', [BlogPostController::class, 'update'])->name('blog.update');
+Route::delete('/blog/{slug}', [BlogPostController::class, 'destroy'])->name('blog.destroy');
+
+//category
+Route::get('/product/category/{id}', [CategoryController::class, 'show'])->name('category.show');
+Route::get('/product/category/sub-category/{id}', [CategoryController::class, 'showSubcategory'])->name('subcategory.show');
+
+//product
+Route::get('/product-detail/{category}/{subcategory}/{product}', [ProductController::class, 'show'])->name('details');
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,21 +53,14 @@ Route::get('/our-terms and services', function () {
 Route::get('/shop-today', function () {
     return view('shop');
 })->name('shop');
-Route::get('/product-detail', function () {
-    return view('details');
-})->name('details');
+
 Route::get('/my-cart', function () {
     return view('cart');
 })->name('cart');
 Route::get('/checkout', function () {
     return view('checkout');
 })->name('checkout');
-Route::get('/blogs', function () {
-    return view('blogs');
-})->name('blogs');
-Route::get('/blogs/category', function () {
-    return view('blogs_details');
-})->name('blog.details');
+
 // Routes for Wishlist
 Route::get('/wishlist', function () {
     // Example route to show the wishlist

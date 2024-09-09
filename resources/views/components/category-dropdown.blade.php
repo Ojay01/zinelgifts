@@ -1,4 +1,3 @@
-<!-- resources/views/components/category-dropdown.blade.php -->
 <div x-data="{ 
     open: false, 
     activeCategory: null,
@@ -17,69 +16,30 @@
     </button>
     <div x-show="open" class="absolute z-10 w-64 mt-0.5  bg-gray-300 dark:bg-gray-900 border dark:text-yellow-500 border-yellow-300 shadow-lg">
         <ul class="py-1">
-            @php
-                $categories = [
-                    [
-                        'name' => 'EVENTS GIFTS',
-                        'icon' => 'fa-gift',
-                        'subcategories' => ['BIRTHDAY GIFTS', 'WEDDING GIFTS', 'MEMORIAL GIFTS', 'COMEDY SHOWS', 'MOVIE PREMIERS', 'ARTS & CULTURE', 'CONCERTS', 'AWARD CEREMONIES']
-                    ],
-                    [
-                        'name' => 'SPECIAL DAYS GIFTS',
-                        'icon' => 'fa-calendar',
-                        'subcategories' => ['VALENTINE\'S DAY GIFTS', 'MOTHERS\' DAY GIFTS', 'FATHER\'S DAY GIFTS', 'EASTER GIFTS', 'CHRISTMAS GIFTS', 'NEW YEAR GIFTS', 'LABOUR DAY']
-                    ],
-                    [
-                        'name' => 'CORPORATE GIFTS',
-                        'icon' => 'fa-briefcase',
-                        'subcategories' => ['NGOS', 'ASSOCIATIONS', 'CONFERENCES', 'SERMINERS', 'COMMON INITIATIVE GROUPS', 'SCHOOLS', 'CHURCHES']
-                    ],
-                    [
-                        'name' => 'HOME & DECORE GIFTS',
-                        'icon' => 'fa-home',
-                        'subcategories' => ['INTERIOR DÉCOR', 'EVENT DECORE']
-                    ],
-                    [
-                        'name' => 'CONGRATULATION GIFTS',
-                        'icon' => 'fa-award',
-                        'subcategories' => ['BABY SHOWER', 'GRADUATIONS', 'BAPTISM', 'CONFIRMATION', 'ORDINATION', 'APPOINMENTS']
-                    ],
-                    [
-                        'name' => 'CONSUMABLE GIFTS',
-                        'icon' => 'fa-utensils',
-                        'subcategories' => ['GIFT BASKETS']
-                    ],
-                    [
-                        'name' => 'LUXURY GIFTS',
-                        'icon' => 'fa-gem',
-                        'subcategories' => ['BRAND PRODUCTS']
-                    ]
-                ]
-            @endphp
             @foreach($categories as $category)
                 <li class="relative" 
                     @mouseenter="
                         clearTimeout(timeout);
-                        activeCategory = '{{ $category['name'] }}';
+                        activeCategory = '{{ $category->name }}';
                     " 
                     @mouseleave="
                         timeout = setTimeout(() => {
                             activeCategory = null;
                         }, 100);
                     ">
-                    <a href="#" class="flex items-center px-4 py-2 hover:bg-yellow-500 hover:text-black">
-                        <i class="fas {{ $category['icon'] }} mr-3 text-gray-400"></i>
-                        {{ $category['name'] }}
+                    <a href="{{ route('category.show', $category->id) }}" class="flex items-center px-4 py-2 hover:bg-yellow-500 hover:text-black">
+                        <i class="fas fa-gift mr-3 text-gray-400"></i> <!-- Change the icon dynamically if needed -->
+                        {{ $category->name }}
                         <i class="fas fa-chevron-right ml-auto text-gray-400"></i>
                     </a>
                     <!-- Subcategories dropdown -->
-                    <div x-show="activeCategory === '{{ $category['name'] }}'"
+                    <div x-show="activeCategory === '{{ $category->name }}'"
                          class="absolute left-full top-0 w-64 bg-gray-100 dark:bg-gray-800 border border-yellow-300 shadow-lg">
                         <ul class="py-1">
-                            @foreach($category['subcategories'] as $subcategory)
+                            @foreach($category->subcategories as $subcategory)
                                 <li>
-                                    <a href="#" class="block px-4 py-2 hover:bg-yellow-500 hover:text-black">
-                                        {{ $subcategory }}
+                                    <a href="{{ route('subcategory.show', $subcategory->id) }}" class="block px-4 py-2 hover:bg-yellow-500 hover:text-black">
+                                        {{ $subcategory->name }}
                                     </a>
                                 </li>
                             @endforeach

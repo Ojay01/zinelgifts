@@ -11,17 +11,7 @@
     }" 
     x-init="$watch('darkMode', value => document.documentElement.classList.toggle('dark', value))">
     
-    @php
-    $categories = [
-        ['name' => 'EVENTS GIFTS', 'icon' => 'fa-gift', 'link' => '#events-gifts'],
-        ['name' => 'SPECIAL DAYS GIFTS', 'icon' => 'fa-calendar', 'link' => '#special-days-gifts'],
-        ['name' => 'CORPORATE GIFTS', 'icon' => 'fa-briefcase', 'link' => '#corporate-gifts'],
-        ['name' => 'HOME & DECORE GIFTS', 'icon' => 'fa-home', 'link' => '#home-decore-gifts'],
-        ['name' => 'CONGRATULATION GIFTS', 'icon' => 'fa-award', 'link' => '#congratulation-gifts'],
-        ['name' => 'CONSUMABLE GIFTS', 'icon' => 'fa-utensils', 'link' => '#consumable-gifts'],
-        ['name' => 'LUXURY GIFTS', 'icon' => 'fa-gem', 'link' => '#luxury-gifts']
-    ]
-@endphp
+
     <div class="sticky top-0 z-50 bg-white dark:bg-black shadow-md">
      
     <!-- Main header -->
@@ -67,10 +57,10 @@
                     <ul class="py-2">
                         @foreach($categories as $category)
                         <li>
-                            <a href="{{ $category['link'] }}" 
+                            <a href="{{ route('category.show', $category->id) }}" 
                                class="flex items-center px-4 py-3  dark:text-yellow-500 hover:bg-yellow-500 hover:!text-black transition-colors duration-200">
-                                <i class="fas {{ $category['icon'] }} mr-3 text-gray-600 dark:text-gray-400"></i>
-                                {{ $category['name'] }}
+                                <i class="fas fa-gift mr-3 text-gray-600 dark:text-gray-400"></i>
+                                {{ $category->name }}
                             </a>
                         </li>
                     @endforeach
@@ -281,10 +271,10 @@
                     <ul class="py-2">
                         @foreach($categories as $category)
                         <li>
-                            <a href="{{ $category['link'] }}" 
+                            <a href="{{ route('category.show', $category->id) }}" 
                                class="flex items-center px-4 py-3  dark:text-yellow-500 hover:bg-yellow-500 hover:!text-black transition-colors duration-200">
-                                <i class="fas {{ $category['icon'] }} mr-3 text-gray-600 dark:text-gray-400"></i>
-                                {{ $category['name'] }}
+                                <i class="fas fa-gift mr-3 text-gray-600 dark:text-gray-400"></i>
+                                {{ $category->name }}
                             </a>
                         </li>
                     @endforeach
