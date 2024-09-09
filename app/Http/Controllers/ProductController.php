@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Subcategory;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -31,5 +32,43 @@ class ProductController extends Controller
 
         return view('details', compact('product', 'category', 'subcategory', 'relatedProducts'));
     }
+
+    public function shop(Request $request)
+    {
+        // Fetch categories for filter options
+        $categories = ProductCategory::with('subcategories')->get();
+
+        // Initialize query builder for products
+        $query = Product::query();
+
+        // Apply category filter
+        if ($request->has('category')) {
+            $query->whereIn('category_id', $request->category);
+        }
+
+        // Apply subcategory filter
+        if ($request->has('subcategory')) {
+            $query->whereIn('subcategory_id', $request->subcategory);
+        }
+
+        // Apply price filter
+        if ($request->has('price_min') && $request->has('price_max')) {
+            // Both min and max price provided
+            $query->whereBetween('price', [$request->price_min, $request->price_max]);
+        } elseif ($request->has('price_min')) {
+            // Only min price provided
+            $query->where('price', '>=', $request->price_min);
+        } elseif ($request->has('price_max')) {
+            // Only max price provided
+            $query->where('price', '<=', $request->price_max);
+        }
+        
+
+        // Paginate the results
+        $products = $query->paginate(9);
+
+        return view('shop', compact('products', 'categories'));
+    }
+
 }
 

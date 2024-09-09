@@ -52,7 +52,7 @@
                                 </button>
                             </div>
                            
-                        <a href="#" class="text-yellow-500 text-end hover:underline mt-2 block">View Product</a> 
+                        <a href="{{ route('details', [$product->category->name, $product->subcategory->name, $product->name]) }}" class="text-yellow-500 text-end hover:underline mt-2 block">View Product</a> 
                         </div>
                     </div>
                 @empty

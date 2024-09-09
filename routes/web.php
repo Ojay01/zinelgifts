@@ -27,6 +27,7 @@ Route::get('/product/category/sub-category/{id}', [CategoryController::class, 's
 
 //product
 Route::get('/product-detail/{category}/{subcategory}/{product}', [ProductController::class, 'show'])->name('details');
+Route::get('/product/shop-today', [ProductController::class, 'shop'])->name('shop');
 
 
 Route::get('/', function () {
@@ -50,9 +51,6 @@ Route::get('/our-privacy-policy', function () {
 Route::get('/our-terms and services', function () {
     return view('terms');
 })->name('terms');
-Route::get('/shop-today', function () {
-    return view('shop');
-})->name('shop');
 
 Route::get('/my-cart', function () {
     return view('cart');
