@@ -16,7 +16,7 @@
                     <span class="text-4xl sm:text-5xl text-yellow-500 dark:text-yellow-500 mr-4">
                         <i class="fas {{ $step['icon'] }}"></i>
                     </span>
-                    <h3 class="text-2xl sm:text-3xl font-semibold hover:text-yellow-500 dark:text-yellow-500">{{ $step['title'] }}</h3>
+                    <h3 class="text-2xl sm:text-3xl uppercase font-semibold hover:text-yellow-500 dark:text-yellow-500">{{ $step['title'] }}</h3>
                 </div>
                 <p class="text-md xl:text-lg text-gray-700 dark:text-white/70 hover:text-yellow-500 dark:hover:text-yellow-500 mt-2">{{ $step['description'] }}</p>
             </div>
