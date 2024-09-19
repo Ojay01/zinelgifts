@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Slide;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -12,7 +11,25 @@ class HomeController extends Controller
         // Fetch all slides from the database
         $slides = Slide::all();
         
-        // Pass the slides data to the 'welcome' view
-        return view('welcome', compact('slides'));
+        // Fetch product categories with their product count
+        $categories = ProductCategory::withCount('products')
+            ->limit(4)  // Limit to 4 categories
+            ->get()
+            ->map(function ($category) {
+                // Get the first product's image as the category image
+                $firstProduct = $category->products()->first();
+                $imageUrl = $firstProduct ? $firstProduct->image_url : 'https://via.placeholder.com/400x300';  // Use a placeholder if no product image
+
+                return [
+                    'name' => $category->name,
+                    'image' => $category->image,
+                    'description' => $category->description,
+                    'products' => $category->products_count,
+                    'link' => route('category.show', $category->id),  // Assuming you have a route for showing categories
+                ];
+            });
+        
+        // Pass the slides and categories data to the 'welcome' view
+        return view('welcome', compact('slides', 'categories'));
     }
 }

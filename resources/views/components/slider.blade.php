@@ -53,7 +53,7 @@
                 
                 <!-- Overlay and Text Content -->
                 <div class="absolute inset-0 dark:bg-black/50"></div>
-                <div class="absolute inset-0 mt-8 flex flex-col items-center lg:items-start lg:justify-center text-white p-4 lg:pl-72">
+                <div class="absolute inset-0 mt-8 flex flex-col items-center lg:justify-center text-white p-4 lg:pr-80">
                     <h2 class="text-yellow-500 text-xl text-center">
                         {!! $slide->title !!}
                     </h2>
@@ -64,7 +64,7 @@
                     @endif
                     
                     @if (!is_null($slide->button1_text))
-                    <div class="flex items-center justify-center mt-2 w-full lg:justify-start">
+                    <div class="flex items-center justify-center mt-2 w-full ">
                         <a href="{{ $slide->button1_link }}" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out">
                             {{ $slide->button1_text }}
                         </a>

@@ -4,7 +4,7 @@
     <x-slider :slides="$slides" />
 
     <x-process />
-    <x-category />
+    <x-category :categories="$categories" />
     <x-specialOffer />
     <x-advert />
     <x-featured-products />
