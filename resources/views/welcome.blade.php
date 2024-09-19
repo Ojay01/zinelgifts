@@ -6,6 +6,7 @@
     <x-process />
     <x-category />
     <x-specialOffer />
+    <x-advert />
     <x-featured-products />
     <x-partners />
     <x-feedback />
