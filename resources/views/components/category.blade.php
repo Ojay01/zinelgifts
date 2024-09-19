@@ -1,5 +1,5 @@
 
-<section id="category-section" class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-24 transition-all duration-500">
+<section id="category-section" class="dark:bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-24 transition-all duration-500">
     <div class="container mx-auto px-4">
         <h2 class="md:text-6xl text-4xl font-black text-center text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 mb-6 transform translate-y-0 transition-all duration-1000" id="category-title">TOP CATEGORIES</h2>
         <div class="w-40 h-2 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 mx-auto mb-20 rounded-full transform scale-x-100 transition-all duration-1000" id="category-underline"></div>

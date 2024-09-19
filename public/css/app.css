@@ -4139,6 +4139,10 @@ select {
   background-image: linear-gradient(to bottom left, var(--tw-gradient-stops));
 }
 
+.dark\:bg-gradient-to-br:is(.dark *) {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
 .dark\:from-gray-700\/50:is(.dark *) {
   --tw-gradient-from: rgb(55 65 81 / 0.5) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(55 65 81 / 0) var(--tw-gradient-to-position);
