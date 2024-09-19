@@ -1,7 +1,8 @@
 
 <x-guest-layout>
     <x-header />
-    <x-slider />
+    <x-slider :slides="$slides" />
+
     <x-process />
     <x-category />
     <x-specialOffer />

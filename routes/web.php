@@ -6,6 +6,7 @@ use App\Http\Controllers\SocialController;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\HomeController;
 
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
@@ -29,10 +30,8 @@ Route::get('/product/category/sub-category/{id}', [CategoryController::class, 's
 Route::get('/product-detail/{category}/{subcategory}/{product}', [ProductController::class, 'show'])->name('details');
 Route::get('/product/shop-today', [ProductController::class, 'shop'])->name('shop');
 
+Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
 Route::get('/about-us', function () {
     return view('about');
 })->name('about.us');

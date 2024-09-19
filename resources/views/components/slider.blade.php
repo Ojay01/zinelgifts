@@ -1,43 +1,31 @@
-<!-- resources/views/components/hero-slider-black.blade.php -->
-@php
-$slides = [
-    [
-        'image' => 'https://cdn.pixabay.com/photo/2024/08/26/12/29/milky-way-8999255_1280.jpg',
-        'subtitle' => 'HIGH STRENGTH AND DURABLE',
-        'title' => 'Buy The Best Equipment For An Excellent Surprise.',
-        'button1' => ['text' => 'VIEW MORE', 'link' => '#'],
-        'button2' => ['text' => 'TO SHOP', 'link' => '#']
-    ],
-    [
-        'image' => 'https://cdn.pixabay.com/photo/2023/10/07/14/24/smartwatch-8300238_1280.jpg',
-        'subtitle' => 'QUALITY GUARANTEED',
-        'title' => 'Discover Our Premium Selection',
-        'button1' => ['text' => 'EXPLORE', 'link' => '#'],
-        'button2' => ['text' => 'SHOP NOW', 'link' => '#']
-    ],
-    [
-        'image' => 'https://cdn.pixabay.com/photo/2024/07/21/10/22/vulture-8910009_1280.jpg',
-        'subtitle' => 'ADVENTURE AWAITS',
-        'title' => 'Gear Up for Your Next Unforgettable Journey',
-        'button1' => ['text' => 'LEARN MORE', 'link' => '#'],
-        'button2' => ['text' => 'GET STARTED', 'link' => '#']
-    ]
-];
-@endphp
-
-<div class="relative w-full h-[600px] overflow-hidden" 
+<div class="relative w-full overflow-hidden" 
      x-data="{ 
         activeSlide: 1,
         slidesCount: {{ count($slides) }},
         autoSlide: null,
+        sliding: false,
         startAutoSlide() {
             this.autoSlide = setInterval(() => {
-                this.activeSlide = this.activeSlide === this.slidesCount ? 1 : this.activeSlide + 1;
+                this.nextSlide();
             }, 5000);
         },
         stopAutoSlide() {
             if (this.autoSlide) {
                 clearInterval(this.autoSlide);
+            }
+        },
+        nextSlide() {
+            if (!this.sliding) {
+                this.sliding = true;
+                this.activeSlide = this.activeSlide === this.slidesCount ? 1 : this.activeSlide + 1;
+                setTimeout(() => { this.sliding = false; }, 600);
+            }
+        },
+        prevSlide() {
+            if (!this.sliding) {
+                this.sliding = true;
+                this.activeSlide = this.activeSlide === 1 ? this.slidesCount : this.activeSlide - 1;
+                setTimeout(() => { this.sliding = false; }, 600);
             }
         }
      }"
@@ -45,40 +33,49 @@ $slides = [
      @mouseenter="stopAutoSlide()"
      @mouseleave="startAutoSlide()"
 >
-    @foreach($slides as $index => $slide)
-        <div
-            class="absolute inset-0 transition-opacity duration-1000 ease-in-out"
-            x-show="activeSlide === {{ $index + 1 }}"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-        >
-            <img
-                src="{{ $slide['image'] }}"
-                alt="Slide {{ $index + 1 }}"
-                class="object-cover w-full h-full"
-            >
-            <div class="absolute inset-0 dark:bg-black/50 "></div>
-            <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
-                <p class="text-yellow-500 text-xl mb-4">{{ $slide['subtitle'] }}</p>
-                <h2 class="text-4xl md:text-5xl font-bold text-center max-w-3xl leading-tight mb-8">
-                    {{ $slide['title'] }}
-                </h2>
-                <div class="flex flex-wrap justify-center gap-4">
-                    <a href="{{ $slide['button1']['link'] }}" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded">
-                        {{ $slide['button1']['text'] }}
-                    </a>
-                    <a href="{{ $slide['button2']['link'] }}" class="bg-transparent hover:bg-gray-800 text-yellow-500 font-bold py-2 px-6 rounded border border-yellow-500">
-                        {{ $slide['button2']['text'] }}
-                    </a>
+    <!-- Slider Container with dynamic translation -->
+    <div class="flex transition-transform duration-500 ease-in-out" 
+         :style="'transform: translateX(-' + (activeSlide - 1) * 100 + '%)'">
+        @foreach($slides as $index => $slide)
+            <div class="w-full flex-shrink-0 min-w-full relative">
+                <!-- Responsive Image for Small Screens -->
+                <img
+                    src="{{ $slide->image_small }}"
+                    alt="Slide {{ $index + 1 }}"
+                    class="w-full lg:hidden"
+                />
+                <!-- Responsive Image for Large Screens -->
+                <img
+                    src="{{ $slide->image }}"
+                    alt="Slide {{ $index + 1 }}"
+                    class="w-full hidden lg:block"
+                />
+                
+                <!-- Overlay and Text Content -->
+                <div class="absolute inset-0 dark:bg-black/50"></div>
+                <div class="absolute inset-0 mt-8 flex flex-col items-center lg:items-start lg:justify-center text-white p-4 lg:pl-72">
+                    <h2 class="text-yellow-500 text-xl text-center">
+                        {!! $slide->title !!}
+                    </h2>
+                    @if (!is_null($slide->subtitle))
+                        <p class="text-yellow-500 mb-4 mx-auto">
+                            {!! $slide->subtitle !!}
+                        </p>
+                    @endif
+                    
+                    @if (!is_null($slide->button1_text))
+                    <div class="flex items-center justify-center mt-2 w-full lg:justify-start">
+                        <a href="{{ $slide->button1_link }}" class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out">
+                            {{ $slide->button1_text }}
+                        </a>
+                    </div>
+                    @endif
                 </div>
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
 
+    <!-- Slide Indicators -->
     <div class="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2">
         @foreach($slides as $index => $slide)
             <button
@@ -89,16 +86,17 @@ $slides = [
         @endforeach
     </div>
 
+    <!-- Navigation Arrows -->
     <button
         class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-yellow-500 p-2 rounded-full hover:bg-opacity-75"
-        @click="activeSlide = activeSlide === 1 ? slidesCount : activeSlide - 1"
+        @click="prevSlide()"
     >
-    <i class="fas fa-chevron-left text-xl"></i>
+        <i class="fas fa-chevron-left text-xl"></i>
     </button>
     <button
         class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-yellow-500 p-2 rounded-full hover:bg-opacity-75"
-        @click="activeSlide = activeSlide === slidesCount ? 1 : activeSlide + 1"
+        @click="nextSlide()"
     >
-    <i class="fas fa-chevron-right text-xl"></i>
+        <i class="fas fa-chevron-right text-xl"></i>
     </button>
 </div>
