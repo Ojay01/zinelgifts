@@ -1,24 +1,27 @@
 <!-- resources/views/components/partners-section.blade.php -->
 @props(['partners' => [
-    ['name' => 'IKEA', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/c/c5/Ikea_logo.svg'],
-    ['name' => 'Herman Miller', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/3/3f/Herman_Miller_logo.svg'],
-    ['name' => 'Wayfair', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/c/c5/Ikea_logo.svg'],
-    ['name' => 'West Elm', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/c/c5/Ikea_logo.svg'],
+    ['name' => 'Galaxe', 'logo' => '/img/partners/1.jpg'],
+    ['name' => 'Zmile', 'logo' => '/img/partners/2.jpg'],
+    ['name' => 'Hono Dream Cakes', 'logo' => '/img/partners/3.jpg'],
+    ['name' => 'Bella\'s Cake', 'logo' => '/img/partners/4.jpg'],
 ]])
-
-<section class="bg-gray-100 dark:bg-gray-900 py-16 transition-colors duration-300">
+<section class="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-20 transition-colors duration-300">
     <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-yellow-500 mb-2 transition-colors duration-300">OUR PARTNERS</h2>
-        <div class="w-20 h-1 bg-yellow-500 mx-auto mb-12"></div>
+        <h2 class="text-4xl font-bold text-center text-gray-800 dark:text-yellow-500 mb-4 transition-colors duration-300">Our Partners</h2>
+        <p class="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto">We're proud to collaborate with these amazing brands to bring you the best products and services.</p>
         
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+        <div class="flex flex-wrap justify-center items-center gap-12 md:gap-16">
             @foreach($partners as $partner)
-                <div class="group flex justify-center items-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <div class="group relative">
+                    <div class="absolute inset-0 bg-yellow-500 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                     <img 
                         src="{{ $partner['logo'] }}" 
                         alt="{{ $partner['name'] }}" 
-                        class="max-h-16 max-w-full object-contain transition-all duration-300 group-hover:scale-110 filter dark:invert group-hover:filter-none"
+                        class="max-h-20 md:max-h-24 w-auto object-contain transition-all duration-300 group-hover:scale-110 filter  hover:grayscale-0"
                     >
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span class="text-sm font-semibold text-gray-800 dark:text-yellow-500 bg-white dark:bg-gray-900 px-2 py-1 rounded-full shadow-md">{{ $partner['name'] }}</span>
+                    </div>
                 </div>
             @endforeach
         </div>

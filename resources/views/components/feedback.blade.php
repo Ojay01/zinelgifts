@@ -2,25 +2,25 @@
 
 @props(['feedbacks' => [
     [
-        'name' => 'John Doe',
-        'avatar' => 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584_1280.png',
+        'name' => 'Karen Bih',
+        'avatar' => '/img/feedback/user1.jpg',
         'rating' => 5,
-        'comment' => 'Excellent quality furniture and great customer service!',
-        'date' => '2024-03-15',
+        'comment' => 'Service easily one of the best I have dealt with, no problems whatsoever, everything was so easy right from ordering to delivery.',
+        'date' => '2024-09-10',
     ],
     [
-        'name' => 'Jane Smith',
-        'avatar' => 'https://cdn.pixabay.com/photo/2023/03/15/09/32/woman-7854120_1280.png',
+        'name' => 'Jane Efillo',
+        'avatar' => '/img/feedback/user2.jpg',
         'rating' => 4,
-        'comment' => 'Very satisfied with my purchase. Delivery was prompt.',
-        'date' => '2024-03-10',
+        'comment' => 'All good ordered were of good quality and arrived promptly. You are the BEST indeed.',
+        'date' => '2024-08-10',
     ],
     [
-        'name' => 'Mike Johnson',
-        'avatar' => 'https://cdn.pixabay.com/photo/2023/03/15/09/32/woman-7854120_1280.png',
+        'name' => 'Mike Ettah',
+        'avatar' => '/img/feedback/user3.jpg',
         'rating' => 5,
-        'comment' => 'The craftsmanship is outstanding. Highly recommended!',
-        'date' => '2024-03-05',
+        'comment' => 'The ordering process is so easy and I Love the assistance you offer by guiding me throughout the whole process. This has facilitated everything for me in an awesome way. I greatly recommend you.',
+        'date' => '2024-08-05',
     ],
 ]])
 
@@ -33,7 +33,7 @@
             @foreach($feedbacks as $feedback)
             <div class="bg-white dark:bg-gray-700 rounded-lg shadow-lg p-6 transition-transform duration-300 hover:transform hover:scale-105">
                 <div class="flex items-center mb-4">
-                    <img src="{{ $feedback['avatar'] }}" alt="{{ $feedback['name'] }}" class="w-12 h-12 rounded-full mr-4">
+                    <img src="{{ $feedback['avatar'] }}" alt="{{ $feedback['name'] }}" class="w-14 h-14 rounded-full mr-4">
                     <div>
                         <h3 class="font-semibold text-gray-800 dark:text-yellow-500">{{ $feedback['name'] }}</h3>
                         <div class="flex text-yellow-500">

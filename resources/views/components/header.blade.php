@@ -1,4 +1,4 @@
-<header class="font-sans dark:bg-black transition-colors duration-300" 
+<header class="font-sans dark:bg-black transition-colors z-50 top-0 sticky duration-300" 
     x-data="{ 
         openSidebar: false, 
         showSearch: false, 
@@ -12,7 +12,7 @@
     x-init="$watch('darkMode', value => document.documentElement.classList.toggle('dark', value))">
     
 
-    <div class="sticky top-0 z-50 bg-white dark:bg-black shadow-md">
+    <div class=" bg-white dark:bg-black shadow-md">
      
     <!-- Main header -->
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -127,7 +127,7 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="border-t border-gray-300 border-opacity-20 dark:border-yellow-500">
+    <nav class="border-t border-gray-300 border-opacity-20  dark:border-yellow-500">
         <div class="container mx-auto px-4">
             <ul id="nav-menu" class="hidden sm:flex items-center uppercase justify-between py-4">
                 <!-- Left-aligned Category Dropdown -->

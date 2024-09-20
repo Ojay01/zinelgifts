@@ -1,24 +1,29 @@
 <!-- resources/views/components/special-offer-banner.blade.php -->
 @props([
-    'backgroundImage' => 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-    'title' => 'Special  December Sale',
+    'backgroundImage' => '/specialoffer.jpg',
+    'title' => 'Special December Sale',
     'description' => 'Get up to 50% off on selected items',
     'endDate' => '2024-09-31 23:59:59'
 ])
-
-<div class="relative dark:bg-black text-yellow-500 py-16 overflow-hidden" x-data="countdown('{{ $endDate }}')" x-init="init()">
+<div 
+    class="relative dark:bg-black text-yellow-500 py-16 overflow-hidden opacity-0 transition-opacity duration-1000 ease-in-out" 
+    x-data="countdown('{{ $endDate }}')" 
+    x-init="init()"
+    x-intersect:enter="$el.classList.add('opacity-100')"
+    x-intersect:leave="$el.classList.remove('opacity-100')"
+>
     <div class="absolute inset-0 z-0">
-        <img src="{{ $backgroundImage }}" alt="Special Offer Background" class="w-full h-full object-cover opacity-50">
-        <div class="absolute inset-0 bg-black bg-opacity-75"></div>
+        <img src="{{ $backgroundImage }}" alt="Special Offer Background" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/70"></div>
     </div>
     
     <div class="container mx-auto px-4 relative z-10">
-        <div class="text-center mb-8">
+        <div class="text-center mb-8 transform transition-transform duration-1000 ease-in-out" x-intersect:enter="$el.classList.add('translate-y-0')" x-intersect:enter.threshold.05="$el.classList.remove('-translate-y-full')" x-intersect:leave="$el.classList.add('-translate-y-full')" x-intersect:leave.threshold.05="$el.classList.remove('translate-y-0')">
             <h2 class="text-4xl md:text-5xl font-bold mb-4">{{ $title }}</h2>
             <p class="text-xl md:text-2xl">{{ $description }}</p>
         </div>
         
-        <div class="flex justify-center space-x-4 md:space-x-8 mb-8">
+        <div class="flex justify-center space-x-4 md:space-x-8 mb-8 transform transition-transform duration-1000 ease-in-out" x-intersect:enter="$el.classList.add('translate-x-0')" x-intersect:enter.threshold.05="$el.classList.remove('-translate-x-full')" x-intersect:leave="$el.classList.add('-translate-x-full')" x-intersect:leave.threshold.05="$el.classList.remove('translate-x-0')">
             <div class="text-center">
                 <span x-text="days" class="text-3xl md:text-5xl font-bold block"></span>
                 <span class="text-sm md:text-base">Days</span>
@@ -37,12 +42,11 @@
             </div>
         </div>
         
-        <div class="text-center">
+        <div class="text-center transform transition-transform duration-1000 ease-in-out" x-intersect:enter="$el.classList.add('translate-y-0')" x-intersect:enter.threshold.05="$el.classList.remove('translate-y-full')" x-intersect:leave="$el.classList.add('translate-y-full')" x-intersect:leave.threshold.05="$el.classList.remove('translate-y-0')">
             <a href="#" class="inline-block bg-yellow-500 text-black font-bold py-3 px-8 rounded-full hover:bg-yellow-400 transition duration-300">Shop Now</a>
         </div>
     </div>
 </div>
-
 <script>
 function countdown(endDate) {
     return {
