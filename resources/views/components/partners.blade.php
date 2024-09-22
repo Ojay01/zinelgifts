@@ -5,6 +5,7 @@
     ['name' => 'Hono Dream Cakes', 'logo' => '/img/partners/3.jpg'],
     ['name' => 'Bella\'s Cake', 'logo' => '/img/partners/4.jpg'],
     ['name' => 'Galaxe', 'logo' => '/img/partners/5.jpg'],
+    ['name' => 'Gnosis', 'logo' => '/img/partners/6.jpg'],
 ]])
 
 <section class="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-20 transition-colors duration-300">
