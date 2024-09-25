@@ -15,13 +15,48 @@
     </div>
     @php
     $team_members = [
-        ['name' => 'PHARMAX', 'role' => 'Official Sponsor & Developer', 'bio' => ''],
-        ['name' => 'FEKA LEONEL', 'role' => 'CEO of ZINEL, Graphics Designer', 'bio' => 'I am a creative designer specializing in design for print & digital, branding & web. I am currently based in Cameroon with over 10 years experience in the design industry with a passion for sharing knowledge and teaching as well as bringing the best of customized gift products/ideas to the world at large. I have created this platform to share my experience and give each and every one the opportunity to make their loved ones smile at all times through the sharing of unique and custom branded gift products.'],
-        ['name' => 'NZOYIM GIRESS', 'role' => 'Co-founder, Graphics Designer', 'bio' => 'I am a creative designer specializing in design for print & digital, branding & web. I am currently based in Cameroon with over 5 years experience in the design industry. When it comes to design and Print I am here to offer just the best. Having a mastery in the operation of a variety of printing machines, your finished Print product quality is Guaranteed.'],
-        ['name' => 'NSALI ZITA', 'role' => 'Marketing Manager, Graphics Designer', 'bio' => 'I am an adventurous multicultural designer who is a positive thinker and likes to challenge myself creatively. Having been trained in the field of graphics for two years and also an experienced Marketer, I carry my job with passion and commitment. Above all I love to put a smile on people\'s faces by doing what I love best.'],
-        ['name' => 'ISABELLE NGISSAH', 'role' => 'Marketer, Graphics Designer', 'bio' => 'I am a marketing and small-business growth expert specializing in value and experience driven businesses. After 5 years working as a designer, Printer and Marketing consultant, I am setting up and managing our campaigns, making sure that people who we can help the most will find us. Outside of work, I enjoy quality time with friends and family.'],
-        ['name' => 'NDE MORIS', 'role' => 'Graphics Designer', 'bio' => 'I am a certified graphic designer and I earned my bachelor\'s degree in Communication Design. I work with many companies and offer quality work at the best price. Not only that, but I provide the highest quality services and my purpose is to provide quality graphic design services that you will need to complete your projects. My expertise is in completing all types of work that are related to graphic design. Whether that work is brand identity design, packaging design, photo-editing, or anything else I can do efficiently.'],
-        ['name' => 'KEPE EDDY', 'role' => 'Technician & Logistician', 'bio' => 'I am a full-time Graphics technician and my passion is to Produce Hand Crafted Arts Works with 100% unique design, high quality, and amazing service. I am an experienced arts Engineer and have worked for more than 5 years in the technical Department. Also, when it comes to transportation and delivery of Your Orders and finished products, consider it done on time because I\'ll always be there to make sure.']
+        [
+            'name' => 'FEKA LEONEL',
+            'role' => 'CEO of ZINEL, Graphics Designer',
+            'bio' => 'I am a creative designer specializing in design for print & digital, branding & web. I am currently based in Cameroon with over 10 years experience in the design industry with a passion for sharing knowledge and teaching as well as bringing the best of customized gift products/ideas to the world at large. I have created this platform to share my experience and give each and every one the opportunity to make their loved ones smile at all times through the sharing of unique and custom branded gift products.',
+            'image' => '/img/team/FEKA.jpg'
+        ],
+        [
+            'name' => 'NZOYIM GIRESS',
+            'role' => 'Graphics Designer',
+            'bio' => 'I am a creative designer specializing in design for print & digital, branding & web. I am currently based in Cameroon with over 5 years experience in the design industry. When it comes to design and Print I am here to offer just the best. Having a mastery in the operation of a variety of printing machines, your finished Print product quality is Guaranteed.',
+            'image' => '/img/team/GIRESS.jpg'
+        ],
+        [
+            'name' => 'NSALI ZITA',
+            'role' => 'Marketing Manager, Graphics Designer',
+            'bio' => 'I am an adventurous multicultural designer who is a positive thinker and likes to challenge myself creatively. Having been trained in the field of graphics for two years and also an experienced Marketer, I carry my job with passion and commitment. Above all I love to put a smile on people\'s faces by doing what I love best.',
+            'image' => '/img/team/ZITA.jpg'
+        ],
+        [
+            'name' => 'ISABELLE NGISSAH',
+            'role' => 'Marketer, Graphics Designer',
+            'bio' => 'I am a marketing and small-business growth expert specializing in value and experience driven businesses. After 5 years working as a designer, Printer and Marketing consultant, I am setting up and managing our campaigns, making sure that people who we can help the most will find us. Outside of work, I enjoy quality time with friends and family.',
+            'image' => '/img/team/ISABELLE.jpg'
+        ],
+        [
+            'name' => 'NDE MORIS',
+            'role' => 'Graphics Designer',
+            'bio' => 'I am a certified graphic designer and I earned my bachelor\'s degree in Communication Design. I work with many companies and offer quality work at the best price. Not only that, but I provide the highest quality services and my purpose is to provide quality graphic design services that you will need to complete your projects. My expertise is in completing all types of work that are related to graphic design. Whether that work is brand identity design, packaging design, photo-editing, or anything else I can do efficiently.',
+            'image' => '/img/team/MORIS.jpeg'
+        ],
+        [
+            'name' => 'KEPE EDDY',
+            'role' => 'Technician & Logistician',
+            'bio' => 'I am a full-time Graphics technician and my passion is to Produce Hand Crafted Arts Works with 100% unique design, high quality, and amazing service. I am an experienced arts Engineer and have worked for more than 5 years in the technical Department. Also, when it comes to transportation and delivery of Your Orders and finished products, consider it done on time because I\'ll always be there to make sure.',
+            'image' => '/img/team/EDDY.jpg'
+],
+        [
+            'name' => 'EZRA CHAH CHAH ',
+            'role' => 'ENGINEER/GRAPHIC DESIGNER',
+            'bio' => 'I am a Mechanical engineer specialised in Mechatronics engineering, with over four years of professional experience, executing Mechanical engineering, Electricity/Electronics engineering. Building and Construction, Graphics Designing and Interior Deco.',
+            'image' => '/img/team/Cha.jpg'
+        ]
     ];
     @endphp
 
@@ -39,7 +74,7 @@
                     <!-- Floating Image -->
                     <div class="absolute -top-16 left-1/2 transform -translate-x-1/2 w-32 h-32">
                         <div class="w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-lg transition-all duration-300 hover:scale-110">
-                            <img src="https://via.placeholder.com/128x128.png?text={{ str_replace(' ', '+', $member['name']) }}" alt="{{ $member['name'] }}" class="w-full h-full object-cover">
+                            <img src="{{ $member['image'] }}" alt="{{ $member['name'] }}" class="w-full h-full object-fill" onclick="openModal('{{ $member['image'] }}')">
                         </div>
                     </div>
                     
@@ -75,6 +110,18 @@
     </div>
 </div>
 
+
+<div id="imageModal" class="fixed inset-0 z-50 hidden bg-black/75 items-center p-10  justify-center">
+    <div class="relative bg-white rounded-lg max-w-2xl w-full md:mx-auto">
+        <button class="absolute top-4 right-4 text-gray-700 hover:text-gray-900 text-xl font-bold z-10" onclick="closeModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="py-8">
+            <img id="modalImage" src="" alt="Team Member" class="max-h-[80vh] w-auto mx-auto object-contain rounded-lg">
+        </div>
+    </div>
+</div>
+
 <script>
     function toggleBio(button) {
         const card = button.closest('.bg-white, .dark\\:bg-gray-700');
@@ -91,7 +138,25 @@
             button.textContent = 'Read More';
         }
     }
+
+    function openModal(imageUrl) {
+        document.getElementById('modalImage').src = imageUrl;
+        document.getElementById('imageModal').classList.remove('hidden');
+        document.body.classList.add('overflow-hidden'); 
+    }
+
+    function closeModal() {
+        document.getElementById('imageModal').classList.add('hidden');
+        document.body.classList.remove('overflow-hidden'); // Re-enable page scroll
+    }
+
+    document.getElementById('imageModal').addEventListener('click', function (event) {
+        if (event.target === this) {
+            closeModal();
+        }
+    });
 </script>
+
 
     <x-footer />
 

@@ -2,10 +2,10 @@
 <x-guest-layout>
     <x-header />
     <!-- Hero Section with Parallax Effect -->
-    <div class="relative h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden">
+    <div class="relative min-h-[20vh] sm:min-h-[25vh] md:min-h-[35vh] overflow-hidden">
         <div class="absolute inset-0">
-            <img src="https://cdn.pixabay.com/photo/2016/05/04/07/56/businessman-1370983_1280.jpg" alt="About Zinel Gifts" class="w-full h-full object-cover transform scale-110 motion-safe:animate-slow-zoom">
-            <div class="absolute inset-0 bg-black opacity-50"></div>
+            <img src="/img/abt.jpg" alt="About Zinel Gifts" class="w-full h-full object-cover transform scale-110 motion-safe:animate-slow-zoom">
+            <div class="absolute inset-0 dark:bg-black opacity-50"></div>
         </div>
         <div class="absolute inset-0 flex flex-col items-center justify-center">
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white dark:text-yellow-500 text-center px-4 motion-safe:animate-fade-in-up mb-4">About Zinel Gifts</h1>

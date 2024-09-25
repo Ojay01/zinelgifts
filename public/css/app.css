@@ -1406,10 +1406,6 @@ select {
   pointer-events: none;
 }
 
-.visible {
-  visibility: visible;
-}
-
 .static {
   position: static;
 }
@@ -1523,6 +1519,14 @@ select {
   top: 1rem;
 }
 
+.right-2 {
+  right: 0.5rem;
+}
+
+.top-2 {
+  top: 0.5rem;
+}
+
 .z-0 {
   z-index: 0;
 }
@@ -1547,6 +1551,10 @@ select {
   margin: 0.5rem;
 }
 
+.m-4 {
+  margin: 1rem;
+}
+
 .mx-3 {
   margin-left: 0.75rem;
   margin-right: 0.75rem;
@@ -1555,6 +1563,11 @@ select {
 .mx-5 {
   margin-left: 1.25rem;
   margin-right: 1.25rem;
+}
+
+.mx-6 {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
 }
 
 .mx-auto {
@@ -1567,19 +1580,14 @@ select {
   margin-bottom: 0.75rem;
 }
 
-.mx-6 {
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
+.my-12 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
-.mx-4 {
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-.mx-1 {
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
+.mx-10 {
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
 }
 
 .-mb-px {
@@ -1920,6 +1928,26 @@ select {
   height: 100%;
 }
 
+.h-52 {
+  height: 13rem;
+}
+
+.h-auto {
+  height: auto;
+}
+
+.h-1\/2 {
+  height: 50%;
+}
+
+.\!h-1\/2 {
+  height: 50% !important;
+}
+
+.h-\[35vh\] {
+  height: 35vh;
+}
+
 .max-h-20 {
   max-height: 5rem;
 }
@@ -1936,8 +1964,40 @@ select {
   max-height: 450px;
 }
 
+.max-h-full {
+  max-height: 100%;
+}
+
+.max-h-\[80vh\] {
+  max-height: 80vh;
+}
+
+.max-h-\[90vh\] {
+  max-height: 90vh;
+}
+
 .min-h-screen {
   min-height: 100vh;
+}
+
+.min-h-\[50vh\] {
+  min-height: 50vh;
+}
+
+.min-h-\[10vh\] {
+  min-height: 10vh;
+}
+
+.min-h-\[0vh\] {
+  min-height: 0vh;
+}
+
+.min-h-\[20vh\] {
+  min-height: 20vh;
+}
+
+.min-h-\[25vh\] {
+  min-height: 25vh;
 }
 
 .w-0 {
@@ -2042,6 +2102,10 @@ select {
   width: max-content;
 }
 
+.w-52 {
+  width: 13rem;
+}
+
 .min-w-0 {
   min-width: 0px;
 }
@@ -2094,6 +2158,10 @@ select {
   max-width: 36rem;
 }
 
+.max-w-\[90vw\] {
+  max-width: 90vw;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -2104,10 +2172,6 @@ select {
 
 .flex-shrink-0 {
   flex-shrink: 0;
-}
-
-.flex-shrink {
-  flex-shrink: 1;
 }
 
 .shrink-0 {
@@ -2385,12 +2449,6 @@ select {
   --tw-space-y-reverse: 0;
   margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(2rem * var(--tw-space-y-reverse));
-}
-
-.space-x-12 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(3rem * var(--tw-space-x-reverse));
-  margin-left: calc(3rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .overflow-hidden {
@@ -2719,6 +2777,10 @@ select {
   background-color: rgb(202 138 4 / var(--tw-bg-opacity));
 }
 
+.bg-black\/75 {
+  background-color: rgb(0 0 0 / 0.75);
+}
+
 .bg-opacity-20 {
   --tw-bg-opacity: 0.2;
 }
@@ -2729,6 +2791,10 @@ select {
 
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
+}
+
+.bg-opacity-75 {
+  --tw-bg-opacity: 0.75;
 }
 
 .bg-gradient-to-b {
@@ -2851,6 +2917,11 @@ select {
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.object-fill {
+  -o-object-fit: fill;
+     object-fit: fill;
 }
 
 .p-0 {
@@ -2979,6 +3050,11 @@ select {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 }
 
 .pb-1 {
@@ -3525,10 +3601,6 @@ select {
 
 .ease-out {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-}
-
-.will-change-transform {
-  will-change: transform;
 }
 
 [x-cloak] {
@@ -4514,6 +4586,22 @@ select {
     height: 2.5rem;
   }
 
+  .sm\:min-h-\[\] {
+    min-height: ;
+  }
+
+  .sm\:min-h-\[2\] {
+    min-height: 2;
+  }
+
+  .sm\:min-h-\[25\] {
+    min-height: 25;
+  }
+
+  .sm\:min-h-\[25vh\] {
+    min-height: 25vh;
+  }
+
   .sm\:w-10 {
     width: 2.5rem;
   }
@@ -4720,6 +4808,11 @@ select {
     grid-column: span 3 / span 3;
   }
 
+  .md\:mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .md\:mt-0 {
     margin-top: 0px;
   }
@@ -4748,16 +4841,36 @@ select {
     height: 5rem;
   }
 
-  .md\:h-\[60vh\] {
-    height: 60vh;
-  }
-
   .md\:h-24 {
     height: 6rem;
   }
 
+  .md\:h-\[60vh\] {
+    height: 60vh;
+  }
+
   .md\:max-h-24 {
     max-height: 6rem;
+  }
+
+  .md\:min-h-\[50vh\] {
+    min-height: 50vh;
+  }
+
+  .md\:min-h-\[10vh\] {
+    min-height: 10vh;
+  }
+
+  .md\:min-h-\[\] {
+    min-height: ;
+  }
+
+  .md\:min-h-\[35\] {
+    min-height: 35;
+  }
+
+  .md\:min-h-\[35vh\] {
+    min-height: 35vh;
   }
 
   .md\:w-20 {
@@ -4794,10 +4907,6 @@ select {
 
   .md\:justify-between {
     justify-content: space-between;
-  }
-
-  .md\:gap-16 {
-    gap: 4rem;
   }
 
   .md\:gap-2 {
