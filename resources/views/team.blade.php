@@ -43,7 +43,7 @@
             'name' => 'NDE MORIS',
             'role' => 'Graphics Designer',
             'bio' => 'I am a certified graphic designer and I earned my bachelor\'s degree in Communication Design. I work with many companies and offer quality work at the best price. Not only that, but I provide the highest quality services and my purpose is to provide quality graphic design services that you will need to complete your projects. My expertise is in completing all types of work that are related to graphic design. Whether that work is brand identity design, packaging design, photo-editing, or anything else I can do efficiently.',
-            'image' => '/img/team/MORIS.jpeg'
+            'image' => '/img/team/MORIS.jpg'
         ],
         [
             'name' => 'KEPE EDDY',
