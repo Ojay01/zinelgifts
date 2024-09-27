@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f14dab24fa8d189a4a28a2bc9902dd8",
+    "content-hash": "6a65693490c25cd68c94406ec6dbbf69",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1216,6 +1216,58 @@
                 }
             ],
             "time": "2023-12-03T19:50:20+00:00"
+        },
+        {
+            "name": "hachther/mesomb-php",
+            "version": "2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hachther/mesomb-php.git",
+                "reference": "b9728dd18566436c0c8c3a64d37a004518019bf9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hachther/mesomb-php/zipball/b9728dd18566436c0c8c3a64d37a004518019bf9",
+                "reference": "b9728dd18566436c0c8c3a64d37a004518019bf9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MeSomb\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hachther LLC",
+                    "email": "contact@hachther.com"
+                }
+            ],
+            "description": "MeSomb PHP Library",
+            "keywords": [
+                "Orange Money",
+                "api",
+                "mesomb",
+                "mobile money",
+                "payment processing"
+            ],
+            "support": {
+                "issues": "https://github.com/hachther/mesomb-php/issues",
+                "source": "https://github.com/hachther/mesomb-php/tree/2.2.1"
+            },
+            "time": "2024-06-29T11:01:57+00:00"
         },
         {
             "name": "laravel/fortify",

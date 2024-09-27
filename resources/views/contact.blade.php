@@ -41,7 +41,15 @@
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-phone-alt text-yellow-500 mr-3 text-xl"></i>
-                            <a href="tel:+237674199990" class="text-gray-700 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400">Telephone: +237 674 199 990</a>
+                            <a href="tel:+237674199990" class="text-gray-700 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400">Telephone 1: +237 674 199 990</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt text-yellow-500 mr-3 text-xl"></i>
+                            <a href="tel:+237650445587" class="text-gray-700 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400">Telephone 2 +237 650 445 587</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt text-yellow-500 mr-3 text-xl"></i>
+                            <a href="tel:+237653840833" class="text-gray-700 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400">Telephone 3: +237 653 840 833</a>
                         </li>
                         <li class="flex items-center">
                             <i class="fab fa-whatsapp text-yellow-500 mr-3 text-xl"></i>
