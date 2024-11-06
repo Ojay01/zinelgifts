@@ -14,7 +14,7 @@
         </span>
         <i :class="{ 'rotate-180': open }" class="fas fa-chevron-down transition-transform duration-300 ease-in-out ml-2 transform"></i>
     </button>
-    <div x-show="open" class="absolute z-10 w-64 mt-0.5  bg-gray-300 dark:bg-gray-900 border dark:text-yellow-500 border-yellow-300 shadow-lg">
+    <div x-show="open"  x-cloak class="absolute z-10 w-64 mt-0.5  bg-gray-300 dark:bg-gray-900 border dark:text-yellow-500 border-yellow-300 shadow-lg">
         <ul class="py-1">
             @foreach($categories as $category)
                 <li class="relative" 
@@ -33,7 +33,7 @@
                         <i class="fas fa-chevron-right ml-auto text-gray-400"></i>
                     </a>
                     <!-- Subcategories dropdown -->
-                    <div x-show="activeCategory === '{{ $category->name }}'"
+                    <div x-show="activeCategory === '{{ $category->name }}'"  x-cloak
                          class="absolute left-full top-0 w-64 bg-gray-100 dark:bg-gray-800 border border-yellow-300 shadow-lg">
                         <ul class="py-1">
                             @foreach($category->subcategories as $subcategory)

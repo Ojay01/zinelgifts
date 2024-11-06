@@ -53,7 +53,7 @@
                 </button>
 
                 <!-- Dropdown Menu -->
-                <div x-show="open" @click.away="open = false" class="absolute mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-10 dark:bg-black dark:border-yellow-300">
+                <div x-show="open" x-cloak @click.away="open = false" class="absolute mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-10 dark:bg-black dark:border-yellow-300">
                     <ul class="py-2">
                         @foreach($categories as $category)
                         <li>
@@ -267,7 +267,7 @@
                     <span class="mr-2">SELECT CATEGORY</span>
                     <i :class="{ 'rotate-180': open }" class="fas fa-chevron-down transform transition-transform duration-300"></i>
                 </button>
-                <div x-show="open" class="mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-10 dark:bg-gray-900 dark:border-yellow-300">
+                <div x-show="open"   x-cloak class="mt-2 w-full bg-white border border-gray-300 rounded shadow-lg z-10 dark:bg-gray-900 dark:border-yellow-300">
                     <ul class="py-2">
                         @foreach($categories as $category)
                         <li>
