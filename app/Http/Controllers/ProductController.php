@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use App\Models\Color;
 
 class ProductController extends Controller
 {
@@ -13,24 +14,29 @@ class ProductController extends Controller
     {
         // Fetch the category by slug
         $category = ProductCategory::where('name', $categorySlug)->firstOrFail();
-
+    
         // Fetch the subcategory by slug and ensure it belongs to the category
         $subcategory = Subcategory::where('name', $subcategorySlug)
             ->where('category_id', $category->id)
             ->firstOrFail();
-
+    
         // Fetch the product by slug and ensure it belongs to the subcategory
         $product = Product::where('name', $productSlug)
             ->where('subcategory_id', $subcategory->id)
             ->firstOrFail();
-
+    
         // Fetch related products (same category or subcategory)
         $relatedProducts = Product::where('subcategory_id', $subcategory->id)
             ->where('id', '!=', $product->id)
             ->limit(4)
             ->get();
-
-        return view('details', compact('product', 'category', 'subcategory', 'relatedProducts'));
+    
+        // Fetch colors based on the product's color IDs
+        $colors = $product->productColor 
+            ? Color::whereIn('id', $product->productColor->color_ids)->get()
+            : collect(); // Use an empty collection if no colors are found
+    
+        return view('details', compact('product', 'category', 'subcategory', 'relatedProducts', 'colors'));
     }
 
     public function shop(Request $request)

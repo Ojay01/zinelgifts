@@ -67,7 +67,7 @@
             <div>
                 <h3 class="text-2xl font-bold mb-4 text-yellow-500 dark:text-yellow-400">Customer Service</h3>
                 <ul class="space-y-2">
-                    <li><a href="#" class="text-gray-600 dark:text-white/70 hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">My Account</a></li>
+                    <li><a href="{{ route('dashboard') }}" class="text-gray-600 dark:text-white/70 hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">My Account</a></li>
                     <li><a href="#" class="text-gray-600 dark:text-white/70 hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">Order Tracking</a></li>
                     <li><a href="#" class="text-gray-600 dark:text-white/70 hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">Returns & Exchanges</a></li>
                     <li><a href="#" class="text-gray-600 dark:text-white/70 hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-300">Shipping Information</a></li>

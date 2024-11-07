@@ -76,10 +76,17 @@
         </button>
         <div class="flex items-center space-x-4">
             <!-- Login/Register Link (Hidden on small screens) -->
+            @guest
             <a href="{{ route('login') }}" 
                class="text-sm font-medium hidden sm:inline {{ request()->routeIs('login') ? 'text-yellow-500 dark:!text-white' : 'text-gray-800' }} dark:text-yellow-500">
                LOGIN / REGISTER
             </a>
+        @else
+            <a href="{{ route('dashboard') }}" 
+               class="text-sm font-medium hidden sm:inline {{ request()->routeIs('dashboard') ? 'text-yellow-500 dark:!text-white' : 'text-gray-800' }} dark:text-yellow-500">
+               DASHBOARD
+            </a>
+        @endguest
         
             <!-- Mobile Search Toggle Button -->
             <button @click="showSearch = !showSearch" class="sm:hidden text-gray-800 dark:text-yellow-500">

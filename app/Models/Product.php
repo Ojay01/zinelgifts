@@ -31,4 +31,21 @@ class Product extends Model
         // Otherwise, return the original price
         return $this->price;
     }
+
+    public function productColor()
+    {
+        return $this->hasOne(ProductColor::class);
+    }
+    
+    public function colors()
+    {
+        return $this->hasManyThrough(
+            Color::class,
+            ProductColor::class,
+            'product_id',
+            'id',
+            'id',
+            'color_ids'
+        );
+    }
 }

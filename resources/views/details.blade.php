@@ -56,9 +56,54 @@
                             <span class="text-sm text-gray-500 line-through ml-2">₣{{ number_format($product->price, 2) }}</span>
                         @endif
                     </p>
-                    <p class="text-gray-600 dark:text-gray-300 mb-6">{{ $product->description }}</p>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Color
+                        </label>
+                        <div class="flex flex-wrap gap-3">
+                            @if($colors->isNotEmpty())
+                                @foreach($colors as $color)
+                                    <div class="relative">
+                                        <input 
+                                            type="radio" 
+                                            name="color" 
+                                            id="color-{{ $color->id }}" 
+                                            value="{{ $color->id }}" 
+                                            class="sr-only peer"
+                                            @if($loop->first) checked @endif
+                                        >
+                                        <label 
+                                            for="color-{{ $color->id }}" 
+                                            class="block w-9 h-9 rounded-full cursor-pointer border border-gray-300 dark:border-gray-600 relative group"
+                                            style="background-color: {{ $color->value }};"
+                                        >
+                                            <span class="sr-only">{{ $color->name }}</span>
+                    
+                                            <!-- Border when selected -->
+                                            <div class=" inset-0 rounded-full border-2 border-transparent peer-checked:border-green-500 transition duration-200"></div>
+                    
+                                            <!-- Checkmark for selected color -->
+                                            {{-- <span class=" inset-0 hidden peer-checked:flex items-center justify-center">
+                                                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </span> --}}
+                    
+                                            <!-- Tooltip for color name -->
+                                            <span class=" -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                                                {{ ucfirst($color->name) }}
+                                            </span>
+                                        </label>
+                                    </div>
+                                @endforeach
+                            @else
+                                <p class="text-gray-500 dark:text-gray-400">No colors available for this product</p>
+                            @endif
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">{!! Str::limit($product->description, 200) !!}</p>
 
-                    <!-- Size and Color selections here, same as your existing template -->
+  <!-- Size and Color selections here, same as your existing template -->
                     
                     <!-- Add to Cart Button -->
                     <div class="flex items-center mb-6">
@@ -106,7 +151,7 @@
                 <!-- Tab Content -->
                 <div id="description" class="py-6">
                     <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Product Description</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">{{ $product->description }}</p>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">{!! $product->description !!}</p>
                     <!-- Add more product details as necessary -->
                 </div>
 
