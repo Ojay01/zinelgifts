@@ -7,6 +7,8 @@ use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\CartController;
 
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
@@ -51,25 +53,20 @@ Route::get('/our-terms and services', function () {
     return view('terms');
 })->name('terms');
 
-Route::get('/my-cart', function () {
-    return view('cart');
-})->name('cart');
 Route::get('/checkout', function () {
     return view('checkout');
 })->name('checkout');
 
 // Routes for Wishlist
-Route::get('/wishlist', function () {
-    // Example route to show the wishlist
-    return view('wishlist');
-})->name('wishlist');
-
-// Route to remove an item from the wishlist
-Route::post('/wishlist/remove/{id}', function ($id) {
-    // Logic to remove the item from the wishlist
-    return back()->with('message', 'Item removed from wishlist');
-})->name('wishlist.remove');
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
+    Route::post('/wishlist/add/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::post('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::post('/wishlist/remove/product/{id}', [WishlistController::class, 'removeProduct'])->name('wishlist.removeProduct');
+    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::get('/my-cart', [CartController::class, 'index'])->name('cart');
+    Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+});
 // Route to view product details
 Route::get('/product/{id}', function ($id) {
     // Logic to display product details

@@ -64,4 +64,10 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function wishlist()
+{
+    return $this->belongsToMany(Product::class, 'wishlists'); 
+}
+
 }
