@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Models\Slide;
 use App\Models\ProductCategory;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -28,8 +29,12 @@ class HomeController extends Controller
                     'link' => route('category.show', $category->id),  // Assuming you have a route for showing categories
                 ];
             });
+
+            $products = Product::latest()
+            ->take(8)
+            ->get();
         
         // Pass the slides and categories data to the 'welcome' view
-        return view('welcome', compact('slides', 'categories'));
+        return view('welcome', compact('slides', 'categories', 'products'));
     }
 }

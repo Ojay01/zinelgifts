@@ -20,22 +20,30 @@
 
             <div class="flex flex-col lg:flex-row gap-12">
                 <!-- Product Images -->
-                <div class="w-full lg:w-1/2">
+                <div class="w-full lg:w-1/2 ">
                     <div class="relative mb-4">
-                        <div class="overflow-hidden" id="image-zoom-container">
-                            <img id="main-image" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full max-h-[450px] rounded-lg shadow-lg transition-transform duration-300 transform scale-100">
+                        <div class="overflow-hidden cursor-zoom-in rounded-lg shadow-lg" id="image-zoom-container">
+                            <img id="main-image" 
+                                 src="{{ asset('storage/' . $product->image) }}" 
+                                 alt="{{ $product->name }}" 
+                                 class="w-full h-full object-cover transition-transform duration-300">
                         </div>
                     </div>
-
                     <!-- Thumbnails -->
                     <div class="flex gap-2 justify-center" id="thumbnails">
-                        <img src="{{ asset('storage/' . $product->image) }}" id="original-image" alt="Product Image" class="thumbnail w-12 h-12 md:w-20 md:h-20 rounded-lg shadow cursor-pointer border-2 border-transparent hover:opacity-75 transition-opacity duration-300" onclick="changeMainImage(this, this.src)">
-                        @if(!empty($product->additional_images) && is_array($product->additional_images))
-                        @foreach($product->additional_images as $image)
-                            <img src="{{ asset('storage/' . $image) }}" alt="Additional Product Image" class="thumbnail w-12 h-12 md:w-20 md:h-20 rounded-lg shadow cursor-pointer border-2 border-transparent hover:opacity-75 transition-opacity duration-300" onclick="changeMainImage(this, this.src)">
-                        @endforeach
-                    @endif
-                    
+                        <img src="{{ asset('storage/' . $product->image) }}" 
+                             id="original-image" 
+                             alt="Product Image" 
+                             class="thumbnail w-12 h-12 md:w-20 md:h-20 rounded-lg shadow cursor-pointer border-2 border-transparent hover:opacity-75 transition-opacity duration-300" 
+                             onclick="changeMainImage(this, this.src)">
+                        @if($product->productImages->count() > 0)
+                            @foreach($product->productImages as $productImage)
+                                <img src="{{ asset('storage/' . $productImage->image) }}" 
+                                     alt="Additional Product Image" 
+                                     class="thumbnail w-12 h-12 md:w-20 md:h-20 rounded-lg shadow cursor-pointer border-2 border-transparent hover:opacity-75 transition-opacity duration-300" 
+                                     onclick="changeMainImage(this, this.src)">
+                            @endforeach
+                        @endif
                     </div>
                 </div>
 
@@ -207,6 +215,63 @@
     <x-footer />
 
     <script>
-        // Keep the image zoom and tab switching JS the same
-    </script>
+  // Add this script to your page
+function initializeImageHandling() {
+    const mainImage = document.getElementById('main-image');
+    const zoomContainer = document.getElementById('image-zoom-container');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    
+    // Image preview functionality
+    function changeMainImage(element, newSrc) {
+        // Update main image
+        mainImage.src = newSrc;
+        
+        // Remove active border from all thumbnails
+        thumbnails.forEach(thumb => {
+            thumb.classList.remove('border-blue-500');
+            thumb.classList.add('border-transparent');
+        });
+        
+        // Add active border to clicked thumbnail
+        element.classList.remove('border-transparent');
+        element.classList.add('border-blue-500');
+    }
+
+    // Zoom functionality
+    let isZoomed = false;
+    const ZOOM_SCALE = 1.5; // Adjust zoom level here
+
+    function handleZoom(e) {
+        const rect = zoomContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // Calculate position in percentage
+        const xPercent = (x / rect.width) * 100;
+        const yPercent = (y / rect.height) * 100;
+
+        mainImage.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+        
+        if (!isZoomed) {
+            mainImage.style.transform = `scale(${ZOOM_SCALE})`;
+            isZoomed = true;
+        }
+    }
+
+    function handleMouseLeave() {
+        mainImage.style.transform = 'scale(1)';
+        isZoomed = false;
+    }
+
+    // Event listeners for zoom functionality
+    zoomContainer.addEventListener('mousemove', handleZoom);
+    zoomContainer.addEventListener('mouseleave', handleMouseLeave);
+
+    // Make changeMainImage function available globally
+    window.changeMainImage = changeMainImage;
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', initializeImageHandling);
+        </script>
 </x-guest-layout>

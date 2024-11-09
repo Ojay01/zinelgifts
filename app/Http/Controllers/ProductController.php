@@ -22,8 +22,9 @@ class ProductController extends Controller
     
         // Fetch the product by slug and ensure it belongs to the subcategory
         $product = Product::where('name', $productSlug)
-            ->where('subcategory_id', $subcategory->id)
-            ->firstOrFail();
+        ->where('subcategory_id', $subcategory->id)
+        ->with('productImages') // Eager load additional images
+        ->firstOrFail();
     
         // Fetch related products (same category or subcategory)
         $relatedProducts = Product::where('subcategory_id', $subcategory->id)

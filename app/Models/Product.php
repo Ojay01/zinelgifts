@@ -48,4 +48,9 @@ class Product extends Model
             'color_ids'
         );
     }
+
+    public function productImages()
+{
+    return $this->hasMany(ProductImage::class);
+}
 }

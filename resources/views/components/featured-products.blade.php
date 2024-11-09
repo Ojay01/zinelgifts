@@ -1,17 +1,3 @@
-<!-- resources/views/components/enhanced-featured-products-section.blade.php -->
-@props(['specialOffers' => [
-    ['title' => '25 Ideas For Modern Interior', 'subtitle' => 'Adipiscing lorem class', 'image' => 'https://picsum.photos/seed/interior/600/400'],
-    ['title' => 'Beds And Sofas With 15% Discount', 'subtitle' => 'Nullam nunc scelerisque', 'image' => 'https://picsum.photos/seed/bedroom/600/400'],
-]])
-
-@props(['products' => [
-    ['name' => 'Gray Chair', 'image' => 'https://picsum.photos/seed/chair1/300/300', 'price' => 182.00, 'oldPrice' => null, 'category' => 'Retail', 'description' => 'Nec a neque nisi scelerisque ullamcorper parturient quisque justo class dignissim'],
-    ['name' => 'Two Pafs', 'image' => 'https://picsum.photos/seed/paf/300/300', 'price' => 168.00, 'oldPrice' => null, 'category' => 'Retail', 'description' => 'Comfortable and stylish pafs for your living room'],
-    ['name' => 'Gray Chair', 'image' => 'https://picsum.photos/seed/chair2/300/300', 'price' => 126.00, 'oldPrice' => 168.00, 'category' => 'Retail', 'discount' => 25, 'description' => 'Elegant gray chair with modern design'],
-    ['name' => 'Spotlight', 'image' => 'https://picsum.photos/seed/spotlight/300/300', 'price' => 144.00, 'oldPrice' => null, 'category' => 'Retail', 'description' => 'Adjustable spotlight for focused lighting'],
-    ['name' => 'Wooden Table', 'image' => 'https://picsum.photos/seed/table/300/300', 'price' => 155.00, 'oldPrice' => null, 'category' => 'Retail', 'description' => 'Sturdy wooden table for your dining room'],
-    ['name' => 'Wood Wardrobes', 'image' => 'https://picsum.photos/seed/wardrobe/300/300', 'price' => 199.00, 'oldPrice' => null, 'category' => 'Retail', 'description' => 'Spacious wooden wardrobes for ample storage'],
-]])
 
 <section class="py-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800" x-data="{ activeTab: 'special', activeSlide: 0 }">
     <div class="container mx-auto px-4">
@@ -51,7 +37,7 @@
     @foreach($products as $product)
         <div class="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl flex flex-col h-full">
             <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
-                <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product['name'] }}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
                 <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-50 transition-opacity duration-300"></div>
                 @if(isset($product['discount']))
                     <div class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">-{{ $product['discount'] }}%</div>
@@ -62,15 +48,16 @@
                     </button>
                 </div>
             </div>
+
+    <a href="{{ route('details', [$product->category->name, $product->subcategory->name, $product->name]) }}" >
             <div class="p-4 flex-grow flex flex-col justify-between">
                 <div>
                     <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-1 truncate">{{ $product['name'] }}</h3>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-2">{{ $product['category'] }}</p>
-                    <p class="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-2">{{ $product['description'] }}</p>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-3">{{ $product['description'] }}</p>
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-xl font-bold text-yellow-500 dark:text-yellow-400">₣{{ number_format($product['price'], 2) }}</span>
-                        @if(isset($product['oldPrice']))
-                            <span class="text-sm text-gray-500 line-through">₣{{ number_format($product['oldPrice'], 2) }}</span>
+                        @if(isset($product['discounted_price']))
+                            <span class="text-sm text-gray-500 line-through">₣{{ number_format($product['discounted_price'], 2) }}</span>
                         @endif
                     </div>
                 </div>
@@ -88,6 +75,7 @@
                     </button>
                 </div>
             </div>
+        </a>
         </div>
     @endforeach
 </div>
