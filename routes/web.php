@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProfileController;
 
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
@@ -64,8 +65,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
     Route::post('/wishlist/remove/product/{id}', [WishlistController::class, 'removeProduct'])->name('wishlist.removeProduct');
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/update/{product}', [CartController::class, 'updateQuantity'])->name('cart.update');
     Route::get('/my-cart', [CartController::class, 'index'])->name('cart');
     Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+
+    Route::get('my-profile/settings', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/profile/information', [ProfileController::class, 'information'])->name('profile.information');
+    Route::get('/profile/orders', [ProfileController::class, 'orders'])->name('profile.orders');
+    Route::get('/profile/wishlist', [ProfileController::class, 'wishlist'])->name('profile.wishlist');
+    Route::get('/profile/addresses', [ProfileController::class, 'addresses'])->name('profile.addresses');
+    Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
+
 });
 // Route to view product details
 Route::get('/product/{id}', function ($id) {
@@ -78,7 +88,6 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'index']
+    )->name('dashboard');
 });

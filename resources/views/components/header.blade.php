@@ -82,14 +82,15 @@
                LOGIN / REGISTER
             </a>
         @else
-            <a href="{{ route('dashboard') }}" 
-               class="text-sm font-medium hidden sm:inline {{ request()->routeIs('dashboard') ? 'text-yellow-500 dark:!text-white' : 'text-gray-800' }} dark:text-yellow-500">
-               DASHBOARD
+            <a href="{{ route('profile') }}" 
+               class="text-sm font-medium hidden sm:inline {{ request()->routeIs('profile') ? 'text-yellow-500 dark:!text-white' : 'text-gray-800' }} dark:text-yellow-500">
+               PROFILE
             </a>
+         
         @endguest
         
             <!-- Mobile Search Toggle Button -->
-            <button @click="showSearch = !showSearch" class="sm:hidden text-gray-800 dark:text-yellow-500">
+            <button @click="showSearch = !showSearch" x-cloak class="sm:hidden text-gray-800 dark:text-yellow-500">
                 <i class="fas fa-search text-lg"></i>
             </button> 
             
@@ -107,6 +108,16 @@
                     <span class="absolute -top-2 -right-2 bg-gray-800 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center dark:bg-yellow-500 dark:text-black">0</span>
                 </a>
 </div>
+@auth
+<form method="POST" action="{{ route('logout') }}" class="hidden sm:block">
+    @csrf
+    <button type="submit" 
+            class="text-gray-800 hover:text-yellow-500 dark:text-yellow-500 dark:hover:text-yellow-400 transition-colors duration-200"
+            aria-label="Logout">
+        <i class="fas fa-sign-out-alt text-lg"></i>
+    </button>
+</form>
+@endauth
         </div>
         
     </div>
@@ -114,7 +125,7 @@
 
     <!-- Mobile Search Field (conditionally rendered) -->
     <div 
-        x-show="showSearch" 
+        x-show="showSearch" x-cloak
         x-transition:enter="transition ease-out duration-300"
         x-transition:enter-start="opacity-0 transform scale-90"
         x-transition:enter-end="opacity-100 transform scale-100"
