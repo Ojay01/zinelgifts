@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\AdminController;
 
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
@@ -35,12 +36,21 @@ Route::get('/product/shop-today', [ProductController::class, 'shop'])->name('sho
 
 Route::get('/', [HomeController::class, 'index']);
 
+
+
 Route::get('/about-us', function () {
     return view('about');
 })->name('about.us');
 Route::get('/our-team', function () {
     return view('team');
 })->name('team');
+
+
+
+Route::get('/admin', function () {
+    return view('admin.dashboard');
+})->name('admin');
+
 Route::get('/contact-us', function () {
     return view('contact');
 })->name('contact');
@@ -77,6 +87,37 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
 
 });
+
+
+Route::prefix('admin')->group(function () {
+  Route::controller(AdminController::class)->group(function () {
+
+    Route::post('/add-category', 'storeCategory')->name('admin.categories.store');
+        Route::get('/categories', 'categoryIndex')->name('categories.index');
+        Route::get('/categories/create', 'createCategory')->name('categories.create');
+        Route::post('/categories', 'storeCategory')->name('categories.store');
+        Route::get('/categories/{id}/edit', 'editCategory')->name('categories.edit');
+        Route::put('/categories/{id}', 'updateCategory')->name('categories.update');
+        Route::delete('/categories/{id}', 'deleteCategory')->name('categories.destroy');
+
+        Route::get('categories/{category}/subcategories', [AdminController::class, 'subcat'])
+        ->name('subcat');
+    Route::get('categories/{category}/subcategories/create', [AdminController::class, 'create'])
+        ->name('subcategories.create');
+    Route::post('categories/{category}/subcategories', [AdminController::class, 'store'])
+        ->name('subcategories.store');
+    Route::get('categories/{category}/subcategories/{subcategory}/edit', [AdminController::class, 'edit'])
+        ->name('subcategories.edit');
+    Route::put('categories/{category}/subcategories/{subcategory}', [AdminController::class, 'update'])
+        ->name('subcategories.update');
+    Route::delete('categories/{category}/subcategories/{subcategory}', [AdminController::class, 'destroy'])
+        ->name('subcategories.destroy');
+    });
+});
+
+
+
+
 // Route to view product details
 Route::get('/product/{id}', function ($id) {
     // Logic to display product details
