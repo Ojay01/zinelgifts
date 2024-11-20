@@ -10,7 +10,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\AttributeController;
 
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
@@ -90,7 +92,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::prefix('admin')->group(function () {
-  Route::controller(AdminController::class)->group(function () {
+  Route::controller(AdminCategoryController::class)->group(function () {
 
     Route::post('/add-category', 'storeCategory')->name('admin.categories.store');
         Route::get('/categories', 'categoryIndex')->name('categories.index');
@@ -99,20 +101,57 @@ Route::prefix('admin')->group(function () {
         Route::get('/categories/{id}/edit', 'editCategory')->name('categories.edit');
         Route::put('/categories/{id}', 'updateCategory')->name('categories.update');
         Route::delete('/categories/{id}', 'deleteCategory')->name('categories.destroy');
-
-        Route::get('categories/{category}/subcategories', [AdminController::class, 'subcat'])
+        Route::get('categories/{category}/subcategories', 'subcat')
         ->name('subcat');
-    Route::get('categories/{category}/subcategories/create', [AdminController::class, 'create'])
+    Route::get('categories/{category}/subcategories/create', 'create')
         ->name('subcategories.create');
-    Route::post('categories/{category}/subcategories', [AdminController::class, 'store'])
+    Route::post('categories/{category}/subcategories', 'storeSubCat')
         ->name('subcategories.store');
-    Route::get('categories/{category}/subcategories/{subcategory}/edit', [AdminController::class, 'edit'])
-        ->name('subcategories.edit');
-    Route::put('categories/{category}/subcategories/{subcategory}', [AdminController::class, 'update'])
+    Route::put('categories/{category}/subcategories/{subcategory}', 'updateSubCat')
         ->name('subcategories.update');
-    Route::delete('categories/{category}/subcategories/{subcategory}', [AdminController::class, 'destroy'])
+    Route::delete('categories/{category}/subcategories/{subcategory}', 'destroySubCat')
         ->name('subcategories.destroy');
     });
+
+Route::controller(ColorController::class)->group(function () {
+    Route::get('/attributes/colors', 'index')
+    ->name('colors.index');
+
+// Store a new color
+    Route::post('/add-colors', 'store')
+        ->name('colors.store');
+
+    // Update an existing color
+    Route::put('/updte-colors/{color}', 'update')
+        ->name('colors.update');
+
+    // Delete a color
+    Route::delete('/delete-colors/{color}', 'destroy')
+        ->name('colors.destroy');
+    });
+
+    Route::controller(AttributeController::class)->group(function () {
+    Route::get('/attributes/types', 'indexType')->name('types.index');
+    Route::post('/attributes/types', 'storeType')->name('types.store');
+    Route::put('/types/{type}', 'updateType')->name('types.update');
+    Route::delete('/types/{type}', 'destroyType')->name('types.destroy');
+
+    // Quality routes
+    Route::get('/attributes/qualities', 'indexQuality')->name('qualities.index');
+    Route::post('/qualities', 'storeQuality')->name('qualities.store');
+    Route::put('/qualities/{quality}', 'updateQuality')->name('qualities.update');
+    Route::delete('/qualities/{quality}', 'destroyQuality')->name('qualities.destroy');
+
+    // Size routes
+    Route::get('/attributes/sizes', 'sizesIndex')->name('sizes.index');
+    Route::post('/attributes/sizes', 'storeSize')->name('sizes.store');
+    Route::put('/sizes/{size}', 'updateSize')->name('sizes.update');
+    Route::delete('/sizes/{size}', 'destroySize')->name('sizes.destroy');
+});
+
+
+
+
 });
 
 

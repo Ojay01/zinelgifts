@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+use App\Models\Subcategory;
 use Illuminate\Support\Facades\Storage;
 
-class AdminController 
+class CategoryController 
 {
     
     public function categoryIndex()
@@ -89,4 +90,43 @@ public function editCategory($id)
     $category = ProductCategory::findOrFail($id);
     return view('admin.category.edit', compact('category'));
 }
+
+public function subcat(ProductCategory $category)
+    {
+        $subcategories = $category->subcategories()->paginate(10);
+        return view('admin.category.subcat', compact('category', 'subcategories'));
+    }
+
+    public function updateSubCat(Request $request, ProductCategory $category, Subcategory $subcategory)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500'
+        ]);
+
+        $subcategory->update($validated);
+
+        return redirect()->back()
+            ->with('success', 'Subcategory updated successfully');
+    }
+
+    public function storeSubCat(Request $request, ProductCategory $category)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $category->subcategories()->create($validated);
+
+        return redirect()->back()
+            ->with('success', 'Subcategory created successfully');
+    }
+
+    public function destroySubCat(ProductCategory $category, Subcategory $subcategory)
+    {
+        $subcategory->delete();
+
+        return redirect()->back()
+            ->with('success', 'Subcategory deleted successfully');
+    }
 }
