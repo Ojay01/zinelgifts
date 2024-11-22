@@ -35,7 +35,7 @@
                             <td class="px-3 sm:px-6 py-2 sm:py-4">
                                  {{ $type->id }}
                             </td>
-                            <td class="px-3 sm:px-6 py-2 sm:py-4 text-gray-300  hidden md:table-cell">
+                            <td class="px-3 sm:px-6 py-2 sm:py-4 text-gray-300">
                                 {{ $type->name }}
                             </td>
                          

@@ -46,18 +46,26 @@ class="flex flex-col bg-slate-800 z-40 transition-all duration-300 md:translate-
              class="mt-2 space-y-1 overflow-hidden">
             
             <!-- Dashboard -->
-            <a href="#" @click="activeSection = 'dashboard'"
-                    class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
-                    :class="{'bg-blue-500 text-white': activeSection === 'dashboard',
-                            'text-slate-400 hover:bg-slate-700 hover:text-white': activeSection !== 'dashboard'}">
-                <svg class="h-5 w-5" :class="{'text-white': activeSection === 'dashboard'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
-                </svg>
-                <span x-show="sidebarOpen" class="ml-3">Dashboard</span>
-                <div x-show="!sidebarOpen" class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    Dashboard
-                </div>
-            </a>
+            <a href="{{ route('admin') }}" 
+            class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
+            :class="{
+                'bg-blue-500 text-white': '{{ Request::routeIs('admin') }}' ,
+                'text-slate-400 hover:bg-slate-700 hover:text-white': !'{{ Request::routeIs('admin') }}' && activeSection !== 'dashboard'
+            }"
+            @click="activeSection = 'dashboard'">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+            </svg>
+            <span x-show="sidebarOpen" class="ml-3">Dashboard</span>
+            <div x-show="!sidebarOpen" 
+                 class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                Dashboard
+            </div>
+         </a>
+         
+        
+        
 
             <!-- Analytics -->
             <a href="#" @click="activeSection = 'analytics'"
@@ -78,9 +86,10 @@ class="flex flex-col bg-slate-800 z-40 transition-all duration-300 md:translate-
 
     <!-- Products & Inventory -->
     <div class="mb-4">
-        <button @click="openSection = openSection === 'products' ? null : 'products'"
-                class="flex items-center justify-between w-full px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider hover:text-slate-300 transition-colors"
-                x-show="sidebarOpen">
+        <button 
+            @click="openSection = openSection === 'products' ? null : 'products'"
+            class="flex items-center justify-between w-full px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider hover:text-slate-300 transition-colors"
+            x-show="sidebarOpen">
             <span>Products & Inventory</span>
             <svg class="h-4 w-4 transition-transform duration-200"
                  :class="{'rotate-180': openSection === 'products'}"
@@ -88,8 +97,86 @@ class="flex flex-col bg-slate-800 z-40 transition-all duration-300 md:translate-
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
         </button>
-        
-        <div x-show="openSection === 'products' || !sidebarOpen"
+    
+        <div 
+            x-show="openSection === 'products' || '{{ Request::routeIs( 'categories.*', 'subcat' ) }}'"
+            x-transition:enter="transition-all ease-in-out duration-300"
+            x-transition:enter-start="opacity-0 max-h-0"
+            x-transition:enter-end="opacity-100 max-h-96"
+            x-transition:leave="transition-all ease-in-out duration-300"
+            x-transition:leave-start="opacity-100 max-h-96"
+            x-transition:leave-end="opacity-0 max-h-0"
+            class="mt-2 space-y-1">
+            
+            <!-- All Products -->
+            <a href="#"
+               @click="activeSection = 'all-products'"
+               class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
+               :class="{'bg-blue-500 text-white': activeSection === 'all-products',
+                        'text-slate-400 hover:bg-slate-700 hover:text-white': activeSection !== 'all-products'}">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+                <span x-show="sidebarOpen" class="ml-3">All Products</span>
+                <div x-show="!sidebarOpen" 
+                     class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    All Products
+                </div>
+            </a>
+    
+            <!-- Categories -->
+            <a href="{{ route('categories.index') }}"
+               @click="activeSection = 'categories'"
+               class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
+               :class="{
+                    'bg-blue-500 text-white': '{{ Request::routeIs('categories.*', 'subcat') }}',
+                    'text-slate-400 hover:bg-slate-700 hover:text-white': !'{{ Request::routeIs('categories.*', 'subcat') }}' && activeSection !== 'categories'
+                }">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <span x-show="sidebarOpen" class="ml-3">Categories</span>
+                <div x-show="!sidebarOpen" 
+                     class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    Categories
+                </div>
+            </a>
+    
+            <!-- Inventory -->
+            <a href="#"
+               @click="activeSection = 'inventory'"
+               class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
+               :class="{'bg-blue-500 text-white': activeSection === 'inventory',
+                        'text-slate-400 hover:bg-slate-700 hover:text-white': activeSection !== 'inventory'}">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                </svg>
+                <span x-show="sidebarOpen" class="ml-3">Inventory</span>
+                <div x-show="!sidebarOpen" 
+                     class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    Inventory
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="mb-4" x-data="{ 
+        openSection: '{{ Request::routeIs("sizes.index", "types.index", "qualities.index", "colors.index") ? "attributes" : null }}' 
+    }">
+        <!-- Attributes Section -->
+        <button @click="openSection = openSection === 'attributes' ? null : 'attributes'"
+                class="flex items-center justify-between w-full px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider hover:text-slate-300 transition-colors"
+                x-show="sidebarOpen">
+            <span>Attributes</span>
+            <svg class="h-4 w-4 transition-transform duration-200"
+                 :class="{'rotate-180': openSection === 'attributes'}"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </button>
+    
+        <div x-show="openSection === 'attributes' || !sidebarOpen"
              x-transition:enter="transition-all ease-in-out duration-300"
              x-transition:enter-start="opacity-0 max-h-0"
              x-transition:enter-end="opacity-100 max-h-96"
@@ -98,50 +185,65 @@ class="flex flex-col bg-slate-800 z-40 transition-all duration-300 md:translate-
              x-transition:leave-end="opacity-0 max-h-0"
              class="mt-2 space-y-1">
             
-            <!-- All Products -->
-            <a href="#" @click="activeSection = 'all-products'"
-                    class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
-                    :class="{'bg-blue-500 text-white': activeSection === 'all-products',
-                            'text-slate-400 hover:bg-slate-700 hover:text-white': activeSection !== 'all-products'}">
+            <!-- Sizes -->
+            <a href="{{ route('sizes.index') }}" 
+               class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
+               :class="{
+                   'bg-blue-500 text-white': '{{ Request::routeIs('sizes.index') }}',
+                   'text-slate-400 hover:bg-slate-700 hover:text-white': !'{{ Request::routeIs('sizes.index') }}' 
+               }"
+               @click="activeSection = 'sizes'">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18M3 18h18"></path>
                 </svg>
-                <span x-show="sidebarOpen" class="ml-3">All Products</span>
-                <div x-show="!sidebarOpen" class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    All Products
-                </div>
+                <span x-show="sidebarOpen" class="ml-3">Sizes</span>
             </a>
-
-            <!-- Categories -->
-            <a href="#" @click="activeSection = 'categories'"
-                    class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
-                    :class="{'bg-blue-500 text-white': activeSection === 'categories',
-                            'text-slate-400 hover:bg-slate-700 hover:text-white': activeSection !== 'categories'}">
+    
+            <!-- Type -->
+            <a href="{{ route('types.index') }}" 
+               class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
+               :class="{
+                   'bg-blue-500 text-white': '{{ Request::routeIs('types.index') }}',
+                   'text-slate-400 hover:bg-slate-700 hover:text-white': !'{{ Request::routeIs('types.index') }}'
+               }"
+               @click="activeSection = 'types'">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
-                <span x-show="sidebarOpen" class="ml-3">Categories</span>
-                <div x-show="!sidebarOpen" class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    Categories
-                </div>
+                <span x-show="sidebarOpen" class="ml-3">Type</span>
             </a>
-
-            <!-- Inventory -->
-            <a href="#" @click="activeSection = 'inventory'"
-                    class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
-                    :class="{'bg-blue-500 text-white': activeSection === 'inventory',
-                            'text-slate-400 hover:bg-slate-700 hover:text-white': activeSection !== 'inventory'}">
+    
+            <!-- Quality -->
+            <a href="{{ route('qualities.index') }}" 
+               class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
+               :class="{
+                   'bg-blue-500 text-white': '{{ Request::routeIs('qualities.index') }}',
+                   'text-slate-400 hover:bg-slate-700 hover:text-white': !'{{ Request::routeIs('qualities.index') }}'
+               }"
+               @click="activeSection = 'qualities'">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16m-7 6h7m-7 6h7"></path>
                 </svg>
-                <span x-show="sidebarOpen" class="ml-3">Inventory</span>
-                <div x-show="!sidebarOpen" class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    Inventory
-                </div>
+                <span x-show="sidebarOpen" class="ml-3">Quality</span>
+            </a>
+    
+            <!-- Color -->
+            <a href="{{ route('colors.index') }}" 
+               class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
+               :class="{
+                   'bg-blue-500 text-white': '{{ Request::routeIs('colors.index') }}',
+                   'text-slate-400 hover:bg-slate-700 hover:text-white': !'{{ Request::routeIs('colors.index') }}'
+               }"
+               @click="activeSection = 'colors'">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16M4 12h16"></path>
+                </svg>
+                <span x-show="sidebarOpen" class="ml-3">Color</span>
             </a>
         </div>
     </div>
-
+    
+    
     <!-- Orders -->
     <div class="mb-4">
         <button @click="openSection = openSection === 'orders' ? null : 'orders'"
@@ -166,14 +268,14 @@ class="flex flex-col bg-slate-800 z-40 transition-all duration-300 md:translate-
             
             <!-- All Orders -->
             <a href="#" @click="activeSection = 'all-orders'"
-                    class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
+                    class="flex items-center w-32 px-3 py-2 rounded-lg transition-colors group"
                     :class="{'bg-blue-500 text-white': activeSection === 'all-orders',
                             'text-slate-400 hover:bg-slate-700 hover:text-white': activeSection !== 'all-orders'}">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
                 <span x-show="sidebarOpen" class="ml-3">All Orders</span>
-                <div x-show="!sidebarOpen" class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <div x-show="!sidebarOpen" class="absolute w-full left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                     All Orders
                 </div>
             </a>
