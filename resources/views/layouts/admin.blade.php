@@ -55,6 +55,8 @@
 
             <main class="p-4 sm:p-6 md:p-8">
                 <div class="pt-16 mx-auto">
+
+    <div id="toaster" class="fixed top-4 right-4 z-50 space-y-2"></div>
         {{ $slot }}
                 </div>
             </main>
@@ -138,6 +140,72 @@
         const userActivityChart = new ApexCharts(document.querySelector("#userActivityChart"), userActivityOptions);
         userActivityChart.render();
     });
+</script>
+<script>
+    // Check for success or error messages from server
+    document.addEventListener('DOMContentLoaded', function() {
+        @if(session('success'))
+            createToast('{{ session('success') }}', 'success');
+        @endif
+
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                createToast('{{ $error }}', 'error');
+            @endforeach
+        @endif
+    });
+
+    // Image preview function
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById('preview');
+        const previewContainer = document.getElementById('image-preview');
+        
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                previewContainer.classList.remove('hidden');
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            previewContainer.classList.add('hidden');
+        }
+    }
+
+    // Toaster notification function
+    function createToast(message, type = 'info') {
+        const toaster = document.getElementById('toaster');
+        
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.className = `
+            p-4 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out 
+            ${type === 'success' ? 'bg-green-600' : 'bg-red-600'} 
+            text-white flex items-center justify-between
+        `;
+        
+        // Toast content
+        toast.innerHTML = `
+            <span class="mr-4">${message}</span>
+            <button onclick="this.parentElement.remove()" class="ml-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        `;
+
+        // Add to toaster
+        toaster.appendChild(toast);
+
+        // Auto-dismiss after 5 seconds
+        setTimeout(() => {
+            toast.classList.add('translate-x-full', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 5000);
+    }
 </script>
 </body>
 </html>

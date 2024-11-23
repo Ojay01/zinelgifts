@@ -70,4 +70,14 @@ class User extends Authenticatable implements MustVerifyEmail
     return $this->belongsToMany(Product::class, 'wishlists'); 
 }
 
+    public function cart()
+{
+    return $this->belongsToMany(Product::class, 'carts'); 
+}
+
+public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
 }

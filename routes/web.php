@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\AttributeController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
@@ -150,6 +151,23 @@ Route::controller(ColorController::class)->group(function () {
 });
 
 
+Route::controller(UserController::class)->group(function () {
+    Route::get('/users', 'index')
+    ->name('users.index');
+
+    Route::get('/users/{user}/edit', 'edit')
+    ->name('users.edit');
+
+// Update user
+Route::put('/users/{user}', 'update')
+    ->name('users.update');
+
+// Delete user
+Route::delete('/users/{user}', 'destroy')
+    ->name('users.destroy');
+});
+
+Route::get('/profile/{user}', [UserController::class, 'showProfile'])->name('profile.user');
 
 
 });
