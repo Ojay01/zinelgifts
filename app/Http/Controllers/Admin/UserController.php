@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use App\Models\Wishlist;
+use App\Models\Cart;
 
 
 class UserController 
@@ -129,6 +131,38 @@ class UserController
         return view('admin.users.profile.edit', [
             'user' => $user
         ]);
+    }
+
+    public function userWishlist()
+{
+    $wishlists = Wishlist::with(['user', 'product'])
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+    
+    return view('admin.wishlist.index', compact('wishlists'));
+}
+
+public function userCarts()
+    {
+        // Fetch all cart items, eager load the related user and product data
+        $cartItems = Cart::with('user', 'product')->get();
+
+        // Pass the cart items to the view
+        return view('admin.carts.index', compact('cartItems'));
+    }
+
+public function destroyWishlist(Wishlist $wishlist)
+    {
+        try {
+            $wishlist->delete();
+            return redirect()
+                ->back()
+                ->with('success', 'Wishlist item removed successfully.');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Failed to remove wishlist item.');
+        }
     }
 }
 

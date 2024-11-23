@@ -169,7 +169,10 @@ Route::delete('/users/{user}', 'destroy')
 
 Route::get('/profile/{user}', [UserController::class, 'showProfile'])->name('profile.user');
 
+Route::get('/users/wishlists/', [UserController::class, 'userWishlist'])->name('wishlist.user');
+Route::delete('/user/wishlist/{wishlist}', [UserController::class, 'destroyWishlist'])->name('wishlists.destroy');
 
+Route::get('/users/carts/', [UserController::class, 'userCarts'])->name('carts.user');
 });
 
 

@@ -67,19 +67,22 @@ class="flex flex-col bg-slate-800 z-40 transition-all duration-300 md:translate-
         
         
 
-            <!-- Analytics -->
-            <a href="#" @click="activeSection = 'analytics'"
-                    class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
-                    :class="{'bg-blue-500 text-white': activeSection === 'analytics',
-                            'text-slate-400 hover:bg-slate-700 hover:text-white': activeSection !== 'analytics'}">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-                <span x-show="sidebarOpen" class="ml-3">Analytics</span>
-                <div x-show="!sidebarOpen" class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    Analytics
-                </div>
-            </a>
+            <!-- Users -->
+            <a href="{{ route('users.index') }}" 
+            class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
+            :class="{'bg-blue-500 text-white': activeSection === 'users' || '{{ request()->routeIs('users.index', 'profile.user', 'users.edit') ? 'true' : 'false' }}' === 'true',
+                    'text-slate-400 hover:bg-slate-700 hover:text-white': !(activeSection === 'users' || '{{ request()->routeIs('users.index', 'profile.user',  'users.edit') ? 'true' : 'false' }}' === 'true')}">
+             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                       d="M17 20h5v-1a3 3 0 00-3-3h-4a3 3 0 00-3 3v1h5zm-4-6a4 4 0 118 0 4 4 0 01-8 0zM4 20h5v-1a3 3 0 00-3-3H2a3 3 0 00-3 3v1h5zm-4-6a4 4 0 118 0 4 4 0 01-8 0z" />
+             </svg>
+             <span x-show="sidebarOpen" class="ml-3">Users</span>
+             <div x-show="!sidebarOpen" 
+                  class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                 Users
+             </div>
+         </a>
+         
         </div>
     </div>
 
@@ -90,7 +93,7 @@ class="flex flex-col bg-slate-800 z-40 transition-all duration-300 md:translate-
             @click="openSection = openSection === 'products' ? null : 'products'"
             class="flex items-center justify-between w-full px-3 py-2 text-xs font-semibold text-slate-400 uppercase tracking-wider hover:text-slate-300 transition-colors"
             x-show="sidebarOpen">
-            <span>Products & Inventory</span>
+            <span>Products</span>
             <svg class="h-4 w-4 transition-transform duration-200"
                  :class="{'rotate-180': openSection === 'products'}"
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,7 +102,7 @@ class="flex flex-col bg-slate-800 z-40 transition-all duration-300 md:translate-
         </button>
     
         <div 
-            x-show="openSection === 'products' || '{{ Request::routeIs( 'categories.*', 'subcat' ) }}'"
+            x-show="openSection === 'products' || '{{ Request::routeIs( 'categories.*', 'subcat', 'wishlist.user', 'carts.user' ) }}'"
             x-transition:enter="transition-all ease-in-out duration-300"
             x-transition:enter-start="opacity-0 max-h-0"
             x-transition:enter-end="opacity-100 max-h-96"
@@ -144,20 +147,40 @@ class="flex flex-col bg-slate-800 z-40 transition-all duration-300 md:translate-
             </a>
     
             <!-- Inventory -->
-            <a href="#"
-               @click="activeSection = 'inventory'"
-               class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
-               :class="{'bg-blue-500 text-white': activeSection === 'inventory',
-                        'text-slate-400 hover:bg-slate-700 hover:text-white': activeSection !== 'inventory'}">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
-                </svg>
-                <span x-show="sidebarOpen" class="ml-3">Inventory</span>
-                <div x-show="!sidebarOpen" 
-                     class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    Inventory
-                </div>
-            </a>
+            <a href="{{route('wishlist.user')}}"
+            @click="activeSection = 'wishlist'"
+            class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
+            :class="{'bg-blue-500 text-white': '{{ Request::routeIs('wishlist.user') }}',
+                     'text-slate-400 hover:bg-slate-700 hover:text-white': !'{{ Request::routeIs('wishlist.user') }}' && activeSection !== 'wishlist'}">
+             <!-- Wishlist Icon -->
+             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                       d="M4 6.5C4 4.014 6.014 2 8.5 2S13 4.014 13 6.5C13 9 8.5 12 8.5 12S4 9 4 6.5zM8.5 4a2.5 2.5 0 000 5 2.5 2.5 0 000-5z" />
+             </svg>
+             <span x-show="sidebarOpen" class="ml-3">Users Wishlist</span>
+             <div x-show="!sidebarOpen" 
+                  class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                 User's Wishlist
+             </div>
+         </a>
+         
+         <a href="{{route('carts.user')}}"
+            @click="activeSection = 'carts'"
+            class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
+            :class="{'bg-blue-500 text-white': '{{ Request::routeIs('carts.user') }}',
+                     'text-slate-400 hover:bg-slate-700 hover:text-white': !'{{ Request::routeIs('carts.user') }}' && activeSection !== 'carts'}">
+             <!-- Cart Icon -->
+             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                       d="M3 3h2l.4 2M6 6h15l1-2H6M6 6l-1 8h13l1-8H6M8 16a2 2 0 110 4 2 2 0 010-4zm8 0a2 2 0 110 4 2 2 0 010-4z" />
+             </svg>
+             <span x-show="sidebarOpen" class="ml-3">Carts</span>
+             <div x-show="!sidebarOpen" 
+                  class="absolute left-20 ml-1 px-2 py-1 bg-slate-900 text-white text-sm rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                 Carts
+             </div>
+         </a>
+         
         </div>
     </div>
 
