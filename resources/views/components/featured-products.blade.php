@@ -53,7 +53,10 @@
             <div class="p-4 flex-grow flex flex-col justify-between">
                 <div>
                     <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-1 truncate">{{ $product['name'] }}</h3>
-                    <p class="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-3">{{ $product['description'] }}</p>
+                    <p class="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-3">
+                        {{ strip_tags($product['description']) }}
+                    </p>
+                    
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-xl font-bold text-yellow-500 dark:text-yellow-400">₣{{ number_format($product['price'], 2) }}</span>
                         @if(isset($product['discounted_price']))

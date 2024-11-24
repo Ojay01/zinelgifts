@@ -6,6 +6,7 @@ use App\Http\Controllers\SocialController;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
@@ -19,6 +20,9 @@ Route::post('/contact', [ContactController::class, 'send'])->name('contact.send'
 Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
 Route::get('/login/{provider}', [SocialController::class, 'redirect'])->name('social.login');
 Route::get('/login/{provider}/callback', [SocialController::class, 'callback']);
+
+Route::get('/api/categories/{category}/subcategories', [ProductsController::class, 'getSubcategories']);
+
 
 //blogs
 Route::get('/blogs', [BlogPostController::class, 'index'])->name('blogs');
@@ -165,14 +169,39 @@ Route::put('/users/{user}', 'update')
 // Delete user
 Route::delete('/users/{user}', 'destroy')
     ->name('users.destroy');
+
+
+Route::get('/profile/{user}',  'showProfile')->name('profile.user');
+
+Route::get('/users/wishlists/',  'userWishlist')->name('wishlist.user');
+Route::delete('/user/wishlist/{wishlist}',  'destroyWishlist')->name('wishlists.destroy');
+
+Route::get('/users/carts/', 'userCarts')->name('carts.user');
 });
 
-Route::get('/profile/{user}', [UserController::class, 'showProfile'])->name('profile.user');
 
-Route::get('/users/wishlists/', [UserController::class, 'userWishlist'])->name('wishlist.user');
-Route::delete('/user/wishlist/{wishlist}', [UserController::class, 'destroyWishlist'])->name('wishlists.destroy');
+Route::controller(ProductsController::class)->group(function () {
+    Route::get('/product/all-products', 'index')
+    ->name('products.index');
 
-Route::get('/users/carts/', [UserController::class, 'userCarts'])->name('carts.user');
+    Route::get('/product/create-product', 'create')
+    ->name('products.create');
+
+    Route::get('/product/edit/{product}', 'edit')
+    ->name('products.edit');
+
+    Route::delete('/product/destroy/{id}', 'destroy')
+    ->name('products.destroy');
+
+    Route::put('/product/update/{product}', 'update')
+    ->name('products.update');
+
+    Route::post('/product/store/', 'store')
+    ->name('products.store');
+
+
+});
+
 });
 
 
@@ -183,6 +212,7 @@ Route::get('/product/{id}', function ($id) {
     // Logic to display product details
     return view('product-details', ['id' => $id]);
 })->name('product.details');
+
 
 Route::middleware([
     'auth:sanctum',

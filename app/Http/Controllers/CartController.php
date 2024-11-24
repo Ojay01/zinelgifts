@@ -10,31 +10,69 @@ use Illuminate\Http\Request;
 class CartController extends Controller
 {
 
-    public function add(Product $product)
+    public function add(Request $request, Product $product)
     {
         $user = auth()->user();
         
-        // Check if product already exists in user's cart
+        // Validate the request input
+        $validated = $request->validate([
+            'attributes.size_id' => 'nullable|integer|exists:sizes,id',
+            'attributes.quality_id' => 'nullable|integer|exists:qualities,id',
+            'attributes.type_id' => 'nullable|integer|exists:types,id',
+            'attributes.color_id' => 'nullable|integer|exists:colors,id',
+            'short_note' => 'nullable|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5048', // Validate photo
+        ]);
+        
+        // Extract attributes, short_note, and photo
+        $attributes = $validated['attributes'] ?? [];
+        $shortNote = $validated['short_note'] ?? null;
+        $photo = $request->file('photo');  // Handle the photo upload
+    
+        // Initialize the photo path as null
+        $photoPath = null;
+    
+        // If a photo is uploaded, store it in the 'carts' folder
+        if ($photo) {
+            $photoPath = $photo->store('carts', 'public'); // Store the photo in the 'carts' folder
+        }
+        
+        // Check if the product already exists in the user's cart
         $cartItem = Cart::where('user_id', $user->id)
-                       ->where('product_id', $product->id)
-                       ->first();
+                        ->where('product_id', $product->id)
+                        ->first();
         
         if ($cartItem) {
-            // If product exists, increment quantity
+            // If product exists, increment quantity and update attributes, note, and photo
             $cartItem->increment('quantity');
+            $cartItem->update([
+                'attributes' => $attributes,
+                'short_note' => $shortNote,
+                'photo' => $photoPath,  // Update the photo if uploaded
+            ]);
         } else {
-            // If product doesn't exist, create new cart item
+            // If product doesn't exist, create a new cart item
             Cart::create([
                 'user_id' => $user->id,
                 'product_id' => $product->id,
-                'quantity' => 1
+                'quantity' => 1,
+                'attributes' => $attributes,
+                'short_note' => $shortNote,
+                'photo' => $photoPath,  // Store the photo in the 'carts' folder when creating a new cart item
             ]);
         }
+        
+        // Remove product from wishlist if it exists
         Wishlist::where('user_id', $user->id)
-        ->where('product_id', $product->id)
-        ->delete(); 
+            ->where('product_id', $product->id)
+            ->delete();
+        
         return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
+    
+    
+
+    
 
     public function index()
     {

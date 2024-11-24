@@ -1,213 +1,368 @@
 <x-guest-layout>
     <x-header />
 
-    <div class="bg-gray-100 dark:bg-gray-900 py-16">
+    <div class="bg-gray-100 dark:bg-gray-900 py-8 md:py-16">
         <div class="container mx-auto px-4">
             <!-- Breadcrumb -->
             <nav class="text-sm mb-6">
-                <ol class="list-none p-0 inline-flex">
+                <ol class="list-none p-0 inline-flex flex-wrap">
                     <li class="flex items-center text-gray-600 dark:text-gray-400">
                         <a href="{{ url('/') }}" class="hover:text-yellow-500">Home</a>
-                        <svg class="fill-current w-3 h-3 mx-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+                        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
                     </li>
                     <li class="flex items-center text-gray-600 dark:text-gray-400">
                         <a href="{{ route('category.show', $product->category->id) }}" class="hover:text-yellow-500">{{ $product->category->name }}</a>
-                        <svg class="fill-current w-3 h-3 mx-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"/></svg>
+                        <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
                     </li>
-                    <li class="flex items-center text-yellow-500">{{ $product->subcategory->name }}</li>
+                    <li class="text-yellow-500">{{ $product->subcategory->name }}</li>
                 </ol>
             </nav>
 
-            <div class="flex flex-col lg:flex-row gap-12">
+            <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
                 <!-- Product Images -->
-                <div class="w-full lg:w-1/2 ">
-                    <div class="relative mb-4">
-                        <div class="overflow-hidden cursor-zoom-in rounded-lg shadow-lg" id="image-zoom-container">
+                <div class="w-full lg:w-1/2">
+                    <div class="relative mb-4 rounded-xl overflow-hidden">
+                        <div class="aspect-w-1 aspect-h-1">
                             <img id="main-image" 
-                                 src="{{ asset('storage/' . $product->image) }}" 
-                                 alt="{{ $product->name }}" 
-                                 class="w-full h-full object-cover transition-transform duration-300">
+                                src="{{ asset('storage/' . $product->image) }}" 
+                                alt="{{ $product->name }}"
+                                class="w-full h-full object-cover"
+                            >
                         </div>
+                        
+                        <!-- Navigation Arrows -->
+                        <button 
+                            onclick="prevImage()"
+                            class="absolute left-4 top-1/2 -translate-y-1/2 bg-yellow-500 p-2 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all"
+                        >
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <button 
+                            onclick="nextImage()"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 bg-yellow-500 p-2 rounded-full shadow-lg hover:bg-white dark:hover:bg-gray-800 transition-all"
+                        >
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
                     </div>
-                    <!-- Thumbnails -->
-                    <div class="flex gap-2 justify-center" id="thumbnails">
-                        <img src="{{ asset('storage/' . $product->image) }}" 
-                             id="original-image" 
-                             alt="Product Image" 
-                             class="thumbnail w-12 h-12 md:w-20 md:h-20 rounded-lg shadow cursor-pointer border-2 border-transparent hover:opacity-75 transition-opacity duration-300" 
-                             onclick="changeMainImage(this, this.src)">
-                        @if($product->productImages->count() > 0)
-                            @foreach($product->productImages as $productImage)
-                                <img src="{{ asset('storage/' . $productImage->image) }}" 
-                                     alt="Additional Product Image" 
-                                     class="thumbnail w-12 h-12 md:w-20 md:h-20 rounded-lg shadow cursor-pointer border-2 border-transparent hover:opacity-75 transition-opacity duration-300" 
-                                     onclick="changeMainImage(this, this.src)">
-                            @endforeach
-                        @endif
+
+                    <!-- Thumbnails Slider -->
+                    <div class="relative">
+                        <div class="flex gap-2 overflow-x-auto pb-2 snap-x scrollbar-hide" id="thumbnails">
+                            <img 
+                                src="{{ asset('storage/' . $product->image) }}" 
+                                alt="{{ $product->name }}"
+                                class="thumbnail flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden snap-start cursor-pointer border-2 border-transparent hover:border-yellow-500 transition-all"
+                                onclick="changeMainImage(this, this.src)"
+                            >
+                            @if($product->productImages->count() > 0)
+                                @foreach($product->productImages as $productImage)
+                                    <img 
+                                        src="{{ asset('storage/' . $productImage->image) }}" 
+                                        alt="Additional Product Image"
+                                        class="thumbnail flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden snap-start cursor-pointer border-2 border-transparent hover:border-yellow-500 transition-all"
+                                        onclick="changeMainImage(this, this.src)"
+                                    >
+                                @endforeach
+                            @endif
+                        </div>
                     </div>
                 </div>
 
                 <!-- Product Details -->
                 <div class="w-full lg:w-1/2">
                     <h1 class="text-3xl font-bold mb-4 text-gray-800 dark:text-white">{{ $product->name }}</h1>
+                    
+                    <!-- Reviews -->
                     <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-400 mr-2">
+                        <div class="flex text-gray-400 mr-2">
                             @for ($i = 1; $i <= 5; $i++)
-                                <i class="fas fa-star"></i>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                                </svg>
                             @endfor
                         </div>
                         <span class="text-gray-600 dark:text-gray-400">({{ $product->reviews_count ?? 0 }} reviews)</span>
                     </div>
-                    <p class="text-2xl font-bold text-yellow-500 dark:text-yellow-400 mb-4">
-                        ₣{{ number_format($product->discounted_price, 2) }} 
+
+                    <!-- Price -->
+                    <div class="mb-8">
+                        <span class="text-3xl font-bold text-yellow-500">₣{{ number_format($product->discounted_price, 2) }}</span>
                         @if ($product->discount > 0)
-                            <span class="text-sm text-gray-500 line-through ml-2">₣{{ number_format($product->price, 2) }}</span>
+                            <span class="ml-2 text-gray-500 line-through">₣{{ number_format($product->price, 2) }}</span>
                         @endif
-                    </p>
+                    </div>
+                    <form action="{{ route('cart.add', $product->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                    <!-- Attributes -->
+                    @if($colors->isNotEmpty())
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Color
-                        </label>
+                        <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Color</h3>
                         <div class="flex flex-wrap gap-3">
-                            @if($colors->isNotEmpty())
-                                @foreach($colors as $color)
-                                    <div class="relative">
-                                        <input 
-                                            type="radio" 
-                                            name="color" 
-                                            id="color-{{ $color->id }}" 
-                                            value="{{ $color->id }}" 
-                                            class="sr-only peer"
-                                            @if($loop->first) checked @endif
-                                        >
-                                        <label 
-                                            for="color-{{ $color->id }}" 
-                                            class="block w-9 h-9 rounded-full cursor-pointer border border-gray-300 dark:border-gray-600 relative group"
-                                            style="background-color: {{ $color->value }};"
-                                        >
-                                            <span class="sr-only">{{ $color->name }}</span>
-                    
-                                            <!-- Border when selected -->
-                                            <div class=" inset-0 rounded-full border-2 border-transparent peer-checked:border-green-500 transition duration-200"></div>
-                    
-                                            <!-- Checkmark for selected color -->
-                                            {{-- <span class=" inset-0 hidden peer-checked:flex items-center justify-center">
-                                                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
-                                                </svg>
-                                            </span> --}}
-                    
-                                            <!-- Tooltip for color name -->
-                                            <span class=" -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
-                                                {{ ucfirst($color->name) }}
-                                            </span>
-                                        </label>
-                                    </div>
-                                @endforeach
-                            @else
-                                <p class="text-gray-500 dark:text-gray-400">No colors available for this product</p>
-                            @endif
+                            @foreach($colors as $color)
+                                <div class="relative group">
+                                    <input 
+                                        type="radio" 
+                                        name="attributes[color_id]" 
+                                        id="color-{{ $color->id }}" 
+                                        value="{{ $color->id }}"
+                                        onclick="selectColor(this)"
+                                        class="sr-only"
+                                        @if($loop->first) checked @endif
+                                    >
+                                    <label 
+                                        for="color-{{ $color->id }}"
+                                        class="block w-10 h-10 rounded-full cursor-pointer border-2 border-transparent transition-all relative"
+                                        style="background-color: {{ $color->value }};"
+                                    >
+                                        <span class="sr-only dark:text-white ">{{ $color->name }}</span>
+                                    </label>
+                                    <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap dark:text-white  text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                                        {{ ucfirst($color->name) }}
+                                    </span>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-300 mb-6">{!! Str::limit($product->description, 200) !!}</p>
-
-  <!-- Size and Color selections here, same as your existing template -->
                     
-                    <!-- Add to Cart Button -->
-                    <div class="flex items-center mb-6">
-                        <div class="mr-4">
-                            <label for="quantity" class="sr-only">Quantity</label>
-                            <input type="number" id="quantity" name="quantity" min="1" value="1" class="w-16 px-3 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    <script>
+                    // Add this to your existing script section or create a new one
+                    function selectColor(element) {
+                        // Remove selected class from all color labels
+                        document.querySelectorAll('input[name="color"] + label').forEach(label => {
+                            label.style.borderColor = 'transparent';
+                        });
+                        
+                        // Add selected class to clicked color label
+                        element.nextElementSibling.style.borderColor = '#c19d56'; // orange-500
+                    }
+                    
+                    // Add this to your existing DOMContentLoaded event or create a new one
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Initialize Color selection
+                        const firstColor = document.querySelector('input[name="color"]:checked');
+                        if (firstColor) {
+                            selectColor(firstColor);
+                        }
+                    });
+                    </script>
+                    @endif
+        
+                    <!-- Sizes Section -->
+                    @if($sizes->isNotEmpty())
+                    <div class="mb-6">
+                        <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Size</h3>
+                        <div class="flex flex-wrap gap-3">
+                            @foreach($sizes as $size)
+                                <div class="relative">
+                                    <input 
+                                        type="radio" 
+                                        name="attributes[size_id]" 
+                                        id="size-{{ $size->id }}" 
+                                        value="{{ $size->id }}"
+                                        onclick="selectSize(this)"
+                                        class="sr-only"
+                                        @if($loop->first) checked @endif
+                                    >
+                                    <label 
+                                        for="size-{{ $size->id }}"
+                                        class=" min-w-[2.5rem] h-10 dark:text-white  px-3 rounded-lg cursor-pointer border-2 border-gray-200 flex items-center justify-center text-sm font-medium transition-all"
+                                    >
+                                        {{ ucfirst($size->name) }}
+                                    </label>
+                                </div>
+                            @endforeach
                         </div>
-                        <button class="flex-grow bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md transition-colors duration-300">
+                    </div>
+                    
+                    <script>
+                    function selectSize(element) {
+                        // Remove selected class from all size labels
+                        document.querySelectorAll('input[name="size"] + label').forEach(label => {
+                            label.style.borderColor = '#e5e7eb'; // gray-200
+                        });
+                        
+                        // Add selected class to clicked size label
+                        element.nextElementSibling.style.borderColor = '#c19d56'; // orange-500
+                    }
+                    
+                    // Initialize the first size as selected
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const firstSize = document.querySelector('input[name="size"]:checked');
+                        if (firstSize) {
+                            selectSize(firstSize);
+                        }
+                    });
+                    </script>
+                    @endif
+        
+                    <!-- Types Section -->
+                   <!-- Types Section -->
+@if($types->isNotEmpty())
+<div class="mb-6">
+    <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Type</h3>
+    <div class="flex flex-wrap gap-3">
+        @foreach($types as $type)
+            <div class="relative">
+                <input 
+                    type="radio" 
+                    name="attributes[type_id]" 
+                    id="type-{{ $type->id }}" 
+                    value="{{ $type->id }}"
+                    onclick="selectAttribute(this, 'type')"
+                    class="sr-only"
+                    @if($loop->first) checked @endif
+                >
+                <label 
+                    for="type-{{ $type->id }}"
+                    class=" min-w-[2.5rem] dark:text-white  h-10 px-3 rounded-lg cursor-pointer border-2 border-gray-200 flex items-center justify-center text-sm font-medium transition-all"
+                >
+                    {{ ucfirst($type->name) }}
+                </label>
+            </div>
+        @endforeach
+    </div>
+</div>
+@endif
+
+<!-- Qualities Section -->
+@if($qualities->isNotEmpty())
+<div class="mb-6">
+    <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Quality</h3>
+    <div class="flex flex-wrap gap-3">
+        @foreach($qualities as $quality)
+            <div class="relative">
+                <input 
+                    type="radio" 
+                    name="attributes[quality_id]" 
+                    id="quality-{{ $quality->id }}" 
+                    value="{{ $quality->id }}"
+                    onclick="selectAttribute(this, 'quality')"
+                    class="sr-only"
+                    @if($loop->first) checked @endif
+                >
+                <label 
+                    for="quality-{{ $quality->id }}"
+                    class=" min-w-[2.5rem] dark:text-white  h-10 px-3 rounded-lg cursor-pointer border-2 border-gray-200 flex items-center justify-center text-sm font-medium transition-all"
+                >
+                    {{ ucfirst($quality->name) }}
+                </label>
+            </div>
+        @endforeach
+    </div>
+</div>
+@endif
+
+<script>
+function selectAttribute(element, attributeType) {
+    // Remove selected class from all labels of this attribute type
+    document.querySelectorAll(`input[name="${attributeType}"] + label`).forEach(label => {
+        label.style.borderColor = '#e5e7eb'; // gray-200
+        label.style.backgroundColor = 'transparent';
+    });
+    
+    // Add selected styles to clicked label
+    element.nextElementSibling.style.borderColor = '#c19d56'; // orange-500\
+}
+
+// Initialize the first selected items
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Type
+    const firstType = document.querySelector('input[name="type"]:checked');
+    if (firstType) {
+        selectAttribute(firstType, 'type');
+    }
+    
+    // Initialize Quality
+    const firstQuality = document.querySelector('input[name="quality"]:checked');
+    if (firstQuality) {
+        selectAttribute(firstQuality, 'quality');
+    }
+});
+</script>
+
+<!-- Note Section - With working character counter -->
+<div class="mb-6" x-data="{ charCount: 0, photoPreview: null }">
+    <label for="note" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        Special Instructions
+        <span class="text-gray-500 text-xs ml-1">(Optional)</span>
+    </label>
+    <div class="relative">
+        <textarea
+            name="short_note"
+            id="note"
+            rows="3"
+            maxlength="500"
+            placeholder="Add any special instructions or notes for this order..."
+            x-on:input="charCount = $el.value.length"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:placeholder-gray-500 resize-none"
+        ></textarea>
+        <div class="absolute bottom-2 right-2 text-xs text-gray-500 dark:text-gray-400">
+            <span x-text="charCount">0</span>/500
+        </div>
+    </div>
+    @error('short_note')
+        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+    @enderror
+
+    <div class="mt-4">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Upload a Photo (Optional)
+        </label>
+        <input
+            type="file"
+            name="photo"
+            accept="image/*"
+            x-on:change="photoPreview = URL.createObjectURL($event.target.files[0])"
+            class="block w-full text-sm text-gray-500 dark:text-gray-400 border border-gray-300 rounded-lg cursor-pointer focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-500"
+        />
+        <div
+            x-show="photoPreview"
+            class="mt-4 border border-gray-300 rounded-lg overflow-hidden w-40 h-40"
+        >
+            <img
+                :src="photoPreview"
+                alt="Preview"
+                class="w-full h-full object-cover"
+            />
+        </div>
+    </div>
+</div>
+
+                    <!-- Add to Cart -->
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-24">
+                            <input 
+                                type="number"
+                                min="1"
+                                value="1"
+                                class="w-full px-3 py-2 border dark:text-white  border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 dark:bg-gray-800 dark:border-gray-700"
+                            >
+                        </div>
+                        <button class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-6 rounded-lg transition-colors">
                             Add to Cart
                         </button>
                     </div>
 
-                    <!-- Product Meta Information -->
-                    <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
-                        <p class="text-gray-600 dark:text-gray-400 mb-2">
-                            <span class="font-semibold text-gray-700 dark:text-gray-300">Category:</span> {{ $product->category->name }}
-                        </p>
-                        <p class="text-gray-600 dark:text-gray-400 mb-2">
-                            <span class="font-semibold text-gray-700 dark:text-gray-300">Tags:</span> 
-                            {{ is_array($product->tags) ? implode(', ', $product->tags) : $product->tags }}
-                        </p>                        
-                        <p class="text-gray-600 dark:text-gray-400">
-                            <span class="font-semibold text-gray-700 dark:text-gray-300">SKU:</span> 
-                        </p>
+                    <!-- Description -->
+                    <div class="prose dark:prose-invert max-w-none">
+                        {!! $product->description !!}
                     </div>
+                    </form>
                 </div>
             </div>
 
-            <!-- Product Information Tabs -->
+            <!-- Reviews Section -->
             <div class="mt-16">
-                <div class="border-b border-gray-200 dark:border-gray-700">
-                    <nav class="-mb-px flex space-x-8">
-                        <a href="#" class="border-yellow-500 text-yellow-500 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" onclick="showTab('description')">
-                            Description
-                        </a>
-                        <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" onclick="showTab('additional-info')">
-                            Additional Information
-                        </a>
-                        <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" onclick="showTab('reviews')">
-                            Reviews
-                        </a>
-                    </nav>
-                </div>
-
-                <!-- Tab Content -->
-                <div id="description" class="py-6">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Product Description</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">{!! $product->description !!}</p>
-                    <!-- Add more product details as necessary -->
-                </div>
-
-                <!-- Additional Info and Reviews tabs remain the same -->
-            </div>
-
-            <!-- Related Products Section -->
-            <div class="mt-16">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Related Products</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    @foreach($relatedProducts as $relatedProduct)
-                        <div class="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl flex flex-col h-full">
-                            <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
-                                <img src="{{ asset('storage/' . $relatedProduct->image) }}" alt="{{ $relatedProduct->name }}" class="w-full h-full max-h-80 object-cover transition-transform duration-300 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-50 transition-opacity duration-300"></div>
-                                @if ($relatedProduct->discount)
-                                <div class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
-                                    -{{ $relatedProduct->discount }}%
-                                </div>
-                            @endif
-                                <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                    <button class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
-                                        <i class="fas fa-shopping-cart"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="p-4 flex-grow flex flex-col justify-between">
-                                <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-1 truncate">{{ $relatedProduct->name }}</h3>
-                                <p class="text-gray-600 dark:text-gray-300 text-sm mb-2">{{ $relatedProduct->category->name }}</p>
-                                <p class="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-2">{{ $relatedProduct->description }}</p>
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="text-xl font-bold text-yellow-500 dark:text-yellow-400">₣{{ number_format($relatedProduct->discounted_price, 2) }}</span>
-                                    @if ($relatedProduct->discount)
-                                    <span class="text-sm line-through  text-gray-500">₣{{ number_format($relatedProduct->price, 2) }}</span>
-                                    @endif
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <button class="text-gray-400 hover:text-red-500 transition-colors duration-300" title="Add to Wishlist">
-                                        <i class="far fa-heart"></i>
-                                    </button>
-                                    <a href="{{ route('details', [$relatedProduct->category->name, $relatedProduct->subcategory->name, $relatedProduct->name]) }}" class="text-yellow-500 text-end hover:underline mt-2 block">
-                                        View Product
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
+                <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Reviews</h2>
+                <!-- Add your reviews content here -->
             </div>
         </div>
     </div>
@@ -215,63 +370,58 @@
     <x-footer />
 
     <script>
-  // Add this script to your page
-function initializeImageHandling() {
+document.addEventListener('DOMContentLoaded', function() {
     const mainImage = document.getElementById('main-image');
-    const zoomContainer = document.getElementById('image-zoom-container');
     const thumbnails = document.querySelectorAll('.thumbnail');
-    
-    // Image preview functionality
+    let currentImageIndex = 0;
+    const totalImages = thumbnails.length;
+
     function changeMainImage(element, newSrc) {
-        // Update main image
         mainImage.src = newSrc;
-        
-        // Remove active border from all thumbnails
         thumbnails.forEach(thumb => {
-            thumb.classList.remove('border-blue-500');
+            thumb.classList.remove('border-yellow-500');
             thumb.classList.add('border-transparent');
         });
-        
-        // Add active border to clicked thumbnail
         element.classList.remove('border-transparent');
-        element.classList.add('border-blue-500');
-    }
-
-    // Zoom functionality
-    let isZoomed = false;
-    const ZOOM_SCALE = 1.5; // Adjust zoom level here
-
-    function handleZoom(e) {
-        const rect = zoomContainer.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        element.classList.add('border-yellow-500');
         
-        // Calculate position in percentage
-        const xPercent = (x / rect.width) * 100;
-        const yPercent = (y / rect.height) * 100;
-
-        mainImage.style.transformOrigin = `${xPercent}% ${yPercent}%`;
-        
-        if (!isZoomed) {
-            mainImage.style.transform = `scale(${ZOOM_SCALE})`;
-            isZoomed = true;
-        }
+        // Update current index
+        currentImageIndex = Array.from(thumbnails).indexOf(element);
     }
 
-    function handleMouseLeave() {
-        mainImage.style.transform = 'scale(1)';
-        isZoomed = false;
+    function nextImage() {
+        currentImageIndex = (currentImageIndex + 1) % totalImages;
+        const nextThumb = thumbnails[currentImageIndex];
+        changeMainImage(nextThumb, nextThumb.src);
+        scrollThumbnailIntoView(nextThumb);
     }
 
-    // Event listeners for zoom functionality
-    zoomContainer.addEventListener('mousemove', handleZoom);
-    zoomContainer.addEventListener('mouseleave', handleMouseLeave);
+    function prevImage() {
+        currentImageIndex = (currentImageIndex - 1 + totalImages) % totalImages;
+        const prevThumb = thumbnails[currentImageIndex];
+        changeMainImage(prevThumb, prevThumb.src);
+        scrollThumbnailIntoView(prevThumb);
+    }
 
-    // Make changeMainImage function available globally
+    function scrollThumbnailIntoView(thumbnail) {
+        const thumbnailsContainer = document.getElementById('thumbnails');
+        thumbnailsContainer.scrollTo({
+            left: thumbnail.offsetLeft - thumbnailsContainer.offsetWidth / 2 + thumbnail.offsetWidth / 2,
+            behavior: 'smooth'
+        });
+    }
+
+    // Initialize the first image as selected
+    if (thumbnails.length > 0) {
+        thumbnails[0].classList.remove('border-transparent');
+        thumbnails[0].classList.add('border-yellow-500');
+    }
+
+    // Make functions available globally
     window.changeMainImage = changeMainImage;
-}
+    window.nextImage = nextImage;
+    window.prevImage = prevImage;
+});
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeImageHandling);
-        </script>
+                </script>
 </x-guest-layout>
