@@ -9,6 +9,7 @@ use App\Models\Color;
 use App\Models\Size;
 use App\Models\Type;
 use App\Models\Quality;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +38,7 @@ class ProductsController
     public function edit(Product $product)
     {
         // Eager load relationships to reduce database queries
-        $product->load(['attributes', 'category', 'subcategory']);
+        $product->load(['attributes', 'category', 'subcategory', 'productImages']);
         
         // Get categories with subcategories
         $categories = ProductCategory::with('subcategories')->get();
@@ -237,4 +238,41 @@ public function create()
         'types'));
 }
 
+
+public function uploadImage(Request $request, Product $product)
+{
+    $request->validate([
+        'images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            // Store the image in the storage
+            $path = $image->store('product_images', 'public');
+
+            // Save the image path in the database
+            $product->productImages()->create([
+                'image' => $path,
+            ]);
+        }
+    }
+
+    return redirect()->back()->with('success', 'Images uploaded successfully!');
+}
+
+
+public function destroyProductImage(ProductImage $image)
+{
+    // Delete the image file from storage
+    if (Storage::disk('public')->exists($image->image)) {
+        Storage::disk('public')->delete($image->image);
+    }
+    
+
+    // Delete the image record from the database
+    // $image->delete();
+    $image->forceDelete(); 
+
+    return response()->json(['message' => 'Image deleted successfully.'], 200);
+}
 }

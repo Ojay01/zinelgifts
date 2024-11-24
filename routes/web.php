@@ -198,7 +198,8 @@ Route::controller(ProductsController::class)->group(function () {
 
     Route::post('/product/store/', 'store')
     ->name('products.store');
-
+    Route::post('/products/{product}/upload-image', 'uploadImage')->name('products.uploadImage');
+    Route::delete('/product-images/{image}', 'destroyProductImage')->name('product-images.destroy');
 
 });
 

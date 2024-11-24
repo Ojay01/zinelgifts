@@ -102,7 +102,7 @@ class="flex flex-col bg-slate-800 z-40 transition-all duration-300 md:translate-
         </button>
     
         <div 
-            x-show="openSection === 'products' || '{{ Request::routeIs( 'categories.*', 'subcat', 'wishlist.user', 'carts.user' ) }}'"
+            x-show="openSection === 'products' || '{{ Request::routeIs( 'categories.*', 'subcat', 'wishlist.user', 'carts.user', 'products.*' ) }}'"
             x-transition:enter="transition-all ease-in-out duration-300"
             x-transition:enter-start="opacity-0 max-h-0"
             x-transition:enter-end="opacity-100 max-h-96"
@@ -112,11 +112,11 @@ class="flex flex-col bg-slate-800 z-40 transition-all duration-300 md:translate-
             class="mt-2 space-y-1">
             
             <!-- All Products -->
-            <a href="#"
+            <a href="{{route('products.index')}}"
                @click="activeSection = 'all-products'"
                class="flex items-center w-full px-3 py-2 rounded-lg transition-colors group"
-               :class="{'bg-blue-500 text-white': activeSection === 'all-products',
-                        'text-slate-400 hover:bg-slate-700 hover:text-white': activeSection !== 'all-products'}">
+               :class="{'bg-blue-500 text-white':'{{ Request::routeIs('products.*') }}',
+                        'text-slate-400 hover:bg-slate-700 hover:text-white': !'{{ Request::routeIs('products.*') }}' && activeSection !== 'all-products'}">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                 </svg>
