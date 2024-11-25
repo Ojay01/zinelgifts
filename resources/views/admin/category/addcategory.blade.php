@@ -1,6 +1,5 @@
 <x-admin-layout>
     <div class="container mx-auto px-4 py-8">
-        <!-- Toaster Notification Container -->
         <div id="toaster" class="fixed top-4 right-4 z-50 space-y-2"></div>
 
         <div class="flex justify-between items-center mb-6">
@@ -23,7 +22,7 @@
         >
             @csrf
             
-            <!-- Rest of the form remains the same as previous version -->
+            <!-- Category Name Input -->
             <div>
                 <label for="name" class="block text-white mb-2 font-semibold">Category Name <span class="text-red-500">*</span></label>
                 <input 
@@ -44,41 +43,49 @@
                 @enderror
             </div>
 
-       
+            <!-- Description Input -->
             <div>
                 <label for="description" class="block text-white mb-2 font-semibold">Description </label>
                 <textarea 
                     name="description" 
                     id="description" 
                     rows="4"
-                    class="w-full bg-slate-700 text-white border-2 border-slate-600 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 " required
+                    class="w-full bg-slate-700 text-white border-2 border-slate-600 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300" 
+                    required
                 >{{ old('description') }}</textarea>
                 @error('description')
                     <p class="text-red-400 text-sm mt-2">{{ $message }}</p>
                 @enderror
             </div>
 
+            <!-- Thumbnail Upload -->
             <div>
-                <label for="image" class="block text-white mb-2 font-semibold">Category Image </label>
-                <div class="flex items-center space-x-4">
+                <label for="thumbnail" class="block text-white mb-2 font-semibold">Category Thumbnail</label>
+                <div class="flex flex-col space-y-4">
                     <input 
                         type="file" 
                         name="image" 
-                        id="image"
+                        id="thumbnail"
                         accept="image/*"
                         class="w-full bg-slate-700 text-white border-2 border-slate-600 rounded-md px-4 py-3 file:mr-4 file:rounded-md file:border-0 file:bg-blue-500 file:text-white file:px-4 file:py-2 hover:file:bg-blue-600"
-                        onchange="previewImage(event)"
+                        onchange="previewThumbnail(event)"
                     >
+                    
+                    <!-- Thumbnail Preview -->
+                    <div id="thumbnail-preview" class="mt-4 hidden">
+                        <img 
+                            id="preview" 
+                            class="max-w-xs max-h-48 object-cover rounded-lg shadow-md" 
+                            alt="Thumbnail Preview"
+                        />
+                    </div>
                 </div>
-                @error('image')
+                @error('thumbnail')
                     <p class="text-red-400 text-sm mt-2">{{ $message }}</p>
                 @enderror
-
-                <div id="image-preview" class="mt-4 hidden">
-                    <img id="preview" class="max-w-xs max-h-48 rounded-lg shadow-md" />
-                </div>
             </div>
 
+            <!-- Submit Buttons -->
             <div class="flex justify-end space-x-4">
                 <button 
                     type="reset" 
@@ -100,24 +107,11 @@
     </div>
 
     <script>
-        // Check for success or error messages from server
-        document.addEventListener('DOMContentLoaded', function() {
-            @if(session('success'))
-                createToast('{{ session('success') }}', 'success');
-            @endif
-
-            @if($errors->any())
-                @foreach($errors->all() as $error)
-                    createToast('{{ $error }}', 'error');
-                @endforeach
-            @endif
-        });
-
         // Image preview function
-        function previewImage(event) {
+        function previewThumbnail(event) {
             const input = event.target;
             const preview = document.getElementById('preview');
-            const previewContainer = document.getElementById('image-preview');
+            const previewContainer = document.getElementById('thumbnail-preview');
             
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -131,38 +125,6 @@
             } else {
                 previewContainer.classList.add('hidden');
             }
-        }
-
-        // Toaster notification function
-        function createToast(message, type = 'info') {
-            const toaster = document.getElementById('toaster');
-            
-            // Create toast element
-            const toast = document.createElement('div');
-            toast.className = `
-                p-4 rounded-lg shadow-lg transform transition-all duration-300 ease-in-out 
-                ${type === 'success' ? 'bg-green-600' : 'bg-red-600'} 
-                text-white flex items-center justify-between
-            `;
-            
-            // Toast content
-            toast.innerHTML = `
-                <span class="mr-4">${message}</span>
-                <button onclick="this.parentElement.remove()" class="ml-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            `;
-
-            // Add to toaster
-            toaster.appendChild(toast);
-
-            // Auto-dismiss after 5 seconds
-            setTimeout(() => {
-                toast.classList.add('translate-x-full', 'opacity-0');
-                setTimeout(() => toast.remove(), 300);
-            }, 5000);
         }
     </script>
 </x-admin-layout>

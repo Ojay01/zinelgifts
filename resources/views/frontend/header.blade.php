@@ -31,7 +31,7 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-4">
-            <img src="/path-to-woodmart-logo.png" alt="Woodmart" className="h-8" />
+            <img src="/path-to-woodmart-logo.png" alt="zinelgift" className="h-8" />
             <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="sm:hidden">
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>

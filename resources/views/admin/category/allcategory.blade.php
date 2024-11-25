@@ -19,6 +19,9 @@
                     <thead class="bg-slate-50 dark:bg-slate-700/50">
                         <tr>
                             <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                                Thumbnail
+                            </th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                                 Name
                             </th>
                             <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-300 uppercase tracking-wider hidden lg:table-cell">
@@ -35,6 +38,13 @@
                     <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
                         @forelse($categories as $category)
                         <tr x-data="{ showModal: false }" class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                            <td class="px-4 py-4 whitespace-nowrap">
+                                <img 
+                                    src="{{ $category->image ? asset('storage/' . $category->image) : asset('default-category.png') }}" 
+                                    alt="{{ $category->name }} thumbnail" 
+                                    class="w-16 h-16 object-cover rounded-md"
+                                >
+                            </td>
                             <td class="px-4 py-4 whitespace-nowrap">
                                 <div class="text-sm font-medium text-slate-900 dark:text-white">
                                     {{ $category->name }}
@@ -125,7 +135,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="px-4 py-4 text-center text-slate-500 dark:text-slate-400">
+                            <td colspan="5" class="px-4 py-4 text-center text-slate-500 dark:text-slate-400">
                                 No categories found. 
                                 <a href="{{ route('categories.create') }}" class="text-blue-600 dark:text-blue-400 hover:underline">
                                     Create your first category

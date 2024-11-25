@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Slide extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['title','subtitle','image', 'button1_text', 'button2_link', 'subtitle'];
 }
