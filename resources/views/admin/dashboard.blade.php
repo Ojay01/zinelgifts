@@ -2,76 +2,231 @@
 
   
                     <!-- Stats Cards -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                        <div class="bg-slate-800 rounded-lg p-4 sm:p-6 border border-slate-700">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-base sm:text-lg font-semibold">Total Revenue</h3>
-                                <span class="text-green-400 flex items-center gap-1 text-xs sm:text-sm">
-                                    <svg class="h-3 w-3 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                                    </svg>
-                                    12.5%
-                                </span>
-                            </div>
-                            <p class="text-2xl sm:text-3xl font-bold mt-2 sm:mt-4">$124,563.00</p>
-                            <p class="text-slate-400 text-xs sm:text-sm mt-1 sm:mt-2">Compared to $110,742.00 last month</p>
-                        </div>
-        
-                        <div class="bg-slate-800 rounded-lg p-4 sm:p-6 border border-slate-700">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-base sm:text-lg font-semibold">Active Users</h3>
-                                <span class="text-blue-400 flex items-center gap-1 text-xs sm:text-sm">
-                                    <svg class="h-3 w-3 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
-                                    </svg>
-                                    8.2%
-                                </span>
-                            </div>
-                            <p class="text-2xl sm:text-3xl font-bold mt-2 sm:mt-4">2,453</p>
-                            <p class="text-slate-400 text-xs sm:text-sm mt-1 sm:mt-2">Compared to 2,267 last month</p>
-                        </div>
-        
-                        <div class="bg-slate-800 rounded-lg p-4 sm:p-6 border border-slate-700">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-base sm:text-lg font-semibold">Conversion Rate</h3>
-                                <span class="text-red-400 flex items-center gap-1 text-xs sm:text-sm">
-                                    <svg class="h-3 w-3 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7"></path>
-                                    </svg>
-                                    3.1%
-                                </span>
-                            </div>
-                            <p class="text-2xl sm:text-3xl font-bold mt-2 sm:mt-4">4.2%</p>
-                            <p class="text-slate-400 text-xs sm:text-sm mt-1 sm:mt-2">Compared to 4.6% last month</p>
-                        </div>
-                    </div>
-        
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+    <div class="bg-slate-800 rounded-lg p-5 border border-slate-700 hover:shadow-lg transition-all duration-300">
+        <div class="flex items-center justify-between mb-3">
+            <h3 class="text-base font-semibold text-slate-200">Total Users</h3>
+            <span class="text-blue-400 flex items-center gap-1 text-xs">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                {{ number_format(($newUsersToday / max($totalUsers, 1)) * 100, 1) }}%
+            </span>
+        </div>
+        <div class="flex justify-between items-end">
+            <p class="text-3xl font-bold text-white">{{ number_format($totalUsers) }}</p>
+            <p class="text-xs text-slate-400">+{{ number_format($newUsersToday) }} today</p>
+        </div>
+    </div>
+
+    <div class="bg-slate-800 rounded-lg p-5 border border-slate-700 hover:shadow-lg transition-all duration-300">
+        <div class="flex items-center justify-between mb-3">
+            <h3 class="text-base font-semibold text-slate-200">Verified Users</h3>
+            <span class="text-green-400 flex items-center gap-1 text-xs">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ number_format(($activeUsers / max($totalUsers, 1)) * 100, 1) }}%
+            </span>
+        </div>
+        <div class="flex justify-between items-end">
+            <p class="text-3xl font-bold text-white">{{ number_format($activeUsers) }}</p>
+            <p class="text-xs text-slate-400">of {{ number_format($totalUsers) }} users</p>
+        </div>
+    </div>
+
+    <div class="bg-slate-800 rounded-lg p-5 border border-slate-700 hover:shadow-lg transition-all duration-300">
+        <div class="flex items-center justify-between mb-3">
+            <h3 class="text-base font-semibold text-slate-200">User Growth</h3>
+            <span class="text-purple-400 flex items-center gap-1 text-xs">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                {{ number_format(($activeUsers / max($totalUsers, 1)) * 100, 1) }}%
+            </span>
+        </div>
+        <div class="flex justify-between items-end">
+            <p class="text-3xl font-bold text-white">{{ number_format($totalUsers - $activeUsers) }}</p>
+            <p class="text-xs text-slate-400">Unverified</p>
+        </div>
+    </div>
+</div>
                     <!-- Chart Section -->
                     <div class="mt-4 sm:mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                         <div class="bg-slate-800 rounded-lg p-4 sm:p-6 border border-slate-700">
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-base sm:text-lg font-semibold">Revenue Overview</h3>
-                                <select class="bg-slate-700 border-none rounded-lg text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2">
-                                    <option>Last 7 Days</option>
-                                    <option>Last 30 Days</option>
-                                    <option>Last 90 Days</option>
+                                <h3 class="text-base sm:text-lg font-semibold">User Growth Overview</h3>
+                                <select id="userGrowthTimeframe" class="bg-slate-700 border-none rounded-lg text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2">
+                                    <option value="entireYear">Entire Year</option>
+                                    <option value="last12Months">Last 12 Months</option>
+                                    <option value="thisMonth">This Month</option>
+                                    <option value="byQuarter">By Quarter</option>
                                 </select>
                             </div>
-                            <div class="h-48 sm:h-80" id="revenueChart"></div>
+                            <div class="h-48 sm:h-80" id="userGrowthChart"></div>
                         </div>
-        
+                    
                         <div class="bg-slate-800 rounded-lg p-4 sm:p-6 border border-slate-700">
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-base sm:text-lg font-semibold">User Activity</h3>
-                                <select class="bg-slate-700 border-none rounded-lg text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2">
-                                    <option>By Day</option>
-                                    <option>By Week</option>
-                                    <option>By Month</option>
+                                <h3 class="text-base sm:text-lg font-semibold">User Verification Trend</h3>
+                                <select id="verificationTimeframe" class="bg-slate-700 border-none rounded-lg text-xs sm:text-sm px-2 py-1 sm:px-3 sm:py-2">
+                                    <option value="entireYear">Entire Year</option>
+                                    <option value="last12Months">Last 12 Months</option>
+                                    <option value="thisMonth">This Month</option>
+                                    <option value="byQuarter">By Quarter</option>
                                 </select>
                             </div>
-                            <div class="h-48 sm:h-80" id="userActivityChart"></div>
+                            <div class="h-48 sm:h-80" id="verificationTrendChart"></div>
                         </div>
                     </div>
+                    
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        let userGrowthChart, verificationTrendChart;
+                        const fullYearData = @json($userGrowthData);
+                    
+                        function renderUserGrowthChart(data) {
+                            if (userGrowthChart) userGrowthChart.destroy();
+                            
+                            userGrowthChart = new ApexCharts(document.getElementById('userGrowthChart'), {
+                                series: [{
+                                    name: 'Total Users',
+                                    data: data.totalUsers
+                                }, {
+                                    name: 'Verified Users',
+                                    data: data.verifiedUsers
+                                }],
+                                chart: {
+                                    type: 'area',
+                                    height: '100%',
+                                    toolbar: { show: false }
+                                },
+                                colors: ['#3B82F6', '#10B981'],
+                                fill: {
+                                    type: 'gradient',
+                                    gradient: {
+                                        shadeIntensity: 0.5,
+                                        opacityFrom: 0.7,
+                                        opacityTo: 0.3,
+                                    }
+                                },
+                                xaxis: {
+                                    categories: data.months,
+                                    labels: { style: { colors: '#CBD5E1' } }
+                                },
+                                yaxis: {
+                                    labels: { style: { colors: '#CBD5E1' } }
+                                },
+                                tooltip: {
+                                    theme: 'dark'
+                                }
+                            });
+                            userGrowthChart.render();
+                        }
+                    
+                        function renderVerificationTrendChart(data) {
+                            if (verificationTrendChart) verificationTrendChart.destroy();
+                            
+                            verificationTrendChart = new ApexCharts(document.getElementById('verificationTrendChart'), {
+                                series: [{
+                                    name: 'Verification Rate',
+                                    data: data.rates
+                                }],
+                                chart: {
+                                    type: 'line',
+                                    height: '100%',
+                                    toolbar: { show: false }
+                                },
+                                stroke: {
+                                    curve: 'smooth',
+                                    width: 3
+                                },
+                                colors: ['#8B5CF6'],
+                                xaxis: {
+                                    categories: data.months,
+                                    labels: { style: { colors: '#CBD5E1' } }
+                                },
+                                yaxis: {
+                                    labels: { 
+                                        formatter: (value) => value + '%',
+                                        style: { colors: '#CBD5E1' } 
+                                    }
+                                },
+                                tooltip: {
+                                    theme: 'dark',
+                                    y: {
+                                        formatter: (value) => value + '% verification rate'
+                                    }
+                                }
+                            });
+                            verificationTrendChart.render();
+                        }
+                    
+                        // Initial render
+                        renderUserGrowthChart(fullYearData);
+                        renderVerificationTrendChart(@json($verificationTrendData));
+                    
+                        // Timeframe selection handlers
+                        document.getElementById('userGrowthTimeframe').addEventListener('change', function(e) {
+                            const timeframe = e.target.value;
+                            let filteredData = filterData(fullYearData, timeframe);
+                            renderUserGrowthChart(filteredData);
+                        });
+                        
+                    
+                        document.getElementById('verificationTimeframe').addEventListener('change', function(e) {
+                            const timeframe = e.target.value;
+                            let filteredData = filterData(@json($verificationTrendData), timeframe);
+                            renderVerificationTrendChart(filteredData);
+                        });
+                    
+                        function filterData(data, timeframe, monthLength = null) {
+                            switch(timeframe) {
+                                case 'last12Months':
+                                    return {
+                                        months: data.months.slice(-12),
+                                        totalUsers: data.totalUsers ? data.totalUsers.slice(-12) : [],
+                                        verifiedUsers: data.verifiedUsers ? data.verifiedUsers.slice(-12) : [],
+                                        rates: data.rates ? data.rates.slice(-12) : []
+                                    };
+                                case 'thisMonth':
+                                const today = new Date();
+            const currentMonthIndex = today.getMonth();
+            const daysInMonth = new Date(today.getFullYear(), currentMonthIndex + 1, 0).getDate();
+            const startDay = Math.max(0, daysInMonth - 30);
+            const endDay = daysInMonth;
+
+            // Slice current month's data to last 30 days or all available days if less than 30
+            return {
+                months: [data.months[currentMonthIndex]],
+                totalUsers: data.totalUsers ? [data.totalUsers[currentMonthIndex]] : [],
+                verifiedUsers: data.verifiedUsers ? [data.verifiedUsers[currentMonthIndex]] : [],
+                rates: data.rates ? [data.rates[currentMonthIndex]] : []
+            };
+                                case 'byQuarter':
+                                    return {
+                                        months: ['Q1', 'Q2', 'Q3', 'Q4'],
+                                        totalUsers: quarterlyAggregate(data.totalUsers),
+                                        verifiedUsers: quarterlyAggregate(data.verifiedUsers),
+                                        rates: quarterlyAggregate(data.rates)
+                                    };
+                                default: // entireYear
+                                    return data;
+                            }
+                        }
+                    
+                        function quarterlyAggregate(arr) {
+                            if (!arr || arr.length === 0) return [];
+                            return [
+                                Math.round((arr[0] + arr[1] + arr[2]) / 3),
+                                Math.round((arr[3] + arr[4] + arr[5]) / 3),
+                                Math.round((arr[6] + arr[7] + arr[8]) / 3),
+                                Math.round((arr[9] + arr[10] + arr[11]) / 3)
+                            ];
+                        }
+                    });
+                    </script>
         
                     <!-- Recent Activity Table -->
                     <div class="mt-4 sm:mt-6">

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 Route::post('/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
@@ -52,11 +53,6 @@ Route::get('/our-team', function () {
     return view('team');
 })->name('team');
 
-
-
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-})->name('admin');
 
 Route::get('/contact-us', function () {
     return view('contact');
@@ -97,6 +93,9 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::prefix('admin')->group(function () {
+
+    Route::get('/dashboard', [DashboardController::class, 'index' ])->name('admin');
+
   Route::controller(AdminCategoryController::class)->group(function () {
 
     Route::post('/add-category', 'storeCategory')->name('admin.categories.store');
