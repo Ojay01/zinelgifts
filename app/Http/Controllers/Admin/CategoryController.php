@@ -82,7 +82,7 @@ public function deleteCategory($id)
 
 public function createCategory()
 {
-    return view('admin.category.addCategory');
+    return view('admin.category.addcategory');
 }
 
 public function editCategory($id)
