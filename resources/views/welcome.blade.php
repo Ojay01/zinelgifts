@@ -9,6 +9,7 @@
     <x-advert />
     <x-featured-products 
     :products="$products" 
+    :wishlist="$wishlist"
     :special-offers="[
         [
             'title' => '25 Ideas For Modern Interior',

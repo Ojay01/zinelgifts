@@ -8,7 +8,9 @@
           <h2 class="text-xl uppercase font-black mb-2 text-white animate-h2"> <span class='text-yellow-500'>CUSTOMIZE </span> YOUR MUGS</h2>
           <p class="mb-4 text-white/90 max-w-64 animate-p">To use as souvenirs for your special 
             occasions and anniversaries</p>
+            <a href="{{route('shop')}}" >
           <button class="bg-white text-purple-600 px-4 py-2 rounded-full w-fit animate-button">ORDER NOW</button>
+            </a>
         </div>
       </div>
       
@@ -17,7 +19,9 @@
         <div class="absolute inset-0 dark:bg-black/30 p-10 flex flex-col justify-center">
           <h2 class="text-2xl uppercase font-black mb-2 text-white animate-h2">GET <span class='text-yellow-500'>PERSONALISED </span> T-SHIRTS </h2>
           <p class="mb-2 text-white/90 max-w-72 animate-p">For kids Birthday Parties & Events printing at affordable prices with free</p>
+          <a href="{{route('shop')}}" >
           <button class="bg-white text-blue-600 px-4 py-2 rounded-full w-fit animate-button">ORDER NOW</button>
+          </a>
         </div>
       </div>
     </div>
@@ -27,7 +31,9 @@
       <div class="absolute inset-0 dark:bg-black/30 p-10 flex flex-col justify-center">
         <h2 class="text-xl uppercase font-black mb-2 text-white animate-h2"> <span class='text-yellow-500'>LUXURY </span> WRIST WATCHES FOR HIM/HER</h2>
         <p class="mb-4 text-white/90 max-w-64 animate-p">Customized with your names engraved inside.</p>
+        <a href="{{route('shop')}}" >
         <button class="bg-white px-4 py-2 rounded-full w-fit animate-button">ORDER NOW</button>
+        </a>
       </div>
     </div>
     </div>

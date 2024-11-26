@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -39,17 +39,43 @@ class ProfileController extends Controller
 
     public function wishlist()
     {
-        return view('profile.tabs.wishlist');
+        $user = Auth::user();
+        $wishlistProducts = $user->wishlist;
+        return view('profile.tabs.wishlist', compact('wishlistProducts'));
     }
 
     public function addresses()
     {
-        return view('profile.tabs.addresses');
+        $addresses = Auth::user()->addresses;
+        return view('profile.tabs.addresses', compact('addresses'));
     }
 
     public function settings()
     {
-        return view('profile.tabs.settings');
+        $user = auth()->user();
+        
+        // Get cart items with product relationship
+        $cartItems = Cart::with(['product' => function($query) {
+            $query->with(['category', 'subcategory']);
+        }])
+        ->where('user_id', $user->id)
+        ->get()
+        ->map(function ($item) {
+            return (object) [
+                'id' => $item->id,
+                'name' => $item->product->name,
+                'description' => $item->product->description,
+                'price' => $item->product->discounted_price ?? $item->product->price,
+                'original_price' => $item->product->price,
+                'quantity' => $item->quantity,
+                'image_url' =>  $item->product->image,
+                'category' => $item->product->category->name,
+                'subcategory' => $item->product->subcategory->name,
+                'discount' => $item->product->discount
+            ];
+        });
+        
+        return view('profile.tabs.settings', compact('cartItems'));
     }
     public function show()
     {
@@ -64,19 +90,12 @@ class ProfileController extends Controller
         return view('profile.show', compact('user', 'recentOrders'));
     }
 
-    /**
-     * Update the user's profile information.
-     *
-     * @param  \App\Http\Requests\UpdateProfileRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Request $request)
+    public function updateProfile(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'firstName' => ['required', 'string', 'max:255'],
-            'lastName' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . Auth::id()],
-            'phone' => ['nullable', 'string', 'max:20'],
+            'number' => ['nullable', 'string', 'max:20'],
             'bio' => ['nullable', 'string', 'max:1000'],
         ]);
 
@@ -89,22 +108,16 @@ class ProfileController extends Controller
         $user = Auth::user();
         
         $user->update([
-            'first_name' => $request->firstName,
-            'last_name' => $request->lastName,
+            'name' => $request->name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'number' => $request->number,
             'bio' => $request->bio,
         ]);
 
         return back()->with('success', 'Profile updated successfully!');
     }
 
-    /**
-     * Update the user's profile picture.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
+
     public function updateProfilePicture(Request $request)
     {
         $request->validate([
@@ -114,26 +127,21 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         // Delete old profile picture if exists
-        if ($user->profile_picture && Storage::disk('public')->exists($user->profile_picture)) {
-            Storage::disk('public')->delete($user->profile_picture);
+        if ($user->profile_photo_path && Storage::disk('public')->exists($user->profile_photo_path)) {
+            Storage::disk('public')->delete($user->profile_photo_path);
         }
 
         // Store new profile picture
         $path = $request->file('profile_picture')->store('profile-pictures', 'public');
         
         $user->update([
-            'profile_picture' => $path
+            'profile_photo_path' => $path
         ]);
 
         return back()->with('success', 'Profile picture updated successfully!');
     }
 
-    /**
-     * Update the user's password.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
+
     public function updatePassword(Request $request)
     {
         $validator = Validator::make($request->all(), [

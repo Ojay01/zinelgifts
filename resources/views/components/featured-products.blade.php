@@ -1,5 +1,5 @@
 
-<section class="py-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800" x-data="{ activeTab: 'special', activeSlide: 0 }">
+<section class="py-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800" x-data="{ activeTab: 'new', activeSlide: 0 }">
     <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold text-center mb-2 dark:text-yellow-500">Featured Products</h2>
         <div class="w-24 h-1 bg-yellow-500 mx-auto mb-4"></div>
@@ -7,9 +7,8 @@
         
         <div class="flex justify-center items-center mb-12">
             <div class="flex space-x-4 bg-white dark:bg-gray-800 rounded-full shadow-md p-1">
-                <button @click="activeTab = 'special'" :class="{ 'bg-yellow-500 text-white': activeTab === 'special', 'text-gray-700 dark:text-gray-300': activeTab !== 'special' }" class="py-2 px-6 rounded-full transition-all duration-300 focus:outline-none">Special Offer</button>
                 <button @click="activeTab = 'new'" :class="{ 'bg-yellow-500 text-white': activeTab === 'new', 'text-gray-700 dark:text-gray-300': activeTab !== 'new' }" class="py-2 px-6 rounded-full transition-all duration-300 focus:outline-none">New Arrivals</button>
-                <button @click="activeTab = 'featured'" :class="{ 'bg-yellow-500 text-white': activeTab === 'featured', 'text-gray-700 dark:text-gray-300': activeTab !== 'featured' }" class="py-2 px-6 rounded-full transition-all duration-300 focus:outline-none">Featured</button>
+                <button @click="activeTab = 'special'" :class="{ 'bg-yellow-500 text-white': activeTab === 'special', 'text-gray-700 dark:text-gray-300': activeTab !== 'special' }" class="py-2 px-6 rounded-full transition-all duration-300 focus:outline-none">Special Offer</button>
             </div>
         </div>
         
@@ -43,14 +42,18 @@
                     <div class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">-{{ $product['discount'] }}%</div>
                 @endif
                 <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                        @csrf
                     <button class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
                         <i class="fas fa-shopping-cart"></i>
                     </button>
+                    </form>
                 </div>
             </div>
 
-    <a href="{{ route('details', [$product->category->name, $product->subcategory->name, $product->name]) }}" >
             <div class="p-4 flex-grow flex flex-col justify-between">
+
+    <a href="{{ route('details', [$product->category->name, $product->subcategory->name, $product->name]) }}" >
                 <div>
                     <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-1 truncate">{{ $product['name'] }}</h3>
                     <p class="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-3">
@@ -64,6 +67,7 @@
                         @endif
                     </div>
                 </div>
+    </a>
                 <div class="flex justify-between items-center">
                     <div class="flex items-center">
                         <div class="flex text-yellow-400">
@@ -73,12 +77,17 @@
                         </div>
                         <span class="text-gray-600 dark:text-gray-400 text-xs ml-1">({{ $product['reviews'] ?? 24 }})</span>
                     </div>
-                    <button class="text-gray-400 hover:text-red-500 transition-colors duration-300" title="Add to Wishlist">
-                        <i class="far fa-heart"></i>
+                    <form 
+                    action="{{ in_array($product->id, $wishlist) ? route('wishlist.removeProduct', $product->id) : route('wishlist.add', $product->id) }}" 
+                    method="POST" 
+                    class="inline">
+                    @csrf
+                    <button class="text-red-500 hover:text-gray-500 transition-colors duration-300" title="{{ in_array($product->id, $wishlist) ? 'Remove from Wishlist' : 'Add to Wishlist' }}">
+                        <i class="{{ in_array($product->id, $wishlist) ? 'fas' : 'far' }} fa-heart"></i>
                     </button>
+                </form>
                 </div>
             </div>
-        </a>
         </div>
     @endforeach
 </div>

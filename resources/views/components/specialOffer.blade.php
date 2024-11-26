@@ -3,7 +3,7 @@
     'backgroundImage' => '/specialoffer.jpg',
     'title' => 'Special December Sale',
     'description' => 'Get up to 50% off on selected items',
-    'endDate' => '2024-09-31 23:59:59'
+    'endDate' => '2024-12-31 23:59:59'
 ])
 <div 
     class="relative dark:bg-black text-yellow-500 py-16 overflow-hidden opacity-0 transition-opacity duration-1000 ease-in-out" 
@@ -43,7 +43,7 @@
         </div>
         
         <div class="text-center transform transition-transform duration-1000 ease-in-out" x-intersect:enter="$el.classList.add('translate-y-0')" x-intersect:enter.threshold.05="$el.classList.remove('translate-y-full')" x-intersect:leave="$el.classList.add('translate-y-full')" x-intersect:leave.threshold.05="$el.classList.remove('translate-y-0')">
-            <a href="#" class="inline-block bg-yellow-500 text-black font-bold py-3 px-8 rounded-full hover:bg-yellow-400 transition duration-300">Shop Now</a>
+            <a href="{{route('shop')}}" class="inline-block bg-yellow-500 text-black font-bold py-3 px-8 rounded-full hover:bg-yellow-400 transition duration-300">Shop Now</a>
         </div>
     </div>
 </div>

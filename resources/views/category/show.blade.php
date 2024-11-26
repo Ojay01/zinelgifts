@@ -31,9 +31,12 @@
                             </div>
                         @endif
                         <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                @csrf
                             <button class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
                                 <i class="fas fa-shopping-cart"></i>
                             </button>
+                            </form>
                         </div>
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between">
@@ -59,9 +62,15 @@
                                 </div>
                                 <span class="text-gray-600 dark:text-gray-400 text-xs ml-1">({{ $product->reviews ?? 0 }})</span>
                             </div>
-                            <button class="text-gray-400 hover:text-red-500 transition-colors duration-300" title="Add to Wishlist">
-                                <i class="far fa-heart"></i>
+                            <form 
+                            action="{{ in_array($product->id, $wishlist) ? route('wishlist.removeProduct', $product->id) : route('wishlist.add', $product->id) }}" 
+                            method="POST" 
+                            class="inline">
+                            @csrf
+                            <button class="text-red-500 hover:text-gray-500 transition-colors duration-300" title="{{ in_array($product->id, $wishlist) ? 'Remove from Wishlist' : 'Add to Wishlist' }}">
+                                <i class="{{ in_array($product->id, $wishlist) ? 'fas' : 'far' }} fa-heart"></i>
                             </button>
+                        </form>
                         </div>
                         <a href="{{ route('details', [$product->category->name, $product->subcategory->name, $product->name]) }}" class="text-yellow-500 text-end hover:underline mt-2 block">
                             View Product

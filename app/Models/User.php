@@ -29,6 +29,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'provider',
         'provider_id',
+        'profile_photo_path',
+        'number',
+        'bio',
     ];
 
     /**
@@ -80,4 +83,8 @@ public function profile()
         return $this->hasOne(Profile::class);
     }
 
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\SocialController;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WishlistController;
@@ -72,7 +73,7 @@ Route::get('/checkout', function () {
 })->name('checkout');
 
 // Routes for Wishlist
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
     Route::post('/wishlist/add/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::post('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
@@ -88,7 +89,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/wishlist', [ProfileController::class, 'wishlist'])->name('profile.wishlist');
     Route::get('/profile/addresses', [ProfileController::class, 'addresses'])->name('profile.addresses');
     Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings');
+    Route::post('/profile/update/profile/picture', [ProfileController:: class, 'updateProfilePicture'])->name('profile.updateProfilePicture');
+    Route::post('/profile/update/profile', [ProfileController:: class, 'updateProfile'])->name('profile.updateProfile');
+    Route::post('/profile/update/password', [ProfileController:: class, 'updatePassword'])->name('profile.updatePassword');
 
+    Route::post('/addresses', [AddressController::class, 'store'])
+    ->name('addresses.store');
+
+Route::delete('/addresses/{address}', [AddressController::class, 'destroy'])
+    ->name('addresses.destroy');
 });
 
 

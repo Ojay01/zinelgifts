@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProductCategory;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -16,7 +17,13 @@ class CategoryController extends Controller
         // You may need to implement a Product model and relationships
         $products = $category->products()->paginate(10); 
 
-        return view('category.show', compact('category', 'products'));
+        $wishlist = [];
+        if (Auth::check()) {
+            $user = Auth::user();
+            $wishlist = $user->wishlist ? $user->wishlist->pluck('id')->toArray() : [];
+        }
+
+        return view('category.show', compact('category', 'products', 'wishlist'));
     }
 
     // Show products under a subcategory
@@ -26,6 +33,12 @@ class CategoryController extends Controller
         // Assuming the subcategory also has associated products
         $products = $subcategory->products()->paginate(10);
 
-        return view('category.subcategory', compact('subcategory', 'products'));
+        $wishlist = [];
+        if (Auth::check()) {
+            $user = Auth::user();
+            $wishlist = $user->wishlist ? $user->wishlist->pluck('id')->toArray() : [];
+        }
+
+        return view('category.subcategory', compact('subcategory', 'products', 'wishlist'));
     }
 }

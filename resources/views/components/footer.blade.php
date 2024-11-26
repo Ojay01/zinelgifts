@@ -91,7 +91,11 @@
                 <p class="text-gray-600 dark:text-white/70">&copy; 2024 Zinel Gifts. All rights reserved.</p>
                 <div class="mt-4 md:mt-0 flex items-center space-x-4">
                     <span class="text-gray-600 dark:text-white/70">We accept:</span>
-                    <img src="{{ asset('path/to/payment-methods.png') }}" alt="Payment Methods" class="h-8">
+                    <div class="flex space-x-4">
+                        <img src="{{ asset('payment/mtn.png') }}" alt="Payment Method 1" class="h-8 w-8 object-contain">
+                        <img src="{{ asset('payment/orange.png') }}" alt="Payment Method 2" class="h-8 w-8 object-contain">
+                        <img src="{{ asset('payment/card.png') }}" alt="Payment Method 3" class="h-8 w-8 object-contain">
+                    </div>
                 </div>
             </div>
         </div>

@@ -3,32 +3,22 @@
 @section('profile-content')
 <div class="space-y-6">
     <!-- Basic Information -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 mb-4">
         <h2 class="text-2xl font-semibold text-gray-800 dark:text-yellow-500 mb-6">Profile Information</h2>
-        <form action="#" method="POST">
+        <form action="{{route('profile.updateProfile')}}" method="POST">
             @csrf
-            @method('PUT')
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label for="firstName" class="block text-gray-700 dark:text-gray-300 mb-2">First Name</label>
-                    <input type="text" id="firstName" name="firstName" 
+                    <label for="name" class="block text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
+                    <input type="text" id="firstName" name="name" 
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
-                           value="{{ old('firstName', auth()->user()->name) }}" required>
-                    @error('firstName')
+                           value="{{ old('name', auth()->user()->name) }}" required>
+                    @error('name')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div>
-                    <label for="lastName" class="block text-gray-700 dark:text-gray-300 mb-2">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
-                           value="{{ old('lastName', auth()->user()->last_name) }}" required>
-                    @error('lastName')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
 
                 <div>
                     <label for="email" class="block text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
@@ -42,17 +32,17 @@
 
                 <div>
                     <label for="phone" class="block text-gray-700 dark:text-gray-300 mb-2">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" 
+                    <input type="tel" id="phone" name="number" 
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
-                           value="{{ old('phone', auth()->user()->phone) }}">
-                    @error('phone')
+                           value="{{ old('phone', auth()->user()->number) }}">
+                    @error('number')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
 
             <div class="mt-6">
-                <label for="bio" class="block text-gray-700 dark:text-gray-300 mb-2">Bio</label>
+                <label for="bio" class="block text-gray-700 dark:text-gray-300 mb-2">Bio <small> (Special needs, what we need to know)</label>
                 <textarea id="bio" name="bio" rows="4" 
                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ old('bio', auth()->user()->bio) }}</textarea>
                 @error('bio')
@@ -71,9 +61,8 @@
     <!-- Password Change Section -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
         <h2 class="text-2xl font-semibold text-gray-800 dark:text-yellow-500 mb-6">Change Password</h2>
-        <form action="#" method="POST">
+        <form action="{{route('profile.updatePassword')}}" method="POST">
             @csrf
-            @method('PUT')
             
             <div class="space-y-4">
                 <div>

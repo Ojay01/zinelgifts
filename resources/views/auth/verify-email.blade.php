@@ -31,10 +31,7 @@
                     <!-- Edit Profile and Logout Links -->
                     <div class="flex items-center space-x-4">
                         <!-- Edit Profile -->
-                        <a href="{{ route('profile.show') }}"
-                            class="text-sm text-yellow-500 dark:text-yellow-400 hover:underline transition-colors duration-300">
-                            {{ __('Edit Profile') }}
-                        </a>
+                      
 
                         <!-- Logout Button -->
                         <form method="POST" action="{{ route('logout') }}" class="inline">

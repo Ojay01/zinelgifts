@@ -36,11 +36,11 @@
         ];
     @endphp
 
-    @foreach($navigationItems as $item)
+    {{-- @foreach($navigationItems as $item)
         <a href="{{ $item['url'] }}" 
            class="flex items-center space-x-2 p-3 rounded-lg {{ request()->routeIs($item['route']) ? 'bg-yellow-500 text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-yellow-50 dark:hover:bg-gray-700' }}">
             <i class="fas {{ $item['icon'] }}"></i>
             <span>{{ $item['text'] }}</span>
         </a>
-    @endforeach
+    @endforeach --}}
 </nav>

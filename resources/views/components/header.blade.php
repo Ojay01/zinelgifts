@@ -82,8 +82,8 @@
                LOGIN / REGISTER
             </a>
         @else
-            <a href="{{ route('profile') }}" 
-               class="text-sm font-medium hidden sm:inline {{ request()->routeIs('profile') ? 'text-yellow-500 dark:!text-white' : 'text-gray-800' }} dark:text-yellow-500">
+            <a href="{{ route('profile.information') }}" 
+               class="text-sm font-medium hidden sm:inline {{ request()->routeIs('profile.*') ? 'text-yellow-500 dark:!text-white' : 'text-gray-800' }} dark:text-yellow-500">
                PROFILE
             </a>
          
