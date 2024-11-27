@@ -87,4 +87,9 @@ public function profile()
     {
         return $this->hasMany(Address::class);
     }
+
+    public function cartItems()
+    {
+        return $this->hasMany(Cart::class);
+    }
 }

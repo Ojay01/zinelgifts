@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Wishlist;
+use App\Models\Size;
+use App\Models\Quality;
+use App\Models\Type;
+use App\Models\Color;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -78,13 +82,34 @@ class CartController extends Controller
     {
         $user = auth()->user();
         
-        // Get cart items with product relationship
         $cartItems = Cart::with(['product' => function($query) {
             $query->with(['category', 'subcategory']);
         }])
         ->where('user_id', $user->id)
         ->get()
         ->map(function ($item) {
+            // Safely handle attributes
+            $attributes = is_string($item->attributes) 
+                ? json_decode($item->attributes, true) 
+                : (array)$item->attributes;
+            
+            // Fetch related color, size, and quality details
+            $color = !empty($attributes['color_id']) 
+                ? Color::find($attributes['color_id']) 
+                : null;
+            
+            $size = !empty($attributes['size_id']) 
+                ? Size::find($attributes['size_id']) 
+                : null;
+            
+            $quality = !empty($attributes['quality_id']) 
+                ? Quality::find($attributes['quality_id']) 
+                : null;
+
+            $type = !empty($attributes['type_id']) 
+                ? Type::find($attributes['type_id']) 
+                : null;
+            
             return (object) [
                 'id' => $item->id,
                 'name' => $item->product->name,
@@ -92,24 +117,42 @@ class CartController extends Controller
                 'price' => $item->product->discounted_price ?? $item->product->price,
                 'original_price' => $item->product->price,
                 'quantity' => $item->quantity,
+                'short_note' => $item->short_note,
                 'image_url' => asset('storage/' . $item->product->image),
                 'category' => $item->product->category->name,
                 'subcategory' => $item->product->subcategory->name,
-                'discount' => $item->product->discount
+                'discount' => $item->product->discount,
+                
+                // Include detailed attribute information
+                'attributes' => (object) [
+                    'color' => $color ? (object)[
+                        'id' => $color->id,
+                        'name' => $color->name
+                    ] : null,
+                    'size' => $size ? (object)[
+                        'id' => $size->id,
+                        'name' => $size->name
+                    ] : null,
+                    'quality' => $quality ? (object)[
+                        'id' => $quality->id,
+                        'name' => $quality->name
+                    ] : null,
+                    'type' => $type ? (object)[
+                        'id' => $type->id,
+                        'name' => $type->name
+                    ] : null
+                ]
             ];
         });
-
+        
         // Calculate totals
         $subtotal = $cartItems->sum(function($item) {
             return $item->price * $item->quantity;
         });
         
-        // Calculate shipping cost (example logic)
         $shippingCost = $subtotal > 100 ? 0 : 10;
-        
-        // Calculate total
         $total = $subtotal + $shippingCost;
-
+        
         return view('cart', compact('cartItems', 'subtotal', 'shippingCost', 'total'));
     }
 

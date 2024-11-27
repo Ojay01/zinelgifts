@@ -8,6 +8,7 @@
         "php": "^8.2",
         "hachther/laravel-mesomb": "^1.8",
         "hachther/mesomb-php": "^2.2",
+        "intervention/image": "^3.9",
         "laravel/framework": "^11.9",
         "laravel/jetstream": "^5.1",
         "laravel/sanctum": "^4.0",

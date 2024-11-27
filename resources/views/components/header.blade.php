@@ -105,7 +105,9 @@
                 <a href="{{ route('cart') }}" aria-label="Cart" 
                    class="{{ request()->routeIs('cart') ? 'text-yellow-500 dark:!text-white' : 'text-gray-800' }} dark:text-yellow-500">
                     <i class="fas fa-shopping-cart text-lg"></i>
-                    <span class="absolute -top-2 -right-2 bg-gray-800 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center dark:bg-yellow-500 dark:text-black">0</span>
+                    <span class="absolute -top-2 -right-2 bg-gray-800 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center dark:bg-yellow-500 dark:text-black">
+                        {{ auth()->check() ? auth()->user()->cartItems->count() : 0 }}
+                    </span>
                 </a>
 </div>
 @auth
@@ -214,6 +216,7 @@
 
             <!-- Mobile Navigation Links -->
             <ul class="space-y-2 uppercase text-left">
+                @guest
                 <li>
                     <a href="{{ route('register') }}" 
                        class="flex items-center {{ request()->routeIs('register') ? 'text-yellow-400 dark:text-yellow-500' : '' }} hover:text-yellow-400 dark:hover:text-yellow-500">
@@ -228,6 +231,16 @@
                         Login
                     </a>
                 </li>
+            @else
+            <a href="{{ route('profile.information') }}" 
+            class="flex items-center {{ request()->routeIs('profile.information') ? 'text-yellow-400 dark:text-yellow-500' : '' }} hover:text-yellow-400 dark:hover:text-yellow-500">
+             <i class="fas fa-sign-in-alt mr-2"></i>
+             Profile
+         </a>
+     </li>
+             
+            @endguest
+
                 <li>
                     <a href="{{ route('dashboard') }}" 
                        class="flex items-center {{ request()->routeIs('dashboard') ? 'text-yellow-400 dark:text-yellow-500' : '' }} hover:text-yellow-400 dark:hover:text-yellow-500">
@@ -303,16 +316,24 @@
         </div>
 
         <!-- Sign Out Option at the Very Bottom -->
+        @auth
         <div class="p-4 border-t border-gray-300 mt-auto dark:border-yellow-500">
             <ul class="uppercase text-left">
                 <li>
-                    <a href="#" class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500">
+                    <a href="#" 
+                       class="flex items-center hover:text-yellow-400 dark:hover:text-yellow-500" 
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fas fa-sign-out-alt mr-2"></i>
                         Sign Out
                     </a>
                 </li>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                    @csrf
+                </form>
+                
             </ul>
         </div>
+        @endauth
     </div>
 
     <!-- Scroll-Up Arrow -->

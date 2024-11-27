@@ -67,65 +67,91 @@
         @endif
 
         <!-- Add Address Modal -->
-        <div 
+            <div 
             id="add-address-modal" 
             class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
         >
-            <div class="bg-white dark:bg-gray-800 rounded-lg p-8  max-w-full">
-                <h3 class="text-xl font-semibold text-gray-800 dark:text-yellow-500 mb-6">Add New Address</h3>
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-8 w-full max-w-md shadow-2xl transform transition-all duration-300 ease-in-out scale-95 hover:scale-100">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-map-marker-alt text-yellow-500 mr-3 text-2xl"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-yellow-500">Add New Address</h3>
+                </div>
                 <form id="add-address-form" action="{{ route('addresses.store') }}" method="POST">
                     @csrf
                     <div class="space-y-4">
-                        <div>
-                            <label class="block text-gray-700 dark:text-gray-300 mb-2">City</label>
-                            <input 
-                                type="text" 
-                                name="city" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                                required
-                            >
+                        <div class="relative">
+                            <label class="block text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-city mr-2 text-gray-500"></i>City
+                            </label>
+                            <div class="relative">
+                                <i class="fas fa-circle-info absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input 
+                                    type="text" 
+                                    name="city" 
+                                    class="w-full pl-10 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    required
+                                    placeholder="Enter city name"
+                                >
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-gray-700 dark:text-gray-300 mb-2">Neighborhood</label>
-                            <input 
-                                type="text" 
-                                name="neighborhood" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                                required
-                            >
+                        <div class="relative">
+                            <label class="block text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-home mr-2 text-gray-500"></i>Neighborhood
+                            </label>
+                            <div class="relative">
+                                <i class="fas fa-location-dot absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input 
+                                    type="text" 
+                                    name="neighborhood" 
+                                    class="w-full pl-10 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    required
+                                    placeholder="Enter neighborhood"
+                                >
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-gray-700 dark:text-gray-300 mb-2">Number</label>
-                            <input 
-                                type="text" 
-                                name="number" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                                required
-                            >
+                        <div class="relative">
+                            <label class="block text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-hashtag mr-2 text-gray-500"></i>Number
+                            </label>
+                            <div class="relative">
+                                <i class="fas fa-sort-numeric-up absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input 
+                                    type="number" 
+                                    name="number" 
+                                    class="w-full pl-10 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    required
+                                    placeholder="Address number"
+                                >
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-gray-700 dark:text-gray-300 mb-2">Complement (Optional)</label>
-                            <input 
-                                type="text" 
-                                name="complement" 
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                                placeholder="Additional address details"
-                            >
+                        <div class="relative">
+                            <label class="block text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-plus-circle mr-2 text-gray-500"></i>Complement (Optional)
+                            </label>
+                            <div class="relative">
+                                <i class="fas fa-comment-dots absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input 
+                                    type="text" 
+                                    name="complement" 
+                                    class="w-full pl-10 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    placeholder="Additional address details"
+                                >
+                            </div>
                         </div>
                     </div>
                     <div class="flex justify-end mt-6 space-x-4">
                         <button 
                             type="button" 
                             onclick="closeAddAddressModal()"
-                            class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"
+                            class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white flex items-center"
                         >
-                            Cancel
+                            <i class="fas fa-times mr-2"></i>Cancel
                         </button>
                         <button 
                             type="submit" 
-                            class="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 transition duration-300"
+                            class="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 transition duration-300 flex items-center"
                         >
-                            Save Address
+                            <i class="fas fa-save mr-2"></i>Save Address
                         </button>
                     </div>
                 </form>
@@ -176,7 +202,7 @@
     
         function openDeleteModal(addressId) {
             const deleteForm = document.getElementById('delete-address-form');
-            deleteForm.action = `/addresses/${addressId}`;
+            deleteForm.action = `/account/addresses/${addressId}`;
             document.getElementById('delete-address-modal').classList.remove('hidden');
             document.getElementById('delete-address-modal').classList.add('flex');
         }

@@ -27,10 +27,17 @@ class AddressController extends Controller
 
     public function destroy(Address $address)
     {
-       
+        // Check if the address is associated with any orders
+        if ($address->orders()->exists()) {
+            return redirect()->back()
+                ->with('error', 'Address cannot be deleted because it is associated with an order.');
+        }
+    
+        // Proceed to delete the address
         $address->delete();
-
+    
         return redirect()->back()
-            ->with('success', 'Address deleted successfully');
+            ->with('success', 'Address deleted successfully.');
     }
+    
 }

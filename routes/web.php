@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\ColorController;
@@ -68,12 +69,9 @@ Route::get('/our-terms and services', function () {
     return view('terms');
 })->name('terms');
 
-Route::get('/checkout', function () {
-    return view('checkout');
-})->name('checkout');
 
 // Routes for Wishlist
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('account')->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
     Route::post('/wishlist/add/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::post('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
@@ -81,6 +79,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
     Route::post('/cart/update/{product}', [CartController::class, 'updateQuantity'])->name('cart.update');
     Route::get('/my-cart', [CartController::class, 'index'])->name('cart');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+    Route::post('/placeOrder', [CheckoutController::class, 'placeOrder'])->name('placeOrder');
     Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 
     Route::get('my-profile/settings', [ProfileController::class, 'index'])->name('profile');
