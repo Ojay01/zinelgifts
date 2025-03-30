@@ -10,7 +10,7 @@
                 <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl overflow-hidden shadow-2xl lg:hover:shadow-yellow-500/20 transition-all duration-500 lg:transform lg:hover:scale-105 h-[400px]">
                     <div class="relative h-3/4 overflow-hidden">
                         <img 
-                            src="{{ $category['image'] }}" 
+                            src="{{ asset('storage/' . $category->image) }}" 
                             alt="{{ $category['name'] }}" 
                             class="w-full h-full object-cover transition-transform duration-700 lg:group-hover:scale-110 lg:group-hover:rotate-3"
                         >
