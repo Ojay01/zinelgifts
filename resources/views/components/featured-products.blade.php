@@ -75,7 +75,7 @@
                                 <i class="fas fa-star text-xs"></i>
                             @endfor
                         </div>
-                        <span class="text-gray-600 dark:text-gray-400 text-xs ml-1">({{ $product['reviews'] ?? 24 }})</span>
+                        <span class="text-gray-600 dark:text-gray-400 text-xs ml-1">({{ $product['reviews'] ?? 4 }})</span>
                     </div>
                     <form 
                     action="{{ in_array($product->id, $wishlist) ? route('wishlist.removeProduct', $product->id) : route('wishlist.add', $product->id) }}" 

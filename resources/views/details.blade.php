@@ -105,7 +105,7 @@
                     @if($colors->isNotEmpty())
                     <div class="mb-6">
                         <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Color</h3>
-                        <div class="flex flex-wrap gap-3">
+                        <div class="flex flex-wrap gap-3 max-h-32 md:max-h-none overflow-y-auto pb-2">
                             @foreach($colors as $color)
                                 <div class="relative group">
                                     <input 
@@ -113,53 +113,30 @@
                                         name="attributes[color_id]" 
                                         id="color-{{ $color->id }}" 
                                         value="{{ $color->id }}"
-                                        onclick="selectColor(this)"
-                                        class="sr-only"
+                                        class="sr-only color-radio"
                                         @if($loop->first) checked @endif
                                     >
                                     <label 
                                         for="color-{{ $color->id }}"
-                                        class="block w-10 h-10 rounded-full cursor-pointer border-2 border-transparent transition-all relative"
+                                        class="block w-10 h-10 rounded-full cursor-pointer border-2 border-transparent transition-all relative color-label"
                                         style="background-color: {{ $color->value }};"
                                     >
-                                        <span class="sr-only dark:text-white ">{{ $color->name }}</span>
+                                        <span class="sr-only dark:text-white">{{ $color->name }}</span>
                                     </label>
-                                    <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap dark:text-white  text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap dark:text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity">
                                         {{ ucfirst($color->name) }}
                                     </span>
                                 </div>
                             @endforeach
                         </div>
                     </div>
-                    
-                    <script>
-                    // Add this to your existing script section or create a new one
-                    function selectColor(element) {
-                        // Remove selected class from all color labels
-                        document.querySelectorAll('input[name="color"] + label').forEach(label => {
-                            label.style.borderColor = 'transparent';
-                        });
-                        
-                        // Add selected class to clicked color label
-                        element.nextElementSibling.style.borderColor = '#c19d56'; // orange-500
-                    }
-                    
-                    // Add this to your existing DOMContentLoaded event or create a new one
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // Initialize Color selection
-                        const firstColor = document.querySelector('input[name="color"]:checked');
-                        if (firstColor) {
-                            selectColor(firstColor);
-                        }
-                    });
-                    </script>
                     @endif
         
                     <!-- Sizes Section -->
                     @if($sizes->isNotEmpty())
                     <div class="mb-6">
                         <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Size</h3>
-                        <div class="flex flex-wrap gap-3">
+                        <div class="flex flex-wrap gap-3 max-h-32 md:max-h-none overflow-y-auto pb-2">
                             @foreach($sizes as $size)
                                 <div class="relative">
                                     <input 
@@ -167,13 +144,12 @@
                                         name="attributes[size_id]" 
                                         id="size-{{ $size->id }}" 
                                         value="{{ $size->id }}"
-                                        onclick="selectSize(this)"
-                                        class="sr-only"
+                                        class="sr-only size-radio"
                                         @if($loop->first) checked @endif
                                     >
                                     <label 
                                         for="size-{{ $size->id }}"
-                                        class=" min-w-[2.5rem] h-10 dark:text-white  px-3 rounded-lg cursor-pointer border-2 border-gray-200 flex items-center justify-center text-sm font-medium transition-all"
+                                        class="min-w-[2.5rem] h-10 dark:text-white px-3 rounded-lg cursor-pointer border-2 border-gray-200 flex items-center justify-center text-sm font-medium transition-all size-label"
                                     >
                                         {{ ucfirst($size->name) }}
                                     </label>
@@ -181,172 +157,122 @@
                             @endforeach
                         </div>
                     </div>
-                    
-                    <script>
-                    function selectSize(element) {
-                        // Remove selected class from all size labels
-                        document.querySelectorAll('input[name="size"] + label').forEach(label => {
-                            label.style.borderColor = '#e5e7eb'; // gray-200
-                        });
-                        
-                        // Add selected class to clicked size label
-                        element.nextElementSibling.style.borderColor = '#c19d56'; // orange-500
-                    }
-                    
-                    // Initialize the first size as selected
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const firstSize = document.querySelector('input[name="size"]:checked');
-                        if (firstSize) {
-                            selectSize(firstSize);
-                        }
-                    });
-                    </script>
                     @endif
         
                     <!-- Types Section -->
-                   <!-- Types Section -->
-@if($types->isNotEmpty())
-<div class="mb-6">
-    <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Type</h3>
-    <div class="flex flex-wrap gap-3">
-        @foreach($types as $type)
-            <div class="relative">
-                <input 
-                    type="radio" 
-                    name="attributes[type_id]" 
-                    id="type-{{ $type->id }}" 
-                    value="{{ $type->id }}"
-                    onclick="selectAttribute(this, 'type')"
-                    class="sr-only"
-                    @if($loop->first) checked @endif
-                >
-                <label 
-                    for="type-{{ $type->id }}"
-                    class=" min-w-[2.5rem] dark:text-white  h-10 px-3 rounded-lg cursor-pointer border-2 border-gray-200 flex items-center justify-center text-sm font-medium transition-all"
-                >
-                    {{ ucfirst($type->name) }}
-                </label>
-            </div>
-        @endforeach
-    </div>
-</div>
-@endif
+                    @if($types->isNotEmpty())
+                    <div class="mb-6">
+                        <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Type</h3>
+                        <div class="flex flex-wrap gap-3 max-h-32 md:max-h-none overflow-y-auto pb-2">
+                            @foreach($types as $type)
+                                <div class="relative">
+                                    <input 
+                                        type="radio" 
+                                        name="attributes[type_id]" 
+                                        id="type-{{ $type->id }}" 
+                                        value="{{ $type->id }}"
+                                        class="sr-only type-radio"
+                                        @if($loop->first) checked @endif
+                                    >
+                                    <label 
+                                        for="type-{{ $type->id }}"
+                                        class="min-w-[2.5rem] dark:text-white h-10 px-3 rounded-lg cursor-pointer border-2 border-gray-200 flex items-center justify-center text-sm font-medium transition-all type-label"
+                                    >
+                                        {{ ucfirst($type->name) }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
 
-<!-- Qualities Section -->
-@if($qualities->isNotEmpty())
-<div class="mb-6">
-    <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Quality</h3>
-    <div class="flex flex-wrap gap-3">
-        @foreach($qualities as $quality)
-            <div class="relative">
-                <input 
-                    type="radio" 
-                    name="attributes[quality_id]" 
-                    id="quality-{{ $quality->id }}" 
-                    value="{{ $quality->id }}"
-                    onclick="selectAttribute(this, 'quality')"
-                    class="sr-only"
-                    @if($loop->first) checked @endif
-                >
-                <label 
-                    for="quality-{{ $quality->id }}"
-                    class=" min-w-[2.5rem] dark:text-white  h-10 px-3 rounded-lg cursor-pointer border-2 border-gray-200 flex items-center justify-center text-sm font-medium transition-all"
-                >
-                    {{ ucfirst($quality->name) }}
-                </label>
-            </div>
-        @endforeach
-    </div>
-</div>
-@endif
+                    <!-- Qualities Section -->
+                    @if($qualities->isNotEmpty())
+                    <div class="mb-6">
+                        <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Quality</h3>
+                        <div class="flex flex-wrap gap-3 max-h-32 md:max-h-none overflow-y-auto pb-2">
+                            @foreach($qualities as $quality)
+                                <div class="relative">
+                                    <input 
+                                        type="radio" 
+                                        name="attributes[quality_id]" 
+                                        id="quality-{{ $quality->id }}" 
+                                        value="{{ $quality->id }}"
+                                        class="sr-only quality-radio"
+                                        @if($loop->first) checked @endif
+                                    >
+                                    <label 
+                                        for="quality-{{ $quality->id }}"
+                                        class="min-w-[2.5rem] dark:text-white h-10 px-3 rounded-lg cursor-pointer border-2 border-gray-200 flex items-center justify-center text-sm font-medium transition-all quality-label"
+                                    >
+                                        {{ ucfirst($quality->name) }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
 
-<script>
-function selectAttribute(element, attributeType) {
-    // Remove selected class from all labels of this attribute type
-    document.querySelectorAll(`input[name="${attributeType}"] + label`).forEach(label => {
-        label.style.borderColor = '#e5e7eb'; // gray-200
-        label.style.backgroundColor = 'transparent';
-    });
-    
-    // Add selected styles to clicked label
-    element.nextElementSibling.style.borderColor = '#c19d56'; // orange-500\
-}
+                    <!-- Note Section - With working character counter -->
+                    <div class="mb-6" x-data="{ charCount: 0, photoPreview: null }">
+                        <label for="note" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Special Instructions
+                            <span class="text-gray-500 text-xs ml-1">(Optional)</span>
+                        </label>
+                        <div class="relative">
+                            <textarea
+                                name="short_note"
+                                id="note"
+                                rows="3"
+                                maxlength="500"
+                                placeholder="Add any special instructions or notes for this order..."
+                                x-on:input="charCount = $el.value.length"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:placeholder-gray-500 resize-none"
+                            ></textarea>
+                            <div class="absolute bottom-2 right-2 text-xs text-gray-500 dark:text-gray-400">
+                                <span x-text="charCount">0</span>/500
+                            </div>
+                        </div>
+                        @error('short_note')
+                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
 
-// Initialize the first selected items
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Type
-    const firstType = document.querySelector('input[name="type"]:checked');
-    if (firstType) {
-        selectAttribute(firstType, 'type');
-    }
-    
-    // Initialize Quality
-    const firstQuality = document.querySelector('input[name="quality"]:checked');
-    if (firstQuality) {
-        selectAttribute(firstQuality, 'quality');
-    }
-});
-</script>
-
-<!-- Note Section - With working character counter -->
-<div class="mb-6" x-data="{ charCount: 0, photoPreview: null }">
-    <label for="note" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-        Special Instructions
-        <span class="text-gray-500 text-xs ml-1">(Optional)</span>
-    </label>
-    <div class="relative">
-        <textarea
-            name="short_note"
-            id="note"
-            rows="3"
-            maxlength="500"
-            placeholder="Add any special instructions or notes for this order..."
-            x-on:input="charCount = $el.value.length"
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:placeholder-gray-500 resize-none"
-        ></textarea>
-        <div class="absolute bottom-2 right-2 text-xs text-gray-500 dark:text-gray-400">
-            <span x-text="charCount">0</span>/500
-        </div>
-    </div>
-    @error('short_note')
-        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-    @enderror
-
-    <div class="mt-4">
-        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Upload a Photo (Optional)
-        </label>
-        <input
-            type="file"
-            name="photo"
-            accept="image/*"
-            x-on:change="photoPreview = URL.createObjectURL($event.target.files[0])"
-            class="block w-full text-sm text-gray-500 dark:text-gray-400 border border-gray-300 rounded-lg cursor-pointer focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-500"
-        />
-        <div
-            x-show="photoPreview"
-            class="mt-4 border border-gray-300 rounded-lg overflow-hidden w-40 h-40"
-        >
-            <img
-                :src="photoPreview"
-                alt="Preview"
-                class="w-full h-full object-cover"
-            />
-        </div>
-    </div>
-</div>
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Upload a Photo (Optional)
+                            </label>
+                            <input
+                                type="file"
+                                name="photo"
+                                accept="image/*"
+                                x-on:change="photoPreview = URL.createObjectURL($event.target.files[0])"
+                                class="block w-full text-sm text-gray-500 dark:text-gray-400 border border-gray-300 rounded-lg cursor-pointer focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-500"
+                            />
+                            <div
+                                x-show="photoPreview"
+                                class="mt-4 border border-gray-300 rounded-lg overflow-hidden w-40 h-40"
+                            >
+                                <img
+                                    :src="photoPreview"
+                                    alt="Preview"
+                                    class="w-full h-full object-cover"
+                                />
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Add to Cart -->
                     <div class="flex items-center gap-4 mb-8">
                         <div class="w-24">
                             <input 
                                 type="number"
+                                name="quantity"
                                 min="1"
                                 value="1"
-                                class="w-full px-3 py-2 border dark:text-white  border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 dark:bg-gray-800 dark:border-gray-700"
+                                class="w-full px-3 py-2 border dark:text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 dark:bg-gray-800 dark:border-gray-700"
                             >
                         </div>
-                        <button class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-6 rounded-lg transition-colors">
+                        <button type="submit" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-6 rounded-lg transition-colors">
                             Add to Cart
                         </button>
                     </div>
@@ -371,6 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Image Gallery functionality
     const mainImage = document.getElementById('main-image');
     const thumbnails = document.querySelectorAll('.thumbnail');
     let currentImageIndex = 0;
@@ -421,7 +348,98 @@ document.addEventListener('DOMContentLoaded', function() {
     window.changeMainImage = changeMainImage;
     window.nextImage = nextImage;
     window.prevImage = prevImage;
+    
+    // Color selection functionality
+    const colorRadios = document.querySelectorAll('.color-radio');
+    const colorLabels = document.querySelectorAll('.color-label');
+    
+    colorRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Remove selected class from all color labels
+            colorLabels.forEach(label => {
+                label.style.borderColor = 'transparent';
+            });
+            
+            // Add selected class to clicked color label
+            if (this.checked) {
+                const label = document.querySelector(`label[for="${this.id}"]`);
+                label.style.borderColor = '#c19d56';
+            }
+        });
+    });
+    
+    // Size selection functionality
+    const sizeRadios = document.querySelectorAll('.size-radio');
+    const sizeLabels = document.querySelectorAll('.size-label');
+    
+    sizeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Remove selected class from all size labels
+            sizeLabels.forEach(label => {
+                label.style.borderColor = '#e5e7eb';
+            });
+            
+            // Add selected class to clicked size label
+            if (this.checked) {
+                const label = document.querySelector(`label[for="${this.id}"]`);
+                label.style.borderColor = '#c19d56';
+            }
+        });
+    });
+    
+    // Type selection functionality
+    const typeRadios = document.querySelectorAll('.type-radio');
+    const typeLabels = document.querySelectorAll('.type-label');
+    
+    typeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Remove selected class from all type labels
+            typeLabels.forEach(label => {
+                label.style.borderColor = '#e5e7eb';
+            });
+            
+            // Add selected class to clicked type label
+            if (this.checked) {
+                const label = document.querySelector(`label[for="${this.id}"]`);
+                label.style.borderColor = '#c19d56';
+            }
+        });
+    });
+    
+    // Quality selection functionality
+    const qualityRadios = document.querySelectorAll('.quality-radio');
+    const qualityLabels = document.querySelectorAll('.quality-label');
+    
+    qualityRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Remove selected class from all quality labels
+            qualityLabels.forEach(label => {
+                label.style.borderColor = '#e5e7eb';
+            });
+            
+            // Add selected class to clicked quality label
+            if (this.checked) {
+                const label = document.querySelector(`label[for="${this.id}"]`);
+                label.style.borderColor = '#c19d56';
+            }
+        });
+    });
+    
+    // Initialize all selections
+    const initRadio = function(radioClass, labelClass, selectedColor) {
+        const firstChecked = document.querySelector(`${radioClass}:checked`);
+        if (firstChecked) {
+            const label = document.querySelector(`label[for="${firstChecked.id}"]`);
+            if (label) {
+                label.style.borderColor = selectedColor;
+            }
+        }
+    };
+    
+    initRadio('.color-radio', '.color-label', '#c19d56');
+    initRadio('.size-radio', '.size-label', '#c19d56');
+    initRadio('.type-radio', '.type-label', '#c19d56');
+    initRadio('.quality-radio', '.quality-label', '#c19d56');
 });
-
-                </script>
+    </script>
 </x-guest-layout>
