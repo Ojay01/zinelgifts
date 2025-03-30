@@ -24,7 +24,7 @@
             </button>
 
 <a href="/">
-    <img :src="darkMode ? darkLogo : lightLogo" alt="Woodmart" class="h-16" 
+    <img :src="darkMode ? darkLogo : lightLogo" alt="Zinelgifts" class="h-16" 
         x-data="{ 
             darkLogo: '{{ asset('logo/logowhite.png') }}',
             lightLogo: '{{ asset('logo/logo.png') }}'
