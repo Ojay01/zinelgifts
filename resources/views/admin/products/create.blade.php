@@ -64,8 +64,22 @@
                         @enderror
                     </div>
 
-                    <!-- Price -->
+                    <!-- Variable Pricing Toggle -->
                     <div>
+                        <div class="flex items-center space-x-3">
+                            <input type="checkbox" 
+                                   id="variable" 
+                                   name="variable" 
+                                   value="1"
+                                   {{ old('variable') ? 'checked' : '' }}
+                                   class="h-4 w-4 rounded border-slate-700 text-blue-600 focus:ring-blue-500">
+                            <label for="variable" class="text-sm font-medium text-gray-300">Variable Pricing</label>
+                        </div>
+                        <p class="mt-1 text-sm text-gray-400">Enable if price varies by size or quality</p>
+                    </div>
+
+                    <!-- Price (displayed when variable is false) -->
+                    <div id="standard-price-container">
                         <label for="price" class="block text-sm font-medium text-gray-300 mb-2">Price (₣)</label>
                         <input type="number" 
                                id="price" 
@@ -77,6 +91,42 @@
                         @error('price')
                             <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
                         @enderror
+                    </div>
+
+                    <!-- Variable Price Container (hidden by default) -->
+                    <div id="variable-price-container" class="hidden space-y-4 p-4 bg-slate-800 border border-slate-700 rounded-lg">
+                        <h4 class="text-md font-medium text-gray-300">Variable Pricing</h4>
+                        
+                        <!-- Variation Type Selection -->
+                        <div class="flex flex-col space-y-2">
+                            <label class="text-sm font-medium text-gray-300">Variation Based On:</label>
+                            <div class="flex space-x-4">
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="variation_type" value="size" class="form-radio" checked>
+                                    <span class="ml-2 text-gray-300">Size</span>
+                                </label>
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="variation_type" value="quality" class="form-radio">
+                                    <span class="ml-2 text-gray-300">Quality</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Size Variants Container -->
+                        <div id="size-variants-container" class="space-y-3">
+                            <p class="text-sm text-gray-400">Set different prices for each size</p>
+                            <div id="size-variants" class="space-y-2">
+                                <!-- Size variant rows will be added here dynamically -->
+                            </div>
+                        </div>
+                        
+                        <!-- Quality Variants Container -->
+                        <div id="quality-variants-container" class="space-y-3 hidden">
+                            <p class="text-sm text-gray-400">Set different prices for each quality level</p>
+                            <div id="quality-variants" class="space-y-2">
+                                <!-- Quality variant rows will be added here dynamically -->
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Discount -->
@@ -425,6 +475,154 @@
             // Update subcategories when category changes
             categorySelect.addEventListener('change', (e) => {
                 fetchSubcategories(e.target.value);
+            });
+        });
+
+        // Handle Variable Pricing
+        document.addEventListener('DOMContentLoaded', function() {
+            const variableCheckbox = document.getElementById('variable');
+            const standardPriceContainer = document.getElementById('standard-price-container');
+            const variablePriceContainer = document.getElementById('variable-price-container');
+            const sizeVariantsContainer = document.getElementById('size-variants-container');
+            const qualityVariantsContainer = document.getElementById('quality-variants-container');
+            const sizeVariants = document.getElementById('size-variants');
+            const qualityVariants = document.getElementById('quality-variants');
+            const variationTypeRadios = document.querySelectorAll('input[name="variation_type"]');
+            const sizes = document.getElementById('sizes');
+            const qualities = document.getElementById('qualities');
+
+            // Function to toggle between standard and variable pricing
+            function togglePricingType() {
+                if (variableCheckbox.checked) {
+                    standardPriceContainer.classList.add('hidden');
+                    variablePriceContainer.classList.remove('hidden');
+                    document.getElementById('price').removeAttribute('required');
+                    updateVariantFields();
+                } else {
+                    standardPriceContainer.classList.remove('hidden');
+                    variablePriceContainer.classList.add('hidden');
+                    document.getElementById('price').setAttribute('required', 'required');
+                }
+            }
+
+            // Function to toggle between size and quality variants
+            function toggleVariantType() {
+                const variationType = document.querySelector('input[name="variation_type"]:checked').value;
+                
+                if (variationType === 'size') {
+                    sizeVariantsContainer.classList.remove('hidden');
+                    qualityVariantsContainer.classList.add('hidden');
+                    updateSizeVariants();
+                } else {
+                    sizeVariantsContainer.classList.add('hidden');
+                    qualityVariantsContainer.classList.remove('hidden');
+                    updateQualityVariants();
+                }
+            }
+
+            // Function to update size variant fields
+            function updateSizeVariants() {
+                const selectedSizes = Array.from(sizes.selectedOptions).map(option => ({
+                    id: option.value,
+                    name: option.text
+                }));
+                
+                sizeVariants.innerHTML = '';
+                
+                if (selectedSizes.length === 0) {
+                    sizeVariants.innerHTML = '<p class="text-yellow-400 text-sm">Please select at least one size attribute</p>';
+                    return;
+                }
+                
+                selectedSizes.forEach(size => {
+                    const row = document.createElement('div');
+                    row.className = 'flex items-center space-x-3';
+                    row.innerHTML = `
+                        <div class="w-1/3 flex items-center">
+                            <span class="text-gray-300">${size.name}</span>
+                            <input type="hidden" name="variants[size][${size.id}][id]" value="${size.id}">
+                        </div>
+                        <div class="w-2/3">
+                            <input type="number" 
+                                   name="variants[size][${size.id}][price]" 
+                                   value="0" 
+                                   step="0.01" 
+                                   min="0"
+                                   class="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                                   required>
+                        </div>
+                    `;
+                    sizeVariants.appendChild(row);
+                });
+            }
+
+            // Function to update quality variant fields
+            function updateQualityVariants() {
+                const selectedQualities = Array.from(qualities.selectedOptions).map(option => ({
+                    id: option.value,
+                    name: option.text
+                }));
+                
+                qualityVariants.innerHTML = '';
+                
+                if (selectedQualities.length === 0) {
+                    qualityVariants.innerHTML = '<p class="text-yellow-400 text-sm">Please select at least one quality attribute</p>';
+                    return;
+                }
+                
+                selectedQualities.forEach(quality => {
+                    const row = document.createElement('div');
+                    row.className = 'flex items-center space-x-3';
+                    row.innerHTML = `
+                        <div class="w-1/3 flex items-center">
+                            <span class="text-gray-300">${quality.name}</span>
+                            <input type="hidden" name="variants[quality][${quality.id}][id]" value="${quality.id}">
+                        </div>
+                        <div class="w-2/3">
+                            <input type="number" 
+                                   name="variants[quality][${quality.id}][price]" 
+                                   value="0" 
+                                   step="0.01" 
+                                   min="0"
+                                   class="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                                   required>
+                        </div>
+                    `;
+                    qualityVariants.appendChild(row);
+                });
+            }
+
+            // Function to update variant fields based on current selections
+            function updateVariantFields() {
+                const variationType = document.querySelector('input[name="variation_type"]:checked').value;
+                
+                if (variationType === 'size') {
+                    updateSizeVariants();
+                } else {
+                    updateQualityVariants();
+                }
+            }
+
+            // Initial state
+            togglePricingType();
+            
+            // Event listeners
+            variableCheckbox.addEventListener('change', togglePricingType);
+            
+            variationTypeRadios.forEach(radio => {
+                radio.addEventListener('change', toggleVariantType);
+            });
+            
+            sizes.addEventListener('change', function() {
+                if (variableCheckbox.checked && document.querySelector('input[name="variation_type"]:checked').value === 'size') {
+                    updateSizeVariants();
+                }
+            });
+            
+            qualities.addEventListener('change', function() {
+                if (variableCheckbox.checked && document.querySelector('input[name="variation_type"]:checked').value === 'quality') {
+                    updateQualityVariants();
+                }
             });
         });
     </script>
