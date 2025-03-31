@@ -164,6 +164,8 @@ class ProductsController
         'attributes.qualities.*' => 'exists:qualities,id',
         'attributes.types' => 'nullable|array',
         'attributes.types.*' => 'exists:types,id',
+        'variable' => 'nullable|boolean',
+        'variation_type' => 'required_if:variable,1|in:size,quality',
     ]);
 
     try {
