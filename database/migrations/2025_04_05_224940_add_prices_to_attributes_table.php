@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('attributes', function (Blueprint $table) {
             //
-            $table->json('prices')->nullable()->after('name');
+            $table->json('prices')->nullable();
         });
     }
 
