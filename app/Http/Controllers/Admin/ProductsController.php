@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Product;
 use App\Models\Subcategory;
+use App\Models\VariablePrice;
 use App\Models\ProductCategory;
 use App\Models\Color;
 use App\Models\Size;
@@ -143,15 +144,14 @@ class ProductsController
         }
     }
 
-
-    public function store(Request $request)
+public function store(Request $request)
 {
     // Validate the request
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'description' => 'required|string',
-        'price' => 'required|numeric|min:0',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Made required for new products
+        'price' => 'required_without:variable|numeric|min:0',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         'category_id' => 'required|exists:product_categories,id',
         'subcategory_id' => 'required|exists:subcategories,id',
         'discount' => 'nullable|numeric|min:0|max:100',
@@ -165,11 +165,11 @@ class ProductsController
         'attributes.types' => 'nullable|array',
         'attributes.types.*' => 'exists:types,id',
         'variable' => 'nullable|boolean',
-        'variation_type' => 'required_if:variable,1|in:size,quality',
+        'pricing_data' => 'nullable|json',
     ]);
 
     try {
-        // DB::beginTransaction();
+        DB::beginTransaction();
         
         // Handle image upload
         if ($request->hasFile('image')) {
@@ -178,23 +178,36 @@ class ProductsController
         }
         
         // Create new product
-        $product = Product::create($validated);
+        $product = Product::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'price' => $request->input('variable') ? 0 : $validated['price'],
+            'discount' => $validated['discount'] ?? 0,
+            'image' => $validated['image'],
+            'category_id' => $validated['category_id'],
+            'subcategory_id' => $validated['subcategory_id'],
+            'variable' => $request->boolean('variable'),
+        ]);
         
         // Create product attributes
-        $product->attributes()->create([
+        $attributesData = [
             'sizes' => $request->input('attributes.sizes', []),
             'colors' => $request->input('attributes.colors', []),
             'qualities' => $request->input('attributes.qualities', []),
             'types' => $request->input('attributes.types', []),
-        ]);
+        ];
+        
+        // Add pricing data if variable pricing is enabled
+        if ($request->boolean('variable') && $request->has('pricing_data')) {
+            $attributesData['prices'] = $request->input('pricing_data');
+        }
+        
+        $product->attributes()->create($attributesData);
 
         DB::commit();
         
-        // Clear any relevant cache
-        // Cache::tags(['products'])->flush();
-        
         return redirect()
-            ->route('products.index') // Adjust route as needed
+            ->route('products.index')
             ->with('success', 'Product created successfully');
             
     } catch (\Exception $e) {
@@ -240,7 +253,6 @@ public function create()
         'types'));
 }
 
-
 public function uploadImage(Request $request, Product $product)
 {
     $request->validate([
@@ -261,7 +273,6 @@ public function uploadImage(Request $request, Product $product)
 
     return redirect()->back()->with('success', 'Images uploaded successfully!');
 }
-
 
 public function destroyProductImage(ProductImage $image)
 {

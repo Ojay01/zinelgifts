@@ -509,6 +509,71 @@ $('#variable').change(function() {
         }
     });
 
+    function collectPricingData() {
+    // Array to store all pricing variations
+    const pricingData = [];
+    
+    // If variable pricing is enabled
+    if ($('#variable').is(':checked')) {
+        const pricingType = $('input[name="pricing_type"]:checked').val();
+        
+        // Size-based pricing
+        if (pricingType === 'size') {
+            const selectedSizes = $('#sizes').val() || [];
+            
+            selectedSizes.forEach(sizeId => {
+                const price = parseFloat($(`input[name="size_pricing[${sizeId}][price]"]`).val() || 0);
+                const discount = parseInt($(`input[name="size_pricing[${sizeId}][discount]"]`).val() || 0);
+                
+                pricingData.push({
+                    size: parseInt(sizeId),
+                    price: price,
+                    discount: discount
+                });
+            });
+        }
+        
+        // Quality-based pricing
+        else if (pricingType === 'quality') {
+            const selectedQualities = $('#qualities').val() || [];
+            
+            selectedQualities.forEach(qualityId => {
+                const price = parseFloat($(`input[name="quality_pricing[${qualityId}][price]"]`).val() || 0);
+                const discount = parseInt($(`input[name="quality_pricing[${qualityId}][discount]"]`).val() || 0);
+                
+                pricingData.push({
+                    quality: parseInt(qualityId),
+                    price: price,
+                    discount: discount
+                });
+            });
+        }
+        
+        // Matrix pricing (size × quality)
+        else if (pricingType === 'matrix') {
+            const selectedSizes = $('#sizes').val() || [];
+            const selectedQualities = $('#qualities').val() || [];
+            
+            selectedSizes.forEach(sizeId => {
+                selectedQualities.forEach(qualityId => {
+                    const price = parseFloat($(`input[name="matrix_pricing[${sizeId}][${qualityId}][price]"]`).val() || 0);
+                    const discount = parseInt($(`input[name="matrix_pricing[${sizeId}][${qualityId}][discount]"]`).val() || 0);
+                    
+                    pricingData.push({
+                        size: parseInt(sizeId),
+                        quality: parseInt(qualityId),
+                        price: price,
+                        discount: discount
+                    });
+                });
+            });
+        }
+    }
+    
+    // Return the pricing data array
+    return pricingData;
+}
+
 // Form validation
 $('form').on('submit', function(e) {
     // Basic validation
@@ -563,6 +628,19 @@ $('form').on('submit', function(e) {
     if (!$('#imagePreview').attr('src') || $('#imagePreview').attr('src') === '/api/placeholder/256/256') {
         showToast('Product image is required');
         isValid = false;
+    }
+
+        // Variable pricing validation
+        if ($('#variable').is(':checked')) {
+        const pricingData = collectPricingData();
+        
+        if (pricingData.length === 0) {
+            showToast('Please set at least one price variant');
+            isValid = false;
+        } else {
+            // Set the pricing data as JSON in the hidden field
+            $('#pricing_data').val(JSON.stringify(pricingData));
+        }
     }
     
     if (!isValid) {

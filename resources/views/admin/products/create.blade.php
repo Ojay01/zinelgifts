@@ -48,6 +48,8 @@
             <x-admin.attributes :sizes="$sizes" :colors="$colors" :qualities="$qualities" :types="$types" />
             <x-admin.pricing />
             <x-admin.description />
+            <!-- Add this hidden field inside your form -->
+<input type="hidden" id="pricing_data" name="pricing_data" value="">
             
             <!-- Form Footer with Submit Button -->
             <div class="mt-8 pt-6 border-t border-slate-700 flex justify-between items-center">
