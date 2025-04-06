@@ -4,7 +4,7 @@
     <label class="block text-sm font-medium text-gray-300 mb-2">{{ $label }}</label>
     <div class="border-2 border-dashed border-slate-600 rounded-lg p-6 flex flex-col items-center">
         <img id="imagePreview" 
-             src="/api/placeholder/256/256"
+             src="/placeholder.jpg"
              alt="Product preview" 
              class="h-40 w-40 object-cover rounded-lg border border-slate-700 mb-4">
              

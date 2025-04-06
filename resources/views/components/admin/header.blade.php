@@ -1,29 +1,14 @@
-<header class="fixed top-0 right-0 z-20 w-full bg-slate-800/95 border-b border-slate-700 backdrop-blur-sm">
+<header class="fixed top-0 right-0 z-10 w-full bg-slate-800/95 border-b border-slate-700 backdrop-blur-sm">
     <div :class="{'md:ml-64': sidebarOpen, 'md:ml-20': !sidebarOpen}"
          class="flex items-center justify-between h-16 px-4 transition-all duration-300">
-        <div class="flex items-center gap-4 z-30">
+         <div class="flex items-center ">
             <button 
                 data-menu-toggle
-                @click="mobileMenuOpen = !mobileMenuOpen"
-                class="md:hidden p-2 rounded-lg hover:bg-slate-700 transition-colors"
+                @click="isMobile ? (mobileMenuOpen = !mobileMenuOpen) : (sidebarOpen = !sidebarOpen)"
+                class="p-2 rounded-lg hover:bg-slate-700 transition-colors text-slate-400 hover:text-white"
             >
-                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    <path x-show="mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
+                <i class="fas" :class="isMobile ? 'fa-bars' : (sidebarOpen ? 'fa-chevron-left' : 'fa-chevron-right')"></i>
             </button>
-            <button 
-                @click="sidebarOpen = !sidebarOpen"
-                class="hidden md:block p-2 z-30 rounded-lg hover:bg-slate-700 transition-colors group"
-            >
-                <svg class="h-6 w-6 transition-transform duration-200" 
-                     :class="{'rotate-180': !sidebarOpen}"
-                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                          d="M9 5l7 7-7 7"></path>
-                </svg>
-            </button>
-            
         </div>
         
         <div class="flex items-center gap-2 md:gap-4">
