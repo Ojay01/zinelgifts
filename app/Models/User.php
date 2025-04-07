@@ -92,4 +92,9 @@ public function profile()
     {
         return $this->hasMany(Cart::class);
     }
+
+    public function getNewsletterSubscribedAttribute(): bool
+{
+    return NewsletterSubscriber::where('email', $this->email)->exists();
+}
 }
