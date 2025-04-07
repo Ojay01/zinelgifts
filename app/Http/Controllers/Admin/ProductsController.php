@@ -239,6 +239,7 @@ public function store(Request $request)
         'attributes.types' => 'nullable|array',
         'attributes.types.*' => 'exists:types,id',
         'variable' => 'nullable|boolean',
+        'pricing_type' => 'nullable|numeric',
         'pricing_data' => 'nullable|json',
     ]);
 
@@ -269,6 +270,7 @@ public function store(Request $request)
             'colors' => $request->input('attributes.colors', []),
             'qualities' => $request->input('attributes.qualities', []),
             'types' => $request->input('attributes.types', []),
+            'variable_type' => $request->input('pricing_type', null),
         ];
         
         // Add pricing data if variable pricing is enabled

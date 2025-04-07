@@ -9,7 +9,7 @@ class Attribute extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'sizes', 'colors', 'qualities', 'types', 'prices'];
+    protected $fillable = ['product_id', 'sizes', 'colors', 'qualities', 'types', 'prices', 'variable_type'];
     
     protected $casts = [
         'sizes' => 'array',

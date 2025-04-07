@@ -1,5 +1,4 @@
-@props(['categories'])
-
+@props(['categories', 'product' => null])
 <div id="basics-tab" class="tab-content">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Left column -->
@@ -9,7 +8,7 @@
                 <input type="text" 
                        id="name" 
                        name="name" 
-                       value="{{ old('name') }}"
+                       value="{{ old('name', $product ? $product->name : '') }}"
                        required
                        placeholder="Enter product name"
                        class="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-gray-300 focus:border-blue-500 focus:ring-blue-500">
@@ -24,7 +23,7 @@
                     name="category_id"
                     label="Category"
                     :options="$categories"
-                    :selected="old('category_id')"
+                    :selected="old('category_id', $product ? $product->category_id : null)"
                     required="true"
                     placeholder="Select Category"
                 />
@@ -36,7 +35,7 @@
                     name="subcategory_id"
                     label="Subcategory"
                     :options="[]"
-                    :selected="old('subcategory_id')"
+                    :selected="old('subcategory_id', $product ? $product->subcategory_id : null)"
                     placeholder="Select Subcategory"
                 />
             </div>
@@ -47,8 +46,8 @@
             <x-form.image-upload 
                 name="image"
                 label="Product Image"
-                :value="old('image')"
-                required="true"
+                :value="old('image', $product ? $product->image : null)"
+                required="{{ $product ? 'false' : 'true' }}"
             />
         </div>
     </div>
