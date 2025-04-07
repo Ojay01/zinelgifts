@@ -77,6 +77,7 @@ class ProductController extends Controller
     
         // Initialize query builder for products
         $query = Product::query();
+        $query->where('status', 1);
     
         // Apply category filter
         if ($request->has('category')) {

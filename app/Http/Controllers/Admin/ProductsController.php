@@ -19,14 +19,88 @@ use Illuminate\Support\Facades\Cache;
 
 class ProductsController 
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['category'])
-            ->latest()
-            ->paginate(50);
-            
-        return view('admin.products.index', compact('products'));
+        // Start with a base query
+        $query = Product::with(['category']);
+        
+        // Apply search filter if provided
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                  ->orWhere('description', 'like', "%{$searchTerm}%")
+                  ->orWhereHas('category', function($subquery) use ($searchTerm) {
+                      $subquery->where('name', 'like', "%{$searchTerm}%");
+                  });
+            });
+        }
+        
+        // Apply category filter if provided
+        if ($request->has('category') && !empty($request->category)) {
+            $query->where('category_id', $request->category);
+        }
+        
+        // Get statistics for dashboard cards
+        $totalProducts = Product::count();
+        $discountedProducts = Product::where('discount', '>', 0)->count();
+        $categoriesCount = ProductCategory::count();
+        $featuredProducts = Product::where('featured', true)->count();
+        
+        // Get all categories for filter dropdown
+        $categories = ProductCategory::all();
+        
+        // Execute the query with pagination
+        $products = $query->latest()->paginate(50);
+        
+        return view('admin.products.index', compact(
+            'products', 
+            'categories', 
+            'totalProducts', 
+            'discountedProducts', 
+            'categoriesCount', 
+            'featuredProducts'
+        ));
     }
+
+    public function updateStatus(Request $request, Product $product)
+    {
+        // Validate the request
+        $request->validate([
+            'status' => 'required|integer|in:1,0,3',
+        ]);
+
+        try {
+            // Update the product status
+            $product->status = $request->status;
+            $product->save();
+
+            // Prepare success message based on status
+            $statusMessages = [
+                1 => 'Product marked as Active.',
+                0 => 'Product marked as Inactive.',
+                3 => 'Product saved as Draft.',
+            ];
+
+            // Flash success message to session
+            return redirect()->back()->with('success', $statusMessages[$request->status]);
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Failed to update product status: ' . $e->getMessage());
+            
+            // Flash error message to session
+            return redirect()->back()->with('error', 'Failed to update product status.');
+        }
+    }
+
+    public function toggleFeatured(Product $product)
+{
+    $product->featured = $product->featured ? 0 : 1;
+    $product->save();
+
+    return redirect()->back()->with('success', 'Product featured status updated.');
+}
+
 
     public function getSubcategories(ProductCategory $category)
     {

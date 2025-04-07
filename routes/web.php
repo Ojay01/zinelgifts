@@ -198,6 +198,12 @@ Route::controller(ProductsController::class)->group(function () {
     Route::get('/product/edit/{product}', 'edit')
     ->name('products.edit');
 
+    Route::patch('/product/toggle-featured/{product}', 'toggleFeatured')
+    ->name('products.toggleFeatured');
+
+    Route::patch('/product/update-status/{product}', 'updateStatus')
+    ->name('products.updateStatus');
+
     Route::delete('/product/destroy/{id}', 'destroy')
     ->name('products.destroy');
 

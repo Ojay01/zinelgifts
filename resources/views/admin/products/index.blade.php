@@ -1,150 +1,56 @@
-<!-- resources/views/admin/products/index.blade.php -->
 <x-admin-layout>
-    <div id="toaster" class="fixed top-4 right-4 z-50 space-y-2"></div>
     <div class="mt-4 sm:mt-6 container mx-auto px-4">
+        <div id="toaster" class="fixed top-4 right-4 z-50 space-y-2"></div>
+        <!-- Header with Search and Filter -->
+
+        <x-admin.products.header :categories="$categories" />
+        <x-admin.products.stats 
+        :totalProducts="$totalProducts" 
+        :discountedProducts="$discountedProducts"
+        :categoriesCount="$categoriesCount" 
+        :featuredProducts="$featuredProducts" 
+    />
+    
+
+        <!-- Product Table Card -->
         <div class="bg-slate-800 rounded-lg border border-slate-700 shadow-lg">
             <div class="p-4 sm:p-6 flex justify-between items-center flex-col sm:flex-row gap-4">
                 <h3 class="text-lg font-semibold text-gray-300">
-                    Product Management
+                    Product Inventory
+                    <span class="ml-2 text-sm text-gray-400">({{ $products->total() }} items)</span>
                 </h3>
-                <a href="{{ route('products.create') }}" 
-                   class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    Add New Product
-                </a>
+                <div class="flex items-center gap-2">
+                    <button id="toggleView" class="p-2 text-gray-400 hover:text-gray-200 bg-slate-700 rounded-lg">
+                        <i class="fas fa-list"></i>
+                    </button>
+                    <a href="#" class="p-2 text-gray-400 hover:text-gray-200 bg-slate-700 rounded-lg flex items-center">
+                        <i class="fas fa-file-export mr-2"></i>
+                        <span class="hidden sm:inline">Export</span>
+                    </a>
+                </div>
             </div>
 
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead>
-                        <tr class="border-t border-slate-700 bg-slate-800/50">
-                            <th class="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider hidden lg:table-cell">ID</th>
-                            <th class="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Image</th>
-                            <th class="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Name</th>
-                            <th class="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider hidden md:table-cell">Price</th>
-                            <th class="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider hidden xl:table-cell">Category</th>
-                            <th class="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-700">
-                        @forelse($products as $product)
-                        <tr class="hover:bg-slate-700/50 transition-colors">
-                            <td class="px-3 sm:px-6 py-2 sm:py-4 hidden lg:table-cell">
-                                {{ $product->id }}
-                            </td>
-                            <td class="px-3 sm:px-6 py-2 sm:py-4 cursor-pointer">
-                                <img src="{{ asset('storage/' . $product->image) }}" 
-                                     alt="{{ $product->name }}" 
-                                     class="h-12 w-12 object-cover rounded-lg">
-                            </td>
-                            <td class="px-3 sm:px-6 py-2 sm:py-4 text-gray-300 cursor-pointer">
-                                <div class="flex items-center gap-2">
-                                    <div class="max-w-24  lg:max-w-[200px] truncate" title="{{ $product->name }}">
-                                        {{ $product->name }}
-                                    </div>
-                                    @if($product->discount)
-                                        <span class="flex-shrink-0 px-2 py-1 text-xs bg-green-500/20 text-green-400 rounded-full">
-                                            {{ $product->discount }}% OFF
-                                        </span>
-                                    @endif
-                                </div>
-                            </td>
-                            <td class="px-3 sm:px-6 py-2 sm:py-4 text-gray-300 hidden md:table-cell">
-                                ₣{{ number_format($product->price, 2) }}
-                            </td>
-                            <td class="px-3 sm:px-6 py-2 sm:py-4 text-gray-300 hidden xl:table-cell">
-                                {{ $product->category->name }}
-                            </td>
-                            <td class="px-3 sm:px-6 py-2 sm:py-4">
-                                <div class="relative" x-data="{ open: false }">
-                                    <button 
-                                        @click="open = !open"
-                                        class="text-slate-400 hover:text-slate-300"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                                        </svg>
-                                    </button>
-                                    
-                                    <div 
-                                        x-show="open" 
-                                        @click.away="open = false"
-                                        class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-slate-700 ring-1 ring-black ring-opacity-5 z-50"
-                                    >
-                                        <div class="py-1">
-                                            <a href="{{ route('products.edit', $product->id) }}" 
-                                               class="block px-4 py-2 text-sm text-gray-300 hover:bg-slate-600">
-                                                <div class="flex items-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                    </svg>
-                                                    Edit
-                                                </div>
-                                            </a>
-                                            <button 
-                                                onclick="productManager.openConfirmModal('{{ route('products.destroy', $product->id) }}')"
-                                                class="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-slate-600"
-                                            >
-                                                <div class="flex items-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                    </svg>
-                                                    Delete
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="6" class="text-center py-4 text-slate-400">
-                                No products found
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-                <div class="p-4">
-                    {{ $products->links() }}
+            <div id="tableView" class="overflow-x-auto">
+                <x-admin.products.table :products="$products" />
+            </div>
+            
+            <div id="gridView" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4 hidden">
+                @forelse($products as $product)
+                     <x-admin.products.grid :product="$product" />
+                @empty
+                <div class="col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4">
+                     <x-admin.products.empty />
                 </div>
+                @endforelse
+            </div>
+            
+            <div class="p-4">
+                {{ $products->links() }}
             </div>
         </div>
 
         <!-- Confirm Delete Modal -->
-        <div 
-            id="confirmModal"
-            class="fixed inset-0 z-50 hidden modal-overlay flex items-center justify-center bg-black bg-opacity-50"
-        >
-            <div class="bg-slate-800 rounded-lg p-6 max-w-sm mx-8 md:mx-auto">
-                <h2 class="text-xl font-bold mb-4 text-gray-300">Confirm Deletion</h2>
-                <p class="mb-4 text-gray-400">Are you sure you want to delete this product? This action cannot be undone.</p>
-                
-                <form id="deleteForm" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    
-                    <div class="flex justify-end space-x-2">
-                        <button 
-                            type="button"
-                            class="modal-close px-4 py-2 bg-slate-700 text-gray-300 rounded-lg hover:bg-slate-600"
-                        >
-                            Cancel
-                        </button>
-                        <button 
-                            type="button"
-                            onclick="productManager.performDelete()"
-                            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-                        >
-                            Delete
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <x-admin.products.delete />
     </div>
 
     <script>
@@ -152,6 +58,9 @@
         constructor() {
             this.confirmModal = document.getElementById('confirmModal');
             this.deleteForm = document.getElementById('deleteForm');
+            this.tableView = document.getElementById('tableView');
+            this.gridView = document.getElementById('gridView');
+            this.toggleViewBtn = document.getElementById('toggleView');
             
             this.init();
         }
@@ -175,6 +84,60 @@
                     this.closeModals();
                 }
             });
+            
+            // Search functionality
+            const searchInput = document.getElementById('productSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', this.debounce(() => {
+                    this.handleSearch(searchInput.value);
+                }, 300));
+            }
+            
+            // Category filter
+            const categoryFilter = document.getElementById('categoryFilter');
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', () => {
+                    window.location.href = `{{ route('products.index') }}?category=${categoryFilter.value}`;
+                });
+            }
+            
+            // Toggle view button
+            if (this.toggleViewBtn) {
+                this.toggleViewBtn.addEventListener('click', () => this.toggleView());
+                
+                // Initialize view based on stored preference
+                const storedViewMode = localStorage.getItem('productViewMode') || 'table';
+                if (storedViewMode === 'grid') {
+                    this.toggleView();
+                }
+            }
+            
+            // Status change handlers
+            document.querySelectorAll('.status-change').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const form = button.closest('form');
+                    form.submit();
+                });
+            });
+        }
+
+        toggleView() {
+            const isListView = this.toggleViewBtn.querySelector('i').classList.contains('fa-list');
+            
+            // Toggle icon
+            this.toggleViewBtn.querySelector('i').className = isListView ? 'fas fa-table' : 'fas fa-list';
+            
+            // Toggle views
+            if (isListView) {
+                this.tableView.classList.add('hidden');
+                this.gridView.classList.remove('hidden');
+                localStorage.setItem('productViewMode', 'grid');
+            } else {
+                this.tableView.classList.remove('hidden');
+                this.gridView.classList.add('hidden');
+                localStorage.setItem('productViewMode', 'table');
+            }
         }
 
         openConfirmModal(url) {
@@ -188,6 +151,24 @@
 
         closeModals() {
             this.confirmModal.classList.add('hidden');
+        }
+        
+        handleSearch(query) {
+            if (query.length >= 2) {
+                window.location.href = `{{ route('products.index') }}?search=${encodeURIComponent(query)}`;
+            } else if (query.length === 0) {
+                window.location.href = `{{ route('products.index') }}`;
+            }
+        }
+        
+        debounce(func, delay) {
+            let timeout;
+            return function() {
+                const context = this;
+                const args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), delay);
+            };
         }
     }
 

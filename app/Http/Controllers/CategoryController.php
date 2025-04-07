@@ -15,7 +15,7 @@ class CategoryController extends Controller
         $category = ProductCategory::with('subcategories')->findOrFail($id);
         // For simplicity, assume each category has associated products
         // You may need to implement a Product model and relationships
-        $products = $category->products()->paginate(10); 
+        $products = $category->products()->where('status', 1)->paginate(10); 
 
         $wishlist = [];
         if (Auth::check()) {
@@ -30,8 +30,8 @@ class CategoryController extends Controller
     public function showSubcategory($id)
     {
         $subcategory = Subcategory::findOrFail($id);
-        // Assuming the subcategory also has associated products
-        $products = $subcategory->products()->paginate(10);
+        $products = $subcategory->products()->where('status', 1)->paginate(10);
+
 
         $wishlist = [];
         if (Auth::check()) {
