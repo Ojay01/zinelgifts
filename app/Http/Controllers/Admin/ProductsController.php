@@ -156,14 +156,14 @@ class ProductsController
             'attributes.qualities.*' => 'exists:qualities,id',
             'attributes.types' => 'nullable|array',
             'attributes.types.*' => 'exists:types,id',
+            'variable' => 'nullable|boolean',
+            'pricing_type' => 'nullable|numeric',
+            'pricing_data' => 'nullable|json',
         ]);
-    
         try {
-            // DB::beginTransaction();
             
             // Handle image upload
             if ($request->hasFile('image')) {
-                // Delete old image if it exists
                 if ($product->image) {
                     Storage::disk('public')->delete($product->image);
                 }
@@ -176,7 +176,10 @@ class ProductsController
             // Update product details
             $product->update($validated);
             
-            // Update or create product attributes
+            $product->update(array_merge($validated, [
+                'price' => $request->boolean('variable') ? 0 : $validated['price'],
+                'variable' => $request->boolean('variable'),
+            ]));
             $product->attributes()->updateOrCreate(
                 ['product_id' => $product->id],
                 [
@@ -184,13 +187,13 @@ class ProductsController
                     'colors' => $request->input('attributes.colors', []),
                     'qualities' => $request->input('attributes.qualities', []),
                     'types' => $request->input('attributes.types', []),
+                    'variable_type' => $request->input('pricing_type', null),
+                    'prices' => $request->input('pricing_data', null),
                 ]
             );
-    
-            // DB::commit();
             
-            // Clear any relevant cache
-            // Cache::tags(['products'])->flush();
+            dd($request->input('pricing_data'));
+ 
             
             return redirect()
                 ->back()

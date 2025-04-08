@@ -193,9 +193,18 @@
             updateNavigationButtons(tab);
         });
 
+        function getTabs() {
+    // Example: check if 'images' tab exists
+    if ($('.tab-button[data-tab="images"]').length > 0) {
+        return ['basics', 'attributes', 'pricing', 'description', 'images'];
+    } else {
+        return ['basics', 'attributes', 'pricing', 'description'];
+    }
+}
+
         // Navigation button handlers
         function updateNavigationButtons(currentTab) {
-            const tabs = ['basics', 'attributes', 'pricing', 'description'];
+            const tabs = getTabs();
             const currentIndex = tabs.indexOf(currentTab);
 
             // Hide/show previous button
@@ -217,7 +226,7 @@
 
         // Next button handler
         $('#next-tab-btn').click(function () {
-            const tabs = ['basics', 'attributes', 'pricing', 'description'];
+            const tabs = getTabs();
             const currentTab = $('.tab-button.active').data('tab');
             const currentIndex = tabs.indexOf(currentTab);
 
@@ -228,7 +237,7 @@
 
         // Previous button handler
         $('#prev-tab-btn').click(function () {
-            const tabs = ['basics', 'attributes', 'pricing', 'description'];
+            const tabs = getTabs();
             const currentTab = $('.tab-button.active').data('tab');
             const currentIndex = tabs.indexOf(currentTab);
 
@@ -397,7 +406,6 @@
             }
         }
 
-        // Function to load quality-based pricing
         function loadQualityPricing() {
             const selectedQualities = $('#qualities').val() || [];
             let existingPrices = [];
@@ -653,7 +661,6 @@
             const name = $('#name').val();
             const category = $('#category_id').val();
             const price = $('#price').val();
-            const image = $('#image').val();
 
             let isValid = true;
 
@@ -698,10 +705,6 @@
                 isValid = false;
             }
 
-            if (!$('#imagePreview').attr('src') || $('#imagePreview').attr('src') === '/api/placeholder/256/256') {
-                showToast('Product image is required');
-                isValid = false;
-            }
 
             // Variable pricing validation
             if ($('#variable').is(':checked')) {
@@ -716,10 +719,6 @@
                 }
             }
 
-            if (!isValid) {
-                e.preventDefault();
-                return false;
-            }
 
             return true;
         });

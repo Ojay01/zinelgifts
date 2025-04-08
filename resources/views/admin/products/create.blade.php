@@ -25,17 +25,17 @@
         <!-- Tab navigation -->
         <div class="border-b border-slate-700">
             <nav class="flex overflow-x-auto" aria-label="Form Sections">
-                <button type="button" class="tab-button active py-4 px-6 text-blue-400 border-b-2 border-blue-400 font-medium text-sm" data-tab="basics">
-                    Basic Info
+                <button type="button" class="tab-button active py-4 px-6 text-blue-400 border-b-2 border-blue-400 font-medium text-sm transition-all duration-200" data-tab="basics">
+                    <i class="fa-solid fa-info-circle mr-2"></i>Basic Info
                 </button>
-                <button type="button" class="tab-button py-4 px-6 text-gray-400 hover:text-gray-300 font-medium text-sm" data-tab="attributes">
-                    Attributes
+                <button type="button" class="tab-button py-4 px-6 text-gray-400 hover:text-gray-300 font-medium text-sm transition-all duration-200" data-tab="attributes">
+                    <i class="fa-solid fa-tags mr-2"></i>Attributes
                 </button>
-                <button type="button" class="tab-button py-4 px-6 text-gray-400 hover:text-gray-300 font-medium text-sm" data-tab="pricing">
-                    Pricing
+                <button type="button" class="tab-button py-4 px-6 text-gray-400 hover:text-gray-300 font-medium text-sm transition-all duration-200" data-tab="pricing">
+                    <i class="fa-solid fa-dollar-sign mr-2"></i>Pricing
                 </button>
-                <button type="button" class="tab-button py-4 px-6 text-gray-400 hover:text-gray-300 font-medium text-sm" data-tab="description">
-                    Description
+                <button type="button" class="tab-button py-4 px-6 text-gray-400 hover:text-gray-300 font-medium text-sm transition-all duration-200" data-tab="description">
+                    <i class="fa-solid fa-align-left mr-2"></i>Description
                 </button>
             </nav>
         </div>

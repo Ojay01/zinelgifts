@@ -8,7 +8,7 @@
         </h4>
         <textarea id="description" 
                   name="description" 
-                  class="hidden">{{ old('description') }}</textarea>
+                  class="hidden">{{ old('description', $product->description ?? "") }}</textarea>
         @error('description')
             <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
         @enderror

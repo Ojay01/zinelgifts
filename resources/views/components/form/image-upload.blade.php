@@ -22,7 +22,6 @@
                        id="{{ $name }}" 
                        name="{{ $name }}" 
                        accept="image/*"
-                       {{ $required ? 'required' : '' }}
                        class="hidden">
                 @if($value)
                     <input type="hidden" name="current_{{ $name }}" value="{{ $value }}">
