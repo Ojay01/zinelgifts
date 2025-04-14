@@ -192,7 +192,7 @@ class ProductsController
                 ]
             );
             
-            dd($request->input('pricing_data'));
+            // dd($request->input('pricing_data'));
  
             
             return redirect()
