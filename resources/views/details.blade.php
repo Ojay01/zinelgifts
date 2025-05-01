@@ -79,7 +79,17 @@
                 <!-- Product Details -->
                 <div class="w-full lg:w-1/2">
                     <h1 class="text-3xl font-bold mb-4 text-gray-800 dark:text-white">{{ $product->name }}</h1>
-                    
+                    <script type="application/json" id="product-data">
+                        @php
+                        $priceData = [
+                            'basePrice' => $product->price,
+                            'baseDiscount' => $product->discount,
+                            'variableType' => $product->attributes->variable_type ?? 0,
+                            'priceAttributes' => json_decode($product->attributes->prices ?? '[]')
+                        ];
+                        echo json_encode($priceData);
+                        @endphp
+                    </script>
                     <!-- Reviews -->
                     <div class="flex items-center mb-4">
                         <div class="flex text-gray-400 mr-2">
@@ -94,9 +104,12 @@
 
                     <!-- Price -->
                     <div class="mb-8">
-                        <span class="text-3xl font-bold text-yellow-500">₣{{ number_format($product->discounted_price, 2) }}</span>
-                        @if ($product->discount > 0)
-                            <span class="ml-2 text-gray-500 line-through">₣{{ number_format($product->price, 2) }}</span>
+                        <span class="text-3xl font-bold text-yellow-500 product-price">₣{{ number_format($product->discounted_price, 2) }}</span>
+                        @if ($product->discount > 0 || ($product->attributes && !empty(json_decode($product->attributes->prices ?? '[]'))))
+                            <span class="ml-2 text-gray-500 line-through product-original-price"
+                                  @if ($product->discount == 0) style="display: none;" @endif>
+                                ₣{{ number_format($product->price, 2) }}
+                            </span>
                         @endif
                     </div>
                     <form action="{{ route('cart.add', $product->id) }}" method="POST" enctype="multipart/form-data">
@@ -442,4 +455,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initRadio('.quality-radio', '.quality-label', '#c19d56');
 });
     </script>
+
+<script src="/js/product-variant.js"></script>
 </x-guest-layout>

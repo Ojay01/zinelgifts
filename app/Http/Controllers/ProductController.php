@@ -24,31 +24,39 @@ class ProductController extends Controller
             ->where('category_id', $category->id)
             ->firstOrFail();
     
-        // Fetch the product with its images
+        // Fetch the product with its images and attributes
         $product = Product::where('name', $productSlug)
             ->where('subcategory_id', $subcategory->id)
-            ->with('productImages')
+            ->with(['productImages', 'attributes'])
+            // ->withCount('reviews')
             ->firstOrFail();
     
-        // Get the attributes for this specific product
-        $productAttributes = Attribute::where('product_id', $product->id)->get();
+        // Ensure the product attributes are loaded
+        $productAttributes = $product->attributes;
     
-        // Fetch only the sizes, colors, and types used by this product
-        $sizes = Size::whereIn('id', $productAttributes->pluck('sizes')->flatten()->filter())
-            ->orderBy('name')
-            ->get();
+        // Fetch only the sizes, colors, types, and qualities used by this product
+        $sizes = collect();
+        $colors = collect();
+        $types = collect();
+        $qualities = collect();
     
-        $colors = Color::whereIn('id', $productAttributes->pluck('colors')->flatten()->filter())
-            ->orderBy('name')
-            ->get();
+        if ($productAttributes) {
+            $sizes = Size::whereIn('id', $productAttributes->sizes ?? [])
+                ->orderBy('name')
+                ->get();
     
-        $types = Type::whereIn('id', $productAttributes->pluck('types')->flatten()->filter())
-            ->orderBy('name')
-            ->get();
+            $colors = Color::whereIn('id', $productAttributes->colors ?? [])
+                ->orderBy('name')
+                ->get();
     
-        $qualities = Quality::whereIn('id', $productAttributes->pluck('qualities')->flatten()->filter())
-            ->orderBy('name')
-            ->get();
+            $types = Type::whereIn('id', $productAttributes->types ?? [])
+                ->orderBy('name')
+                ->get();
+    
+            $qualities = Quality::whereIn('id', $productAttributes->qualities ?? [])
+                ->orderBy('name')
+                ->get();
+        }
     
         // Fetch related products
         $relatedProducts = Product::where('subcategory_id', $subcategory->id)
@@ -74,22 +82,26 @@ class ProductController extends Controller
         // Fetch categories for filter options
         $categories = ProductCategory::with('subcategories')->get();
         $user = $request->user();  // Fetch authenticated user
-    
+        
         // Initialize query builder for products
         $query = Product::query();
         $query->where('status', 1);
-    
+        
+        // Eager load the attributes relationship for variant prices
+        $query->with('attributes');
+        
         // Apply category filter
         if ($request->has('category')) {
             $query->whereIn('category_id', $request->category);
         }
-    
+        
         // Apply subcategory filter
         if ($request->has('subcategory')) {
             $query->whereIn('subcategory_id', $request->subcategory);
         }
-    
-        // Apply price filter
+        
+        // Apply price filter - note: this only filters on base price, not variant prices
+        // For more complex filtering, you may need a custom query
         if ($request->filled('price_min') && $request->filled('price_max')) {
             $query->whereBetween('price', [$request->price_min, $request->price_max]);
         } elseif ($request->filled('price_min')) {
@@ -97,16 +109,13 @@ class ProductController extends Controller
         } elseif ($request->filled('price_max')) {
             $query->where('price', '<=', $request->price_max);
         }
-    
-        // Paginate the results and eager load wishlist items if user is authenticated
+        
+        // Paginate the results
         $products = $query->paginate(9);
-    
-        // If user is authenticated, retrieve wishlist items to pass to the view
-        // $wishlist = $user ? $user->wishlist->pluck('id')->toArray() : [];
-        // Inside your controller method
-$wishlist = $user && $user->wishlist ? $user->wishlist->pluck('id')->toArray() : [];
-
-    
+        
+        // If user is authenticated, retrieve wishlist items
+        $wishlist = $user && $user->wishlist ? $user->wishlist->pluck('id')->toArray() : [];
+        
         return view('shop', compact('products', 'categories', 'wishlist'));
     }
     
