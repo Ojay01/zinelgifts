@@ -147,83 +147,38 @@
         
                     <!-- Sizes Section -->
                     @if($sizes->isNotEmpty())
-                    <div class="mb-6">
-                        <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Size</h3>
-                        <div class="flex flex-wrap gap-3 max-h-32 md:max-h-none overflow-y-auto pb-2">
-                            @foreach($sizes as $size)
-                                <div class="relative">
-                                    <input 
-                                        type="radio" 
-                                        name="attributes[size_id]" 
-                                        id="size-{{ $size->id }}" 
-                                        value="{{ $size->id }}"
-                                        class="sr-only size-radio"
-                                        @if($loop->first) checked @endif
-                                    >
-                                    <label 
-                                        for="size-{{ $size->id }}"
-                                        class="min-w-[2.5rem] h-10 dark:text-white px-3 rounded-lg cursor-pointer border-2 border-gray-200 flex items-center justify-center text-sm font-medium transition-all size-label"
-                                    >
-                                        {{ ucfirst($size->name) }}
-                                    </label>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    @endif
+                    <x-select
+                        :items="$sizes"
+                        name="attributes[size_id]"
+                        label="Size"
+                        :selected="old('attributes.size_id')"
+                        placeholder="Search sizes..."
+                        emptyMessage="No sizes found"
+                    />
+                @endif
         
                     <!-- Types Section -->
                     @if($types->isNotEmpty())
-                    <div class="mb-6">
-                        <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Type</h3>
-                        <div class="flex flex-wrap gap-3 max-h-32 md:max-h-none overflow-y-auto pb-2">
-                            @foreach($types as $type)
-                                <div class="relative">
-                                    <input 
-                                        type="radio" 
-                                        name="attributes[type_id]" 
-                                        id="type-{{ $type->id }}" 
-                                        value="{{ $type->id }}"
-                                        class="sr-only type-radio"
-                                        @if($loop->first) checked @endif
-                                    >
-                                    <label 
-                                        for="type-{{ $type->id }}"
-                                        class="min-w-[2.5rem] dark:text-white h-10 px-3 rounded-lg cursor-pointer border-2 border-gray-200 flex items-center justify-center text-sm font-medium transition-all type-label"
-                                    >
-                                        {{ ucfirst($type->name) }}
-                                    </label>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+                    <x-select
+                    :items="$types"
+                    name="attributes[type_id]"
+                    label="Type"
+                    :selected="old('attributes.type_id')"
+                    placeholder="Search types..."
+                    emptyMessage="No types found"
+                />
                     @endif
 
                     <!-- Qualities Section -->
                     @if($qualities->isNotEmpty())
-                    <div class="mb-6">
-                        <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Quality</h3>
-                        <div class="flex flex-wrap gap-3 max-h-32 md:max-h-none overflow-y-auto pb-2">
-                            @foreach($qualities as $quality)
-                                <div class="relative">
-                                    <input 
-                                        type="radio" 
-                                        name="attributes[quality_id]" 
-                                        id="quality-{{ $quality->id }}" 
-                                        value="{{ $quality->id }}"
-                                        class="sr-only quality-radio"
-                                        @if($loop->first) checked @endif
-                                    >
-                                    <label 
-                                        for="quality-{{ $quality->id }}"
-                                        class="min-w-[2.5rem] dark:text-white h-10 px-3 rounded-lg cursor-pointer border-2 border-gray-200 flex items-center justify-center text-sm font-medium transition-all quality-label"
-                                    >
-                                        {{ ucfirst($quality->name) }}
-                                    </label>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+                    <x-select
+                    :items="$qualities"
+                    name="attributes[quality_id]"
+                    label="Type"
+                    :selected="old('attributes.quality_id')"
+                    placeholder="Search qualities..."
+                    emptyMessage="No quality found"
+                />
                     @endif
 
                     <!-- Note Section - With working character counter -->

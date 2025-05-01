@@ -367,4 +367,52 @@ public function destroyProductImage(ProductImage $image)
 
     return response()->json(['message' => 'Image deleted successfully.'], 200);
 }
+
+
+public function destroy(Product $product)
+{
+    try {
+        
+        // Delete related product images
+        foreach ($product->productImages as $image) {
+            // Delete image files from storage
+            if (Storage::disk('public')->exists($image->image)) {
+                Storage::disk('public')->delete($image->image);
+            }
+            $image->delete();
+        }
+        
+        // Delete main product image if exists
+        if ($product->image && Storage::disk('public')->exists($product->image)) {
+            Storage::disk('public')->delete($product->image);
+        }
+        
+        // Delete product attributes
+        $product->attributes()->delete();
+        
+        // Delete the product
+        $product->delete();
+        
+        
+        // Clear any product-related cache
+        Cache::forget('products');
+        
+        return redirect()
+            ->route('products.index')
+            ->with('success', 'Product deleted successfully');
+            
+    } catch (\Exception $e) {
+        
+        
+        // Log the error
+        Log::error('Product deletion failed: ' . $e->getMessage(), [
+            'product_id' => $product->id,
+            'user_id' => auth()->id(),
+        ]);
+        
+        return redirect()
+            ->back()
+            ->with('error', 'Failed to delete product. Please try again.');
+    }
+}
 }

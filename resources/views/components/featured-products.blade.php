@@ -61,9 +61,23 @@
                     </p>
                     
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-xl font-bold text-yellow-500 dark:text-yellow-400">₣{{ number_format($product['price'], 2) }}</span>
-                        @if(isset($product['discounted_price']))
-                            <span class="text-sm text-gray-500 line-through">₣{{ number_format($product['discounted_price'], 2) }}</span>
+                        @if($product->discounted_price < $product->price)
+                            <!-- Show discounted price -->
+                            <span class="text-xl font-bold text-yellow-500 dark:text-yellow-400">
+                                ₣{{ number_format($product->discounted_price, 2) }}
+                            </span>
+                            <span class="text-sm text-gray-500 line-through">
+                                ₣{{ number_format($product->price, 2) }}
+                            </span>
+                        @else
+                            <!-- No discount or variable pricing with no active discount -->
+                            <span class="text-xl font-bold text-yellow-500 dark:text-yellow-400">
+                                @if($product->has_variable_pricing)
+                                    From ₣{{ number_format($product->price, 2) }}
+                                @else
+                                    ₣{{ number_format($product->price, 2) }}
+                                @endif
+                            </span>
                         @endif
                     </div>
                 </div>
@@ -75,7 +89,7 @@
                                 <i class="fas fa-star text-xs"></i>
                             @endfor
                         </div>
-                        <span class="text-gray-600 dark:text-gray-400 text-xs ml-1">({{ $product['reviews'] ?? 4 }})</span>
+                        <span class="text-gray-600 dark:text-gray-400 text-xs ml-1">({{ $product['reviews'] ?? 3.5 }})</span>
                     </div>
                     <form 
                     action="{{ in_array($product->id, $wishlist) ? route('wishlist.removeProduct', $product->id) : route('wishlist.add', $product->id) }}" 
