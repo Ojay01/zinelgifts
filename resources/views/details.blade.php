@@ -174,7 +174,7 @@
                     <x-select
                     :items="$qualities"
                     name="attributes[quality_id]"
-                    label="Type"
+                    label="Qualities"
                     :selected="old('attributes.quality_id')"
                     placeholder="Search qualities..."
                     emptyMessage="No quality found"

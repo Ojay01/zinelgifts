@@ -1,4 +1,3 @@
-
 @props([
     'items' => [],      
     'name' => '',   
@@ -22,7 +21,7 @@
             selectedValue: '{{ $selected ?? optional($items->first())->{$valueKey} ?? '' }}',
             selectedText: '{{ $selected ? ($items->where($valueKey, $selected)->first()->{$displayKey} ?? '') : (optional($items->first())->{$displayKey} ?? 'Select an option') }}',
             highlight: 0,
-            items: {{ Js::from(collect($items)->map(function($item) use ($displayKey, $valueKey) { 
+            items: {{ Js::from(collect($items)->unique($valueKey)->map(function($item) use ($displayKey, $valueKey) { 
                 return [
                     'value' => $item->{$valueKey},
                     'text' => ucfirst($item->{$displayKey})

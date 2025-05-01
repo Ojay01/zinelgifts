@@ -33,12 +33,22 @@
                                 <p class="text-gray-600 dark:text-gray-300 text-sm mb-2">{{ $subcategory->name }}</p>
                                 <p class="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-2">{{ strip_tags($product->description) }}</p>
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="text-xl font-bold text-yellow-500 dark:text-yellow-400">
-                                        ₣{{ number_format($product->discounted_price, 2) }}
-                                    </span>
-                                    @if ($product->discount)
+                                    @if($product->discounted_price < $product->price)
+                                        <!-- Show discounted price -->
+                                        <span class="text-xl font-bold text-yellow-500 dark:text-yellow-400">
+                                            ₣{{ number_format($product->discounted_price, 2) }}
+                                        </span>
                                         <span class="text-sm text-gray-500 line-through">
                                             ₣{{ number_format($product->price, 2) }}
+                                        </span>
+                                    @else
+                                        <!-- No discount or variable pricing with no active discount -->
+                                        <span class="text-xl font-bold text-yellow-500 dark:text-yellow-400">
+                                            @if($product->has_variable_pricing)
+                                                From ₣{{ number_format($product->price, 2) }}
+                                            @else
+                                                ₣{{ number_format($product->price, 2) }}
+                                            @endif
                                         </span>
                                     @endif
                                 </div>
