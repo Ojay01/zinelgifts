@@ -286,6 +286,17 @@ function initCustomSelect(selectName) {
             }
         });
         
+        // Dispatch a custom event with the selected value
+        const selectEvent = new CustomEvent('customSelectChange', {
+            detail: {
+                name: selectName,
+                value: value,
+                text: text
+            },
+            bubbles: true
+        });
+        hiddenInput.dispatchEvent(selectEvent);
+        
         // Close dropdown
         closeDropdown();
     }

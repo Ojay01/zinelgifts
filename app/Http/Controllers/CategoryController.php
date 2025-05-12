@@ -13,8 +13,6 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = ProductCategory::with('subcategories')->findOrFail($id);
-        // For simplicity, assume each category has associated products
-        // You may need to implement a Product model and relationships
         $products = $category->products()->where('status', 1)->paginate(10); 
 
         $wishlist = [];
