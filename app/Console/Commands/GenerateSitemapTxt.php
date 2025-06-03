@@ -53,7 +53,7 @@ class GenerateSitemapTxt extends Command
         }
 
         // ✅ Add dynamic blog posts
-        foreach (BlogPost::where('status', 'published')->get() as $post) {
+        foreach (BlogPost::get() as $post) {
             $url = route('blog.details', $post->slug);
             $sitemap->add(
                 Url::create($url)
