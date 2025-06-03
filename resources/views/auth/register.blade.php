@@ -70,8 +70,10 @@
 
                         <!-- Google reCAPTCHA -->
                         <div class="flex justify-center">
-                            <div class="g-recaptcha" data-sitekey="6LcJ8FMrAAAAAKjonoFcERNSL1vJPC6-Z62teBrz"></div>
-                            
+                            <div class="g-recaptcha" 
+                                 data-sitekey="6LcJ8FMrAAAAAKjonoFcERNSL1vJPC6-Z62teBrz"
+                                 data-callback="onRecaptchaSuccess"
+                                 data-expired-callback="onRecaptchaExpired"></div>
                         </div>
                     </div>
 
@@ -124,6 +126,7 @@
     <script>
         // reCAPTCHA callback functions
         function onRecaptchaSuccess() {
+            console.log('reCAPTCHA completed successfully');
             const submitButton = document.getElementById('submit-button');
             const submitIcon = document.getElementById('submit-icon');
             const submitText = document.getElementById('submit-text');
@@ -142,6 +145,7 @@
         }
         
         function onRecaptchaExpired() {
+            console.log('reCAPTCHA expired');
             const submitButton = document.getElementById('submit-button');
             const submitIcon = document.getElementById('submit-icon');
             const submitText = document.getElementById('submit-text');
@@ -167,6 +171,11 @@
                 alert('Please complete the reCAPTCHA verification.');
                 return false;
             }
+        });
+
+        // Debug: Check if reCAPTCHA loaded properly
+        window.addEventListener('load', function() {
+            console.log('Page loaded, reCAPTCHA should be available');
         });
     </script>
 
