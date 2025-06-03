@@ -207,7 +207,7 @@
 
                         <div class="mt-4">
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Upload a Photo (Optional)
+                                Upload your Design / Logo / images for your product (optional)
                             </label>
                             <input
                                 type="file"

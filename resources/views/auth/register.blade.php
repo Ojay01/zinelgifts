@@ -67,15 +67,21 @@
                                 </label>
                             </div>
                         </div>
+
+                        <!-- Google reCAPTCHA -->
+                        <div class="flex justify-center">
+                            <div class="g-recaptcha" data-sitekey="6LcJ8FMrAAAAAKjonoFcERNSL1vJPC6-Z62teBrz"></div>
+                            
+                        </div>
                     </div>
 
                     <!-- Submit Button -->
                     <div>
-                        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition duration-150 ease-in-out">
+                        <button id="submit-button" type="submit" disabled class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-400 cursor-not-allowed transition duration-150 ease-in-out disabled:bg-gray-400 disabled:cursor-not-allowed enabled:bg-yellow-600 enabled:hover:bg-yellow-700 enabled:cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
                             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                                <i class="fas fa-user-plus text-yellow-500 group-hover:text-yellow-400"></i>
+                                <i id="submit-icon" class="fas fa-user-plus text-gray-300"></i>
                             </span>
-                            Create Account
+                            <span id="submit-text">Verify to Continue</span>
                         </button>
                     </div>
                 </form>
@@ -111,5 +117,58 @@
             </div>
         </div>
     </div>
+
+    <!-- Google reCAPTCHA Script -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
+    <script>
+        // reCAPTCHA callback functions
+        function onRecaptchaSuccess() {
+            const submitButton = document.getElementById('submit-button');
+            const submitIcon = document.getElementById('submit-icon');
+            const submitText = document.getElementById('submit-text');
+            
+            // Enable the submit button
+            submitButton.disabled = false;
+            submitButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+            submitButton.classList.add('bg-yellow-600', 'hover:bg-yellow-700', 'cursor-pointer');
+            
+            // Update icon styling
+            submitIcon.classList.remove('text-gray-300');
+            submitIcon.classList.add('text-yellow-500', 'group-hover:text-yellow-400');
+            
+            // Update button text
+            submitText.textContent = 'Create Account';
+        }
+        
+        function onRecaptchaExpired() {
+            const submitButton = document.getElementById('submit-button');
+            const submitIcon = document.getElementById('submit-icon');
+            const submitText = document.getElementById('submit-text');
+            
+            // Disable the submit button
+            submitButton.disabled = true;
+            submitButton.classList.remove('bg-yellow-600', 'hover:bg-yellow-700', 'cursor-pointer');
+            submitButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+            
+            // Update icon styling
+            submitIcon.classList.remove('text-yellow-500', 'group-hover:text-yellow-400');
+            submitIcon.classList.add('text-gray-300');
+            
+            // Update button text
+            submitText.textContent = 'Verify to Continue';
+        }
+        
+        // Optional: Handle form submission to double-check reCAPTCHA
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (!recaptchaResponse) {
+                e.preventDefault();
+                alert('Please complete the reCAPTCHA verification.');
+                return false;
+            }
+        });
+    </script>
+
     <x-footer />
 </x-guest-layout>
